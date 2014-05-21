@@ -308,6 +308,15 @@ class Menu {
 	 */
 	protected function getUrl($options)
 	{
+		
+		// If the url is an absolute url just return it
+		if( starts_with($options, 'http://') || starts_with($options, 'https://') ) {
+			
+			return $options;
+
+		}
+
+		// Otherwise it's a relative one
 		if (is_array($options))
 		{
 			return $this->url->to($this->getLastGroupPrefix() . '/' . $options[0], array_slice($options, 1));
