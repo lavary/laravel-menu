@@ -6,8 +6,6 @@
 A Simple Laravel way of making menus.
 
 
-
-
 ## Installation
 
 In the `require` key of `composer.json` file add `lavary/laravel-menu": "dev-master`:
