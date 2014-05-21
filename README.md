@@ -112,6 +112,15 @@ You can also define named routes or controller actions as item url:
 
 ```php
 <?php
+
+...
+// Suppose we have these routes defined in our app/routes.php file:
+Route::get('homepage', array('as' => 'home.page',  function(){...}));
+Route::get('about',    array('as' => 'page.about', function(){...}));
+Route::get('services', array('as' => 'home.page',  uses => 'ServiceController@index' ));
+...
+
+// Now we make the menu:
 Menu::make('MyNavBar', function($menu){
   
   // the second parameter can be string or an array containing options 
