@@ -115,7 +115,7 @@ You can also define named routes or controller actions as item url:
 
 ...
 // Suppose we have these routes defined in our app/routes.php file:
-Route::get('homepage', array('as' => 'home.page',  function(){...}));
+Route::get('/',        array('as' => 'home.page',  function(){...}));
 Route::get('about',    array('as' => 'page.about', function(){...}));
 Route::get('services', array('as' => 'home.page',  uses => 'ServiceController@index' ));
 ...
@@ -127,6 +127,21 @@ Menu::make('MyNavBar', function($menu){
   $menu->add('Home',     array('route'  => 'home.page'));
   $menu->add('About',    array('route'  => 'page.about'));
   $menu->add('services', array('action' => 'ServicesController@index'));
+  $menu->add('Contact',  'contact');
+
+});
+?>
+```
+if you need to send some data to routes, urls or control actions as query string, you can simply include them in an array along with the route action or url value:
+
+```php
+<?php
+Menu::make('MyNavBar', function($menu){
+  
+  // the second parameter can be string or an array containing options 
+  $menu->add('Home',     array('route'  => 'home.page'));
+  $menu->add('About',    array('route'  => array('page.about', 'template' => 1)));
+  $menu->add('services', array('action' => array('ServicesController@index', 'id' => 12)));
   $menu->add('Contact',  'contact');
 
 });
