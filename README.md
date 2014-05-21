@@ -319,3 +319,260 @@ Menu::make('MyNavBar', function($menu){
 });
 ?>
 ```
+
+
+This will generate:
+
+```html
+<ul>
+    <li  class="navbar navbar-home" id="home"><a href="/">Home</a></li>
+    
+    <li  data-role="navigation" class="navbar navbar-about dropdown"><a href="http://yourdomain.com/about/summary"About</a>
+    	<ul>
+    	   <li><a href="http://yourdomain.com/about/who-we-are">Who we are?</a></li>
+    	   <li><a href="http://yourdomain.com/about/who-we-are">What we do?</a></li>
+    	</ul>
+    </li>
+    
+    <li><a href="services">Services</a></li>
+    <li><a href="contact">Contact</a></li>
+</ul>
+```
+
+
+## Meta Data
+
+You can attach meta data to each menu item if you need, this data can be anything from item placement order to the permissions required for accessing the item:
+
+```php
+<?php
+Menu::make('MyNavBar', function($menu){
+
+  ...
+  
+  $menu->add('Users', array('route'  => 'admin.users'))
+       ->meta('permission', 'manage_users');
+
+});
+?>
+```
+
+This meta data don't do anything to the item and won't be rendered in html. It is the developer who would decides what to do with these data when rendering the menu.
+
+## Filtering Menu Items
+
+We can filter menu items based on user type, permission or any other policy we may have in our application.
+
+
+Let's proceed with an example:
+
+We suppose our `User` model can check whether the user has a permisson or not:
+
+```php
+<?php
+Menu::make('MyNavBar', function($menu){
+
+  ...
+  
+  $menu->add('Users', array('route'  => 'admin.users'))
+       ->meta('permission', 'manage_users');
+
+})->filter(function($item){
+  if(User::get()->hasRole( $item->get_meta('permission'))) {
+      return true;
+  }
+  return false;
+});
+?>
+```
+
+`Users` item will be visible to those who has the `manage_users` permission.
+
+
+## Rendering Formats
+
+Several rendering formats are available out of the box:
+
+* **Menu as Unordered List**
+
+```html
+  {{ $MenuName->asUl() }}
+```
+
+`asUl()` will render your menu in an unordered list. it also takes an optional parameter to define attributes for the `<ul>` tag itself:
+
+```php
+{{ $MenuName->asUl( array('class' => 'awsome-ul') ) }}
+```
+
+Result:
+
+```html
+<ul class="awsome-ul">
+  <li><a href="http://yourdomain.com">Home</a></li>
+  <li><a href="http://yourdomain.com/about">About</a></li>
+  <li><a href="http://yourdomain.com/services">Services</a></li>
+  <li><a href="http://yourdomain.com/contact">Contact</a></li>
+</ul>
+```
+
+* **Menu as Ordered List**
+
+
+```php
+  {{ $MenuName->asOl() }}
+```
+
+`asOl()` method will render your menu in an ordered list. it also takes an optional parameter to define attributes for the `<ol>` tag itself:
+
+```php
+{{ $MenuName->asOl( array('class' => 'awsome-ol') ) }}
+```
+
+Result:
+
+```html
+<ol class="awsome-ol">
+  <li><a href="http://yourdomain.com">Home</a></li>
+  <li><a href="http://yourdomain.com/about">About</a></li>
+  <li><a href="http://yourdomain.com/services">Services</a></li>
+  <li><a href="http://yourdomain.com/contact">Contact</a></li>
+</ol>
+```
+
+* **Menu as Div**
+
+
+```php
+  {{ $MenuName->asDiv() }}
+```
+
+`asDiv()` method will render your menu as nested html divs. it also takes an optional parameter to define attributes for the parent `<div>` tag itself:
+
+```php
+{{ $MenuName->asDiv( array('class' => 'awsome-div') ) }}
+```
+
+Result:
+
+```html
+<div class="awsome-div">
+  <div><a href="http://yourdomain.com">Home</a></div>
+  <div><a href="http://yourdomain.com/about">About</a></div>
+  <div><a href="http://yourdomain.com/services">Services</a></div>
+  <div><a href="http://yourdomain.com/contact">Contact</a></div>
+</div>
+```
+
+* **Menu as Bootstrap 3 Navbar**
+
+```php
+  {{ $MenuName->asBootstrap() }}
+```
+
+You can have your menu as a Bootstrap 3 `navbar`.
+
+`asBootstrap` method also takes an optional array parameter to defines some configurations, like `inverse` mode.
+
+To have your Bootstrap 3 navbar in `inverse` mode:
+
+
+```php
+  {{ $MenuName->asBootstrap(array('inverse' => true)  ) }}
+```
+
+## View methods
+
+**Menu**
+
+* `roots()`  returns menu items in root level (items with no parent)
+* `whereParent(int $pid)`  returns items with the given parent id($pid)
+* `render(string $type, $integer $pid)` renders menu items at a given level
+* `asUl(array $attributes)` Renders menu in an unordered list
+* `asOl(array $attributes)` Renders menu in an unordered list
+* `asDiv(array $attributes)` Renders menu in html divs
+* `asBootstrap(array $options)`Renders menu as Bootstrap 3 navbar
+* `asView(string $viewname)` Renders the menu based on your view
+
+**MenuItem**
+
+* `hasChilderen()` checks whether the item has childeren and returns a boolean accordingly
+* `childeren()` returns all subitems of the item as an array of MenuItem objects
+* `get_id()` returns `id` of the item
+* `get_pid()` returns `pid` of the item
+* `get_attributes()` returns your item attributes as an array
+* `get_title()` returns item title
+* `get_url()` returns menu item url
+* `link()` generates an html link based on your settings
+
+
+## Advanced Usage
+
+It is also possible to render your menus as your own views.
+
+If you'd like to render your menu(s) as your own design, you should create two partial views: 
+
+* `View-1`  This view contains all the html codes like `nav` or `ul` or `div` tags wrapping your menu items.
+* `View-2`  This view contains menu items and it is included in `View-1`.
+
+
+The reason we use two view files is that `View-2` calls itself recursively to render multi-level menus.
+
+Finaly to use the rendering view we just created, add the following line to your main view:
+
+```html
+  {{ $MyNavBar->asView('View-1') }}
+```
+
+Let's make this clear with an example:
+
+In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-items.blade.php`.
+
+**custom-menu.blade.php**
+```html
+<nav class="navbar">
+  <ul class="horizontal-navbar">
+    @include('custom-menu-items', array('items', $items->roots()))
+  </ul>
+</nav><!--/nav-->
+```
+
+**custom-menu-items.blade.php**
+```html
+@foreach($items as $item)
+  <li @if($item->hasChilderen()) class="dropdown" @endif>
+      <a href="{{ $item->link->url }}">{{ $item->link->title }} </a>
+      @if($item->hasChilderen())
+        <ul class="dropdown-menu">
+              @include('custom-menu-items', array('items' => $item->childeren()))
+        </ul> 
+      @endif
+  </li>
+@endforeach
+```
+
+Let's describe what we did above, In `custom-menus.blade.php` we put whatever html code we have according to our design, then include `custom-menu-items.blade.php` and pass the menu items at *root level* to `custom-menu-items.blade.php`:
+
+```php
+...
+@include('custom-menu-items', array('items' => $menu->roots()))
+...
+```
+
+Then in `custom-menu-items.blade.php` we run a foreach loop control and call the file recursively for rendering menu to the deepest level required.
+
+
+Finally to use what we just created, add this line to your view:
+
+```php
+  {{ $MyNavbar->asView('custom-view') }}
+```
+
+## If you need help
+
+Please submit all issues and questions using GitHub issues and I will try to help you.
+
+
+## License
+
+Laravel Menu is free software distributed under the terms of the MIT license
