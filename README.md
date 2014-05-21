@@ -136,7 +136,7 @@ Menu::make('MyNavBar', function($m){
   
   $about = $menu->add('About',    array('route'  => 'page.about'));
   
-  // these items will go under $about MenuItem
+  // these items will go under MenuItem $about
   $about->add('Who are we?', 'who-we-are');
   $about->add('What we do?', 'what-we-do');
   
@@ -162,7 +162,7 @@ You can also chain the item definitions and go as deep as you wish:
 ?>
 ```  
 
-You can also add sub items directly using `pid` key:
+It is possible to add sub items directly using `pid` key:
 
 ```php  
 <?php
