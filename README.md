@@ -132,7 +132,7 @@ Menu::make('MyNavBar', function($menu){
 });
 ?>
 ```
-if you need to send some data to routes, urls or control actions as query string, you can simply include them in an array along with the route action or url value:
+if you need to send some data to routes, urls or controller actions as query string, you can simply include them in an array along with the route action or url value:
 
 ```php
 <?php
