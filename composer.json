@@ -1,6 +1,6 @@
 {
     "name": "lavary/laravel-menu",
-    "description": "A simple laravelish way to create menus in Laravel 4",
+    "description": "A simple Laravel way of creating menus",
     "keywords": [
         "laravel"
     ],
