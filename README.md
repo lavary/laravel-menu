@@ -323,7 +323,6 @@ Menu::make('MyNavBar', function($menu){
 ?>
 ```
 
-
 This will generate:
 
 ```html
@@ -339,6 +338,48 @@ This will generate:
     
     <li><a href="services">Services</a></li>
     <li><a href="contact">Contact</a></li>
+</ul>
+```
+
+## Nested Groups
+
+Laravel Menu supports nested grouping feature for the menu items. A menu group merges its own attribute with its parent group then shares them between its items:
+
+```php
+<?php
+Menu::make('MyNavBar', function($menu){
+
+	...
+	
+	$menu->group(array('prefix' => 'pages', 'data-info' => 'test'), function($m){
+		
+		$about = $m->add('About', 'about');
+		
+		$about->group(array('prefix' => 'about', 'data-role' => 'navigation'), function($a){
+		
+			$a->add('Who we are', 'who-we-are?');
+			$a->add('What we do?', 'what-we-do');
+			$a->add('Our Goals', 'our-goals');
+		});
+	});
+	
+});
+?>
+```
+
+If we render it as a ul:
+
+```html
+<ul>
+	...
+	<li data-info="test">
+		<a href="http://yourdomain.com/pages/about">About</a>
+		<ul>
+			<li data-info="test" data-role="navigation"><a href="http://yourdomain.com/pages/about/who-we-are"></a></li>
+			<li data-info="test" data-role="navigation"><a href="http://yourdomain.com/pages/about/what-we-do"></a></li>
+			<li data-info="test" data-role="navigation"><a href="http://yourdomain.com/pages/about/our-goals"></a></li>
+		</ul>
+	</li>
 </ul>
 ```
 
