@@ -1,0 +1,26 @@
+{
+    "name": "lavary/laravel-menu",
+    "description": "A simple laravelish way to create menus in Laravel 4",
+    "keywords": [
+        "laravel"
+    ],
+    "homepage": "https://github.com/lavary/laravel-menu",
+    "authors": [
+        {
+            "name": "Lavary",
+            "email": "mrl.8081@gmail.com"
+         }
+    ],
+    "license": "MIT License",
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.1.*"
+    },
+    "autoload": {
+
+        "psr-0": {
+            "Lavary\\Menu\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
