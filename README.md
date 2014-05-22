@@ -147,6 +147,30 @@ Menu::make('MyNavBar', function($menu){
 ?>
 ```
 
+## Https
+
+If you need to serve the route over HTTPS, you can add `secure` to the options array and set it to `true`:
+
+```php
+<?php
+Menu::make('MyNavBar', function($menu){
+	....
+	$menu->add('Members', array('url' => 'members', 'secure' => true));
+	...
+});
+?>
+```
+
+Output as ul:
+
+```html
+<ul>
+	...
+	<li><a href="https://yourdomain.com/members">Members</a></li>
+	...
+</ul>
+```
+
 ## Sub-menus
 
 Items can have subitems too:
