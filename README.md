@@ -10,7 +10,7 @@ A Simple Laravel way of making menus.
 In the `require` key of `composer.json` file add `lavary/laravel-menu": "dev-master`:
 
 ```
-...g
+...
 "require": {
 	"laravel/framework": "4.1.*",
 	"lavary/laravel-menu": "dev-master"
@@ -88,7 +88,7 @@ This method accepts a callable where you can define your items in there using th
 
 `add` adds a new item to the menu and returns an instance of `MenuItem`.
 
-To render the menu in your view:
+**To render the menu in your view:**
 
 ```html
 {{ $MyNavBar->asUl() }}
@@ -426,7 +426,7 @@ Menu::make('MyNavBar', function($menu){
 
 This meta data don't do anything to the item and won't be rendered in html. It is the developer who would decides what to do with these data when rendering the menu.
 
-To retrieve meta data:
+**To retrieve meta data:**
 
 ```php
 <?php
@@ -565,9 +565,9 @@ To have your Bootstrap 3 navbar in `inverse` mode:
 
 **Menu**
 
-* `roots()`  returns menu items in root level (items with no parent)
-* `whereParent(int $pid)`  returns items with the given parent id($pid)
-* `render(string $type, $integer $pid)` renders menu items at a given level
+* `roots()`  Returns menu items in root level (items with no parent)
+* `whereParent(int $pid)`  Returns items with the given parent id($pid)
+* `render(string $type, $integer $pid)` Renders menu items at a given level
 * `asUl(array $attributes)` Renders menu in an unordered list
 * `asOl(array $attributes)` Renders menu in an unordered list
 * `asDiv(array $attributes)` Renders menu in html divs
@@ -576,14 +576,15 @@ To have your Bootstrap 3 navbar in `inverse` mode:
 
 **MenuItem**
 
-* `hasChilderen()` checks whether the item has childeren and returns a boolean accordingly
-* `childeren()` returns all subitems of the item as an array of MenuItem objects
-* `get_id()` returns `id` of the item
-* `get_pid()` returns `pid` of the item
-* `get_attributes()` returns your item attributes as an array
-* `get_title()` returns item title
-* `get_url()` returns menu item url
-* `link()` generates an html link based on your settings
+* `hasChilderen()` Checks whether the item has childeren and returns a boolean accordingly
+* `childeren()` Returns all subitems of the item as an array of MenuItem objects
+* `get_id()` Returns `id` of the item
+* `get_pid()` Returns `pid` of the item
+* `get_attributes()` Returns your item attributes as an array
+* `get_title()` Returns item title
+* `get_url()` Returns menu item url
+* `link()` Generates an html link based on your settings
+* `meta(string $name, $string value)` Sets or get meta data of an item 
 
 
 ## Advanced Usage
