@@ -147,7 +147,7 @@ Menu::make('MyNavBar', function($menu){
 ?>
 ```
 
-## Https
+## HTTPS
 
 If you need to serve the route over HTTPS, you can add `secure` to the options array and set it to `true`:
 
