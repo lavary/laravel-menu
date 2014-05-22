@@ -584,7 +584,7 @@ To have your Bootstrap 3 navbar in `inverse` mode:
 * `get_title()` Returns item title
 * `get_url()` Returns menu item url
 * `link()` Generates an html link based on your settings
-* `meta(string $name, $string value)` Sets or get meta data of an item 
+* `meta(string $name, string $value)` Sets or get meta data of an item 
 
 
 ## Advanced Usage
