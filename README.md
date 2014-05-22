@@ -10,7 +10,7 @@ A Simple Laravel way of making menus.
 In the `require` key of `composer.json` file add `lavary/laravel-menu": "dev-master`:
 
 ```
-...
+...g
 "require": {
 	"laravel/framework": "4.1.*",
 	"lavary/laravel-menu": "dev-master"
@@ -426,6 +426,19 @@ Menu::make('MyNavBar', function($menu){
 
 This meta data don't do anything to the item and won't be rendered in html. It is the developer who would decides what to do with these data when rendering the menu.
 
+To retrieve meta data:
+
+```php
+<?php
+	...
+	$users = $menu->add('Users', array('route'  => 'admin.users'))
+       ->meta('permission', 'manage_users');
+       
+       $users->meta('permission');   // this will return: 'manage_users'
+	...
+?>
+```
+
 ## Filtering Menu Items
 
 We can filter menu items based on user type, permission or any other policy we may have in our application.
@@ -445,7 +458,7 @@ Menu::make('MyNavBar', function($menu){
        ->meta('permission', 'manage_users');
 
 })->filter(function($item){
-  if(User::get()->hasRole( $item->get_meta('permission'))) {
+  if(User::get()->hasRole( $item->meta('permission'))) {
       return true;
   }
   return false;
