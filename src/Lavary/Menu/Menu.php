@@ -35,7 +35,7 @@ class Menu {
 	*
 	* @var array
 	*/
-	protected $reserved = array('route', 'action', 'url', 'prefix', 'pid');
+	protected $reserved = array('route', 'action', 'url', 'prefix', 'pid', 'secure');
 
 	/**
 	* Tags for specifying lists of information in HTML and their childeren
@@ -281,7 +281,9 @@ class Menu {
 
 		if (isset($options['url']))
 		{
-			return $this->getUrl($options['url']);
+			$secure = ( array_get($options, 'secure') == true ) ? true : null;
+			
+			return $this->getUrl($options['url'], $secure);
 		}
 
 		if (isset($options['route']))
@@ -306,23 +308,36 @@ class Menu {
 	 * @param  array|string  $options
 	 * @return string
 	 */
-	protected function getUrl($options)
+	protected function getUrl($options, $secure = null)
 	{
 		
-		// If the url is an absolute url just return it
-		if( starts_with($options, 'http://') || starts_with($options, 'https://') ) {
-			
-			return $options;
 
-		}
-
-		// Otherwise it's a relative one
 		if (is_array($options))
 		{
-			return $this->url->to($this->getLastGroupPrefix() . '/' . $options[0], array_slice($options, 1));
+			if( $this->isAbsoluteUrl($options[0]) ){
+				return $options[0];
+			}
+			
+			return $this->url->to($this->getLastGroupPrefix() . '/' . $options[0], array_slice($options, 1), $secure);
 		}
+		
+		if( $this->isAbsoluteUrl($options) ){
+			return $options;
+		}
+			
+		
+		return $this->url->to($this->getLastGroupPrefix() . '/' . $options, array(), $secure);
+	}
 
-		return $this->url->to($this->getLastGroupPrefix() . '/' . $options);
+	/**
+	 * Check if the given url is an absolute url.
+	 *
+	 * @param  string  $url
+	 * @return boolean
+	 */
+	protected function isAbsoluteUrl($url)
+	{
+		return parse_url($url, PHP_URL_SCHEME) or false;		
 	}
 
 	/**
