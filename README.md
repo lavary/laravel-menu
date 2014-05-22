@@ -154,7 +154,7 @@ Items can have subitems too:
 
 ```php
 <?php
-Menu::make('MyNavBar', function($m){
+Menu::make('MyNavBar', function($menu){
 
   ...
   
