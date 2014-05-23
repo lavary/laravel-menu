@@ -624,13 +624,32 @@ The reason we use two view files here is that `View-2` calls itself recursively 
 
 Let's make this easier with an example:
 
+In our `routes.php`:
+
+```php
+<?php
+Menu::make('MyNavBar', function($menu){
+  
+  $menu->add('Home',     '');
+  
+  $about = $menu->add('About',    array('route'  => 'page.about'));
+           $about->add('Who are we?', 'who-we-are');
+           $about->add('What we do?', 'what-we-do');
+
+  $menu->add('services', 'services');
+  $menu->add('Contact',  'contact');
+  
+});
+?>
+```
+
 In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-items.blade.php`.
 
 **custom-menu.blade.php**
 ```html
 <nav class="navbar">
   <ul class="horizontal-navbar">
-    @include('custom-menu-items', array('items', $items->roots()))
+    @include('custom-menu-items', array('items', $MyNavBar->roots()))
   </ul>
 </nav><!--/nav-->
 ```
@@ -662,7 +681,7 @@ In `custom-menu-items.blade.php` we run a foreach loop control and call the file
 To put the rendered menu in your application template, you can simply include `custom-menu` view in your master layout.
 
 I've prepared a tutorial about embedding several menu objects in a bootstrap navbar in case somebody is interested.
-You can read all about it [here](https://gist.github.com/lavary/c9da317446e2e3b32779)
+You can read all about it [here](https://gist.github.com/lavary/c9da317446e2e3b32779).
 
 ## If you need help
 
