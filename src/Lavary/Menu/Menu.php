@@ -95,19 +95,19 @@ class Menu {
 	 * @param  callable  $callback
 	 * @return \Lavary\Menu\Menu
 	 */
-	public function make($name, $callback)
+	public static function make($name, $callback)
 	{
 		if(is_callable($callback))
 		{
-			call_user_func($callback, $this);
-			$this->name = $name;		
+			$menu = app('menu');
+			
+			call_user_func($callback, $menu);
+			$menu->name = $name;		
 			
 			// We make the menu available in all views
-			View::composer('*', function($view){
-				$view->with($this->name, $this);
-			});
+			View::share($menu->name, $menu);
 
-			return $this;
+			return $menu;
 		}
 	}
 

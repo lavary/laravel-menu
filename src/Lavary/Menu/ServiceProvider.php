@@ -19,9 +19,6 @@ class ServiceProvider extends BaseServiceProvider {
 	public function boot()
 	{
 		$this->package('lavary/laravel-menu');
-
-        if (file_exists($file = $this->app['path'].'/menu.php'))
-            require $file;
 	}
 
 	/**
@@ -31,12 +28,9 @@ class ServiceProvider extends BaseServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app['menu'] = $this->app->share(function($app){
-			
-			$menu =  new Menu($app['html'], $app['url'], $app['view']);
-			
-			return $menu;
-		});
+		 $this->app->bind('menu', function($app) {
+            return new Menu($app['html'], $app['url'], $app['view']);
+        });
 	}
 
 	/**
