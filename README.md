@@ -1,6 +1,6 @@
 # Laravel Menu
-[![Latest Stable Version](https://poser.pugx.org/lavary/laravel-menu/v/stable.png)](https://packagist.org/packages/lavary/laravel-menu)
-[![License](https://poser.pugx.org/lavary/laravel-menu/license.png)](https://packagist.org/packages/lavary/laravel-menu)
+[![Latest Unstable Version](https://poser.pugx.org/lavary/laravel-menu/v/unstable.svg)](https://packagist.org/packages/lavary/laravel-menu)
+
 
 A Simple Laravel way of making menus.
 
