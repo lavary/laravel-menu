@@ -596,7 +596,6 @@ To have your Bootstrap 3 navbar in `inverse` mode:
 * `asOl(array $attributes)` Renders menu in an unordered list
 * `asDiv(array $attributes)` Renders menu in html divs
 * `asBootstrap(array $options)`Renders menu as Bootstrap 3 navbar
-* `asView(string $viewname)` Renders the menu based on your view
 
 **MenuItem**
 
@@ -613,23 +612,17 @@ To have your Bootstrap 3 navbar in `inverse` mode:
 
 ## Advanced Usage
 
-It is also possible to render your menus as your own views.
+It is also possible to render your menus in your own views.
 
-If you'd like to render your menu(s) as your own design, you should create two partial views: 
+If you'd like to render your menu(s) according to your own design, you should create two views.
 
 * `View-1`  This view contains all the html codes like `nav` or `ul` or `div` tags wrapping your menu items.
-* `View-2`  This view contains menu items and it is included in `View-1`.
+* `View-2`  This view is responsible for rendering menu items and it is included in `View-1`.
 
 
-The reason we use two view files is that `View-2` calls itself recursively to render multi-level menus.
+The reason we use two view files here is that `View-2` calls itself recursively to render the items to the deepest level in multi-level menus.
 
-Finaly to use the rendering view we just created, add the following line to your main view:
-
-```html
-  {{ $MyNavBar->asView('View-1') }}
-```
-
-Let's make this clear with an example:
+Let's make this easier with an example:
 
 In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-items.blade.php`.
 
@@ -656,7 +649,7 @@ In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-i
 @endforeach
 ```
 
-Let's describe what we did above, In `custom-menus.blade.php` we put whatever html code we have according to our design, then include `custom-menu-items.blade.php` and pass the menu items at *root level* to `custom-menu-items.blade.php`:
+Let's describe what we did above, In `custom-menus.blade.php` we put whatever html code we had according to our design, then we included `custom-menu-items.blade.php` and passed the menu items at *root level* to `custom-menu-items.blade.php`:
 
 ```php
 ...
@@ -664,14 +657,12 @@ Let's describe what we did above, In `custom-menus.blade.php` we put whatever ht
 ...
 ```
 
-Then in `custom-menu-items.blade.php` we run a foreach loop control and call the file recursively for rendering menu to the deepest level required.
+In `custom-menu-items.blade.php` we run a foreach loop control and call the file recursively for rendering the items to the deepest level required.
 
+To put the rendered menu in your application template, you can simply include `custom-menu` view in your master layout.
 
-Finally to use what we just created, add this line to your view:
-
-```php
-  {{ $MyNavbar->asView('custom-view') }}
-```
+I've prepared a tutorial about embedding several menu objects in a bootstrap navbar in case somebody is interested.
+You can read all about it [here](https://gist.github.com/lavary/c9da317446e2e3b32779)
 
 ## If you need help
 
