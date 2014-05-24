@@ -585,6 +585,9 @@ To have your Bootstrap 3 navbar in `inverse` mode:
   {{ $MenuName->asBootstrap(array('inverse' => true)  ) }}
 ```
 
+I've prepared a tutorial about embedding several menu objects in a bootstrap navbar in case somebody is interested.
+You can read all about it [here](https://gist.github.com/lavary/c9da317446e2e3b32779).
+
 ## View methods
 
 **Menu**
