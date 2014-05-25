@@ -3,21 +3,21 @@
 class Link {
 	
 	/**
-	 * The Menu container
+	 * Link text
 	 *
 	 * @var array
 	 */
 	public $text;
 	
 	/**
-	 * The Menu container
+	 * Link URL
 	 *
 	 * @var array
 	 */
 	public $url;
 	
 	/**
-	 * The Menu container
+	 * Link attributes
 	 *
 	 * @var array
 	 */
