@@ -652,7 +652,7 @@ In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-i
 ```html
 <nav class="navbar">
   <ul class="horizontal-navbar">
-    @include('custom-menu-items', array('items', $MyNavBar->roots()))
+    @include('custom-menu-items', array('items' => $MyNavBar->roots()))
   </ul>
 </nav><!--/nav-->
 ```
