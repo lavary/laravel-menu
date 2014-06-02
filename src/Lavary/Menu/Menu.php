@@ -115,7 +115,7 @@ class Menu {
 	 * Adds an item to the menu
 	 *
 	 * @param  string  $title
-	 * @param  string|array  $acion
+	 * @param  string|array  $action
 	 * @return Lavary\Menu\MenuItem $item
 	 */
 	public function add($title, $action)
