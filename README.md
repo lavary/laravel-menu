@@ -2,7 +2,7 @@
 [![Latest Unstable Version](https://poser.pugx.org/lavary/laravel-menu/v/unstable.svg)](https://packagist.org/packages/lavary/laravel-menu)
 
 
-A Simple Laravel way of making menus.
+A simple Laravel way of making menus.
 
 
 ## Installation
@@ -105,7 +105,7 @@ This will render your menu as below:
 </ul>
 ```
 
-## Named Routs and Controller Actions
+## Named Routes and Controller Actions
 
 You can also define named routes or controller actions as item url:
 
@@ -321,7 +321,7 @@ Menu::make('MyNavBar', function($menu){
 
   $menu->add('Home',     array('route'  => 'home.page', 'class' => 'navbar navbar-home', 'id' => 'home'));
   
-  $menu->group(array('style' => 'padding: 0', 'data-role' => 'navigation') function($m){
+  $menu->group(array('style' => 'padding: 0', 'data-role' => 'navigation'), function($m){
     
         $m->add('About',    array('route'  => 'page.about', 'class' => 'navbar navbar-about dropdown'));
         $m->add('services', array('action' => 'ServicesController@index'));
@@ -357,7 +357,7 @@ Menu::make('MyNavBar', function($menu){
   $menu->add('Home',     array('route'  => 'home.page', 'class' => 'navbar navbar-home', 'id' => 'home'));
   
   $about = $menu->add('About', array('url'  => 'about', 'class' => 'navbar navbar-about dropdown'));  // URL: /about 
-  $about->group(array('prefix' => 'about') function($m){
+  $about->group(array('prefix' => 'about'), function($m){
   
   	$about->add('Who we are?', 'who-we-are');   // URL: about/who-we-are
   	$about->add('What we do?', 'what-we-do');   // URL: about/what-we-do
@@ -500,78 +500,72 @@ Several rendering formats are available out of the box:
 * **Menu as Unordered List**
 
 ```html
-  {{ $MenuName->asUl() }}
+{{ $MenuName->asUl() }}
 ```
 
 `asUl()` will render your menu in an unordered list. it also takes an optional parameter to define attributes for the `<ul>` tag itself:
 
 ```php
-{{ $MenuName->asUl( array('class' => 'awsome-ul') ) }}
+{{ $MenuName->asUl( array('class' => 'awesome-ul') ) }}
 ```
 
 Result:
 
 ```html
-<ul class="awsome-ul">
+<ul class="awesome-ul">
   <li><a href="http://yourdomain.com">Home</a></li>
-  <li><a href="http://yourdomain.com/about">About</a></li>
-  <li><a href="http://yourdomain.com/services">Services</a></li>
-  <li><a href="http://yourdomain.com/contact">Contact</a></li>
+  ...
 </ul>
 ```
 
 * **Menu as Ordered List**
 
 
-```php
-  {{ $MenuName->asOl() }}
+```html
+{{ $MenuName->asOl() }}
 ```
 
 `asOl()` method will render your menu in an ordered list. it also takes an optional parameter to define attributes for the `<ol>` tag itself:
 
-```php
-{{ $MenuName->asOl( array('class' => 'awsome-ol') ) }}
+```html
+{{ $MenuName->asOl( array('class' => 'awesome-ol') ) }}
 ```
 
 Result:
 
 ```html
-<ol class="awsome-ol">
+<ol class="awesome-ol">
   <li><a href="http://yourdomain.com">Home</a></li>
-  <li><a href="http://yourdomain.com/about">About</a></li>
-  <li><a href="http://yourdomain.com/services">Services</a></li>
-  <li><a href="http://yourdomain.com/contact">Contact</a></li>
+  ...
 </ol>
 ```
 
 * **Menu as Div**
 
 
-```php
-  {{ $MenuName->asDiv() }}
+```html
+{{ $MenuName->asDiv() }}
 ```
 
 `asDiv()` method will render your menu as nested html divs. it also takes an optional parameter to define attributes for the parent `<div>` tag itself:
 
-```php
-{{ $MenuName->asDiv( array('class' => 'awsome-div') ) }}
+```html
+{{ $MenuName->asDiv( array('class' => 'awesome-div') ) }}
 ```
 
 Result:
 
 ```html
-<div class="awsome-div">
+<div class="awesome-div">
   <div><a href="http://yourdomain.com">Home</a></div>
-  <div><a href="http://yourdomain.com/about">About</a></div>
-  <div><a href="http://yourdomain.com/services">Services</a></div>
-  <div><a href="http://yourdomain.com/contact">Contact</a></div>
+  ...
 </div>
 ```
 
 * **Menu as Bootstrap 3 Navbar**
 
-```php
-  {{ $MenuName->asBootstrap() }}
+```html
+{{ $MenuName->asBootstrap() }}
 ```
 
 You can have your menu as a Bootstrap 3 `navbar`.
@@ -580,9 +574,8 @@ You can have your menu as a Bootstrap 3 `navbar`.
 
 To have your Bootstrap 3 navbar in `inverse` mode:
 
-
-```php
-  {{ $MenuName->asBootstrap(array('inverse' => true)  ) }}
+```html
+{{ $MenuName->asBootstrap(array('inverse' => true)  ) }}
 ```
 
 I've prepared a tutorial about embedding several menu objects in a bootstrap navbar in case somebody is interested.
@@ -652,17 +645,17 @@ In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-i
 ```html
 <nav class="navbar">
   <ul class="horizontal-navbar">
-    @include('custom-menu-items', array('items', $MyNavBar->roots()))
+    @include('custom-menu-items', array('items' => $MyNavBar->roots()))
   </ul>
 </nav><!--/nav-->
 ```
 
 **custom-menu-items.blade.php**
 ```html
-@foreach($items as $item)
-  <li @if($item->hasChilderen()) class="dropdown" @endif>
-      <a href="{{ $item->link->url }}">{{ $item->link->title }} </a>
-      @if($item->hasChilderen())
+@foreach ($items as $item)
+  <li{{ HTML::attributes($item->attributes) }}@if($item->hasChilderen()) class="dropdown"@endif>
+      {{ $item->link() }}
+      @if ($item->hasChilderen())
         <ul class="dropdown-menu">
               @include('custom-menu-items', array('items' => $item->childeren()))
         </ul> 
@@ -673,10 +666,8 @@ In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-i
 
 Let's describe what we did above, In `custom-menus.blade.php` we put whatever html code we had according to our design, then we included `custom-menu-items.blade.php` and passed the menu items at *root level* to `custom-menu-items.blade.php`:
 
-```php
-...
+```html
 @include('custom-menu-items', array('items' => $menu->roots()))
-...
 ```
 
 In `custom-menu-items.blade.php` we run a foreach loop control and call the file recursively for rendering the items to the deepest level required.
