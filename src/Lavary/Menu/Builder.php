@@ -161,7 +161,7 @@ class Builder {
 	 * @param  array $attributes
 	 * @return void
 	 */
-	public function divider(array $attributes = array()){
+	public function divide(array $attributes = array()){
 		
 		$attributes['class'] = self::formatGroupClass(array('class' => 'divider'), $attributes);
 		
