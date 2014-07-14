@@ -924,11 +924,11 @@ In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-i
 **custom-menu-items.blade.php**
 ```html
 @foreach($items as $item)
-  <li @if($item->hasChilderen()) class="dropdown" @endif>
-      <a href="{{ $item->link->url }}">{{ $item->link->title }} </a>
-      @if($item->hasChilderen())
+  <li @if($item->hasChildren()) class="dropdown" @endif>
+      <a href="{{ $item->url }}">{{ $item->title }} </a>
+      @if($item->hasChildren())
         <ul class="dropdown-menu">
-              @include('custom-menu-items', array('items' => $item->childeren()))
+              @include('custom-menu-items', array('items' => $item->children()))
         </ul> 
       @endif
   </li>
