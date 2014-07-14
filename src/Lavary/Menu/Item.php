@@ -68,7 +68,7 @@ class Item {
 	 * @param  \Lavary\Menu\Menu  $builder
 	 * @return void
 	 */
-	public function __construct($builder, $id, $title, $options = array())
+	public function __construct($builder, $id, $title, $options)
 	{
 		$this->builder     = $builder;
 		$this->id          = $id;
@@ -108,7 +108,7 @@ class Item {
 	 * @param  string|array  $options
 	 * @return void
 	 */
-	public function add($title, $options = null)
+	public function add($title, $options = '')
 	{
 		if( !is_array($options) ) {
 			$url = $options;
@@ -187,7 +187,7 @@ class Item {
 	}
 
 	/**
-	 * Generate URL for the link
+	 * Generate URL for link
 	 *
 	 * @return string
 	 */

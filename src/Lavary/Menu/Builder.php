@@ -84,7 +84,7 @@ class Builder {
 	 * @param  string|array  $acion
 	 * @return Lavary\Menu\Item $item
 	 */
-	public function add($title, $options = null)
+	public function add($title, $options = '')
 	{
 	
 		$item = new Item($this, $this->id(), $title, $options);
