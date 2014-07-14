@@ -273,6 +273,49 @@ As an example, let's insert a divider after `About us` item:
 ?>
 ```
 
+You can also get an item by Id, if you have the id:
+
+```php
+<?php
+	// ...
+	$menu->find(12) ...
+	// ...
+?>
+```
+
+## Selecting a group of Ttems
+
+You can also search the items collection by magic where method.
+This method is consisted of `where` plus an item's property (meta data, attributes)
+
+For example to get an iem with parent=12, you can use it like so:
+
+```php
+<?php
+	// ...
+	$subs = $menu->whereParent(12);
+	// ...
+?>
+```
+
+For using this method with a meta data:
+
+```php
+<?php
+	// ...
+	$menu->add('Home', '#')      ->data('color', 'red');
+	$menu->add('About', '#')     ->data('color', 'blue');
+	$menu->add('Services', '#')  ->data('color', 'red');
+	$menu->add('Contact', '#')   ->data('color', 'green');
+	// ...
+	
+	$reds = $menu->whereColor('red');
+	
+?>
+```
+
+This method returns a laravel collection.
+
 ## Sub-menus
 
 Items can have subitems too. You can access each item with the methods explained earlier:
@@ -626,7 +669,7 @@ This meta data don't do anything to the item and won't be rendered in HTML. It i
 ## Filtering Menu Items
 
 We can filter menu items based on user type, permission or any other policy we may have in our application.
-
+we return true for items we want to keep and false for items we want to exclude.
 
 Let's proceed with an example:
 
@@ -670,14 +713,15 @@ Menu::make('main', function($m){
 	$m->add('Portfolio', '#') ->data('order', 4);
 
 })->sortBy(function($items) {
-	// Your sprting algorithm here...
+	// Your sorting algorithm here...
+	
 });		
 ?>
 ```
 
-The closure receives the items collection.
+The closure receives the items collection as an array.
 
-You can also use stored keys to sort the items:
+You can also use stored data to sort the items:
 
 ```
 <?php
@@ -773,20 +817,6 @@ Result:
 
 * **Menu as Bootstrap 3 Navbar**
 
-```php
-  {{ $MenuName->asBootstrap() }}
-```
-
-You can have your menu as a Bootstrap 3 `navbar`.
-
-`asBootstrap` method also takes an optional array parameter to defines some configurations, like `inverse` mode.
-
-To have your Bootstrap 3 navbar in `inverse` mode:
-
-
-```php
-  {{ $MenuName->asBootstrap(array('inverse' => true)  ) }}
-```
 
 I've prepared a tutorial about embedding several menu objects in a bootstrap navbar in case somebody is interested.
 You can read all about it [here](https://gist.github.com/lavary/c9da317446e2e3b32779).
@@ -801,19 +831,13 @@ You can read all about it [here](https://gist.github.com/lavary/c9da317446e2e3b3
 * `asUl(array $attributes)` Renders menu in an unordered list
 * `asOl(array $attributes)` Renders menu in an unordered list
 * `asDiv(array $attributes)` Renders menu in html divs
-* `asBootstrap(array $options)`Renders menu as Bootstrap 3 navbar
 
 **MenuItem**
 
-* `hasChilderen()` Checks whether the item has childeren and returns a boolean accordingly
-* `childeren()` Returns all subitems of the item as an array of MenuItem objects
-* `get_id()` Returns `id` of the item
-* `get_pid()` Returns `pid` of the item
+* `hasChildren()` Checks whether the item has childeren and returns a boolean accordingly
+* `children()` Returns all subitems of the item as an array of MenuItem objects
 * `get_attributes()` Returns your item attributes as an array
-* `get_title()` Returns item title
-* `get_url()` Returns menu item url
-* `link()` Generates an html link based on your settings
-* `meta(string $name, string $value)` Sets or gets meta data of an item 
+* `data(string $name, string $value)` Sets or gets meta data of an item 
 
 
 ## Advanced Usage
