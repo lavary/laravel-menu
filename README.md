@@ -71,7 +71,7 @@ Here is a basic usage:
 <?php
 Menu::make('MyNavBar', function($menu){
   
-  $menu->add('Home',     '');
+  $menu->add('Home');
   $menu->add('About',    'about');
   $menu->add('services', 'services');
   $menu->add('Contact',  'contact');
@@ -82,11 +82,13 @@ Menu::make('MyNavBar', function($menu){
 
 **Attention** `$MyNavBar` is just a hypothetical name I used in these examples.
 
-`Menu::make()` creates a menu named `MyNavBar` and makes `$myNavBar` object available in all views.
+In the above example `Menu::make()` creates a menu named `MyNavBar` and makes `$myNavBar` object available in your views.
 
-This method accepts a callable where you can define your items in there using the `add` method. First parameter in `add` method is the *item title* and second one is the *url*. 
+This method accepts a callable where you can define your items in there using `add` method. First parameter in `add` method is the *item title* and second one is the *options*. 
 
-`add` adds a new item to the menu and returns an instance of `MenuItem`.
+*options* can be a simple string as URL or an associative array of options and attributes which we'll discuss later.
+
+`add` adds a new item to the menu and returns an instance of `Item`.
 
 **To render the menu in your view:**
 
@@ -94,7 +96,7 @@ This method accepts a callable where you can define your items in there using th
 {{ $MyNavBar->asUl() }}
 ```
 
-This will render your menu as below:
+This will render your menu like so:
 
 ```html
 <ul>
@@ -105,9 +107,69 @@ This will render your menu as below:
 </ul>
 ```
 
+## Inserting a Seprator
+
+You can insert a seprator after each item using `divider()` method.:
+
+```php
+<?php
+	//...
+	$menu->add('Separated Item', 'item-url')->divider()
+	
+	// You can also use it this way:
+	
+	$menu->('Another Separated Item', 'another-item-url');
+	
+	// This line will insert a divider after the last defined item
+	$menu->divider()
+	
+	
+	/*
+	Output as <ul>:
+	
+		<ul>
+			...
+			<li><a href="item-url">Separated Item</a></li>
+			<li class="divider"></li>
+			
+			<li><a href="another-item-url">Another Separated Item</a></li>
+			<li class="divider"></li>
+			...
+		</ul>
+		
+	*/
+	//...
+?>
+```
+
+`divider()` also gets an associative array of attributes:
+
+```php
+<?php
+	//...
+	$menu->add('Separated Item', 'item-url')->divider( array('class' => 'my-divider') );
+	//...
+	
+	/*
+	Output as <ul>:
+	
+		<ul>
+			...
+			<li><a href="item-url">Separated Item</a></li>
+			<li class="my-divider divider"></li>
+		
+			...
+		</ul>
+		
+	*/
+?>
+```
+
 ## Named Routs and Controller Actions
 
 You can also define named routes or controller actions as item url:
+
+This time instead of passing a simple string to `add()`, we pass an associative array:
 
 ```php
 <?php
@@ -149,19 +211,23 @@ Menu::make('MyNavBar', function($menu){
 
 ## HTTPS
 
-If you need to serve the route over HTTPS, you can add `secure` to the options array and set it to `true`:
+If you need to serve the route over HTTPS, you can add `secure` to the options array and set it to `true` or alternatively call `secure()` on the item `link` attribute:
 
 ```php
 <?php
 Menu::make('MyNavBar', function($menu){
 	....
 	$menu->add('Members', array('url' => 'members', 'secure' => true));
+	
+	// or alternatively use this shortcut
+	
+	$menu->add('Members', array('url' => 'members'))->secure();
 	...
 });
 ?>
 ```
 
-Output as ul:
+The output as ul would be:
 
 ```html
 <ul>
@@ -171,23 +237,67 @@ Output as ul:
 </ul>
 ```
 
+## Accessing Defined Items
+
+You can access defined items throughout your code using the below methods along with item's title in camel case.
+
+```php
+<?php
+	...
+	$menu->itemTitleInCamelCase ...
+	
+	// or
+	
+	$menu->get('itemTitleInCamelCase') ...
+	
+	// or
+	
+	$menu->item('itemTitleInCamelCase') ...
+?>
+```
+
+As an example, let's insert a divider after `About us` item:
+
+```php
+<?php
+...
+	$menu->aboutUs->divider();
+	
+	// or
+	
+	$menu->get('aboutUs')->divider();
+	
+	// or
+	
+	$menu->item('aboutUs')->divider();
+?>
+```
+
 ## Sub-menus
 
-Items can have subitems too:
+Items can have subitems too. You can access each item with the methods explained earlier:
 
 ```php
 <?php
 Menu::make('MyNavBar', function($menu){
 
-  ...
+  //...
   
-  $about = $menu->add('About',    array('route'  => 'page.about'));
+  $menu->add('About',    array('route'  => 'page.about'));
   
-  // these items will go under MenuItem $about
-  $about->add('Who are we?', 'who-we-are');
-  $about->add('What we do?', 'what-we-do');
+  // these items will go under Item 'About'
   
-  ...
+  $menu->about->add('Who We are', 'who-we-are');
+
+  // or
+  
+  $menu->get('about')->add('What We Do', 'what-we-do');
+  
+  // or
+  
+  $menu->item('about')->add('Our Goals', 'our-goals');
+  
+  //...
 
 });
 ?>
@@ -200,7 +310,7 @@ You can also chain the item definitions and go as deep as you wish:
 
   ...
   
-  $about = $menu->add('About',    array('route'  => 'page.about'))
+  $menu->add('About',    array('route'  => 'page.about'))
 		     ->add('Level2', 'link address')
 		          ->add('level3', 'Link address')
 		               ->add('level4', 'Link address');
@@ -209,26 +319,27 @@ You can also chain the item definitions and go as deep as you wish:
 ?>
 ```  
 
-It is possible to add sub items directly using `pid` key:
+It is possible to add sub items directly using `parent` attribute:
 
 ```php  
 <?php
-...
-$about = $menu->add('About',    array('route'  => 'page.about'));
-$menu->add('Level2', array('url' => 'Link address', 'pid' => $about->get_id()));
-...
+	//...
+	$menu->add('About',    array('route'  => 'page.about'));
+	$menu->add('Level2', array('url' => 'Link address', 'parent' => $menu->about->id));
+	//...
 ?>
 ```  
 
 ## HTML attributes
 
-Since all menu items would be rendered as html entities like lists or divs, you can define as many properties as you need for each menu item:
+Since all menu items would be rendered as html entities like list items or divs, you can define as many properties as you need for each menu item:
 
 
 ```php
 <?php
 Menu::make('MyNavBar', function($menu){
 
+  // As you see, you need to pass the second parameter as an associative array:
   $menu->add('Home',     array('route'  => 'home.page',  'class' => 'navbar navbar-home', 'id' => 'home'));
   $menu->add('About',    array('route'  => 'page.about', 'class' => 'navbar navbar-about dropdown'));
   $menu->add('services', array('action' => 'ServicesController@index'));
@@ -249,13 +360,49 @@ If we choose html lists as our rendering format like `ul` or `ol`, the result wo
 </ul>
 ```
 
-## Links
+It is also possible to set or get HTML attributes after the item has been defined using `attr()` method.
 
-All the html attributes will go to `<li>` tags. How about the attributes for `<a>` tags?
 
-Each `MenuItem` instance has an attribute holding an instance of the `Link` class. This class is provided for you to manipulate `<a>` tags.
+If you call `attr()` with one argument, it will return the attribute value for you.
+If you call it with two arguments, It will consider the first and second parameters as an key/value pair and adds the attribute to item's attributes. 
+You can also pass an associative array of items if you need to add a group of HTML attributes in one step; Lastly if you call it without any arguments it will return all the attributes as an array.
 
-To add some attributes to the link you can use the `attributes()` method of `Link` object:
+```php
+<?php
+	//...
+	$menu->add('About', array('url' => 'about', 'class' => 'about-item'));
+	
+	echo $menu->about->attr('class');  // output:  about-item
+	
+	$menu->about->attr('class', 'another-class');
+	echo $menu->about->attr('class');  // output:  about-item another-class
+
+	$menu->about->attr(array('class' => 'yet-another', 'id' => 'about')); 
+	
+	echo $menu->about->attr('class');  // output:  about-item another-class yet-another
+	echo $menu->about->attr('id');  // output:  id
+	
+	print_r($menu->about->attr());
+	
+	/* Output
+	Array
+	(
+		[class] => about-item another-class yet-another
+		[id] => id
+	)
+	*/
+	
+	//...
+?>
+```
+
+## Maniuplating Links
+
+All the HTML attributes will go to `<li>` tags. How about the attributes for `<a>` tags?
+
+Each `Item` instance has an attribute storing an instance of the `Link` class. This class is provided for you to manipulate `<a>` tags.
+
+Just like each item, `Link` also has an `attr()` which functions exactly like item's `attr()`.
 
 ```php
 <?php
@@ -265,7 +412,7 @@ Menu::make('MyNavBar', function($menu){
   
   $about = $menu->add('About',    array('route'  => 'page.about', 'class' => 'navbar navbar-about dropdown'));
   
-  $about->link->attributes(array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'));
+  $about->link->attr(array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'));
   
   ...
 
@@ -273,7 +420,11 @@ Menu::make('MyNavBar', function($menu){
 ?>
 ```
 
-You can also `append` or `prepend` html or plain text content to the link text:
+
+## Adding Content to Item's T	itle
+
+
+You can `append` or `prepend` html or plain text to each item
 
 ```php
 <?php
@@ -283,8 +434,8 @@ Menu::make('MyNavBar', function($menu){
   
   $about = $menu->add('About',    array('route'  => 'page.about', 'class' => 'navbar navbar-about dropdown'));
   
-  $about->link->attributes(array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))
-              ->append('<b classs="caret"></b>')
+  $menu->about->attr(array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))
+              ->append(' <b classs="caret"></b>')
               ->prepend('<span classs="glyphicon glyphicon-user"></span> ');
               
   ...            
@@ -356,8 +507,9 @@ Menu::make('MyNavBar', function($menu){
 
   $menu->add('Home',     array('route'  => 'home.page', 'class' => 'navbar navbar-home', 'id' => 'home'));
   
-  $about = $menu->add('About', array('url'  => 'about', 'class' => 'navbar navbar-about dropdown'));  // URL: /about 
-  $about->group(array('prefix' => 'about') function($m){
+  $menu->add('About', array('url'  => 'about', 'class' => 'navbar navbar-about dropdown'));  // URL: /about 
+  
+  $menu->group(array('prefix' => 'about') function($m){
   
   	$about->add('Who we are?', 'who-we-are');   // URL: about/who-we-are
   	$about->add('What we do?', 'what-we-do');   // URL: about/what-we-do
