@@ -2,7 +2,7 @@
 [![Latest Unstable Version](https://poser.pugx.org/lavary/laravel-menu/v/unstable.svg)](https://packagist.org/packages/lavary/laravel-menu)
 
 
-A Simple Laravel way of making menus.
+A Simple way to create menus in Laravel.
 
 
 ## Installation
@@ -107,9 +107,9 @@ This will render your menu like so:
 </ul>
 ```
 
-## Inserting a Seprator
+## Inserting a Separator
 
-You can insert a seprator after each item using `divider()` method.:
+You can insert a separator after each item using `divider()` method.:
 
 ```php
 <?php
@@ -168,19 +168,19 @@ You can insert a seprator after each item using `divider()` method.:
 
 ## Named Routs and Controller Actions
 
-You can also define named routes or controller actions as item url:
+You can also define named routes or controller actions as item URL:
 
 This time instead of passing a simple string to `add()`, we pass an associative array:
 
 ```php
 <?php
 
-...
+// ...
 // Suppose we have these routes defined in our app/routes.php file:
 Route::get('/',        array('as' => 'home.page',  function(){...}));
 Route::get('about',    array('as' => 'page.about', function(){...}));
 Route::get('services', 'ServiceController@index');
-...
+//...
 
 // Now we make the menu:
 Menu::make('MyNavBar', function($menu){
@@ -194,7 +194,7 @@ Menu::make('MyNavBar', function($menu){
 });
 ?>
 ```
-if you need to send some data to routes, urls or controller actions as query string, you can simply include them in an array along with the route action or url value:
+if you need to send some data to routes, URLs or controller actions as query string, you can simply include them in an array along with the route action or URL value:
 
 ```php
 <?php
@@ -289,7 +289,7 @@ You can also get an item by Id, if you have the id:
 You can also search the items collection by magic where method.
 This method is consisted of `where` plus an item's property (meta data, attributes)
 
-For example to get an iem with parent=12, you can use it like so:
+For example to get an item with parent=12, you can use it like so:
 
 ```php
 <?php
@@ -304,10 +304,10 @@ For using this method with a meta data:
 ```php
 <?php
 	// ...
-	$menu->add('Home', '#')      ->data('color', 'red');
-	$menu->add('About', '#')     ->data('color', 'blue');
-	$menu->add('Services', '#')  ->data('color', 'red');
-	$menu->add('Contact', '#')   ->data('color', 'green');
+	$menu->add('Home',     '#')->data('color', 'red');
+	$menu->add('About',    '#')->data('color', 'blue');
+	$menu->add('Services', '#')->data('color', 'red');
+	$menu->add('Contact',  '#')->data('color', 'green');
 	// ...
 	
 	$reds = $menu->whereColor('red');
@@ -315,11 +315,11 @@ For using this method with a meta data:
 ?>
 ```
 
-This method returns a laravel collection.
+This method returns a Laravel collection.
 
 ## Sub-menus
 
-Items can have subitems too. You can access each item with the methods explained earlier:
+Items can have sub-items too. You can access each item with the methods explained earlier:
 
 ```php
 <?php
@@ -376,7 +376,7 @@ It is possible to add sub items directly using `parent` attribute:
 
 ## HTML attributes
 
-Since all menu items would be rendered as html entities like list items or divs, you can define as many properties as you need for each menu item:
+Since all menu items would be rendered as HTML entities like list items or divs, you can define as many properties as you need for each menu item:
 
 
 ```php
@@ -393,7 +393,7 @@ Menu::make('MyNavBar', function($menu){
 ?>
 ```
 
-If we choose html lists as our rendering format like `ul` or `ol`, the result would be something similiar to this:
+If we choose HTML lists as our rendering format like `ul` or `ol`, the result would be something similar to this:
 
 ```html
 <ul>
@@ -504,7 +504,7 @@ You can also add class 'active' to the anchor element instead of the wrapping el
 ## Adding Content to Item's Title
 
 
-You can `append` or `prepend` html or plain text to each item
+You can `append` or `prepend` HTML or plain text to each item:
 
 ```php
 <?php
@@ -539,11 +539,41 @@ The above code will result:
 
 ```
 
+## Plain text items
+
+To insert items as plain text instead of hyper-link you can user `text()` method.
+
+```php
+<?php
+    // ...
+    $menu->text('Item's Title', array('class' => 'some-class'));  
+    
+    $menu->add('About', 'about');
+    $menu->About->text('Another Plain Text Item')
+    // ...
+    
+    /* Output as an unordered list:
+       <ul>
+            ...
+            <li class="some-class">Item's Title</li>
+            <li>
+                About
+                <ul>
+                    <li>Another Plain Text Item</li>
+                </ul>
+            </li>
+            ...
+        </ul>
+    */
+?>
+```
+
+
 ## Menu Groups
 
 Sometimes you may need to share attributes to a group of items. Instead of specifying the attributes on each menu, you may use a menu group:
 
-**PS:** This feture works exactly like Laravel group routes. 
+**PS:** This feature works exactly like Laravel group routes. 
 
 
 ```php
@@ -710,7 +740,7 @@ we return true for items we want to keep and false for items we want to exclude.
 
 Let's proceed with an example:
 
-We suppose our `User` model can check whether the user has a permisson or not:
+We suppose our `User` model can check whether the user has a permission or not:
 
 ```php
 <?php
@@ -735,7 +765,7 @@ Menu::make('MyNavBar', function($menu){
 
 ## Sorting the Items
 
-`laravel-menu` can sort the items based on a user defiend function or a key (item properties like id,parent,etc) or meta data stored along with the item.
+`laravel-menu` can sort the items based on a user defined function or a key (item properties like id,parent,etc) or meta data stored along with the item.
 
 You can pass a closure as the first argument to `SortBy()` method:
 
@@ -774,7 +804,7 @@ Menu::make('main', function($m){
 ?>
 ```
 
-`sortBy()` also recieves a second parameter which specifies the ordering direction: Ascending order(asc) or Descending Order(dsc). Default value is `asc`.
+`sortBy()` also receives a second parameter which specifies the ordering direction: Ascending order(`asc`) or Descending Order(`dsc`). Default value is `asc`.
 
 
 ## Rendering Formats
@@ -835,7 +865,7 @@ Result:
   {{ $MenuName->asDiv() }}
 ```
 
-`asDiv()` method will render your menu as nested html divs. it also takes an optional parameter to define attributes for the parent `<div>` tag itself:
+`asDiv()` method will render your menu as nested HTML divs. it also takes an optional parameter to define attributes for the parent `<div>` tag itself:
 
 ```php
 {{ $MenuName->asDiv( array('class' => 'awsome-div') ) }}
@@ -867,12 +897,12 @@ You can read all about it [here](https://gist.github.com/lavary/c9da317446e2e3b3
 * `render(string $type, $integer $pid)` Renders menu items at a given level
 * `asUl(array $attributes)` Renders menu in an unordered list
 * `asOl(array $attributes)` Renders menu in an unordered list
-* `asDiv(array $attributes)` Renders menu in html divs
+* `asDiv(array $attributes)` Renders menu in HTML divs
 
-**MenuItem**
+**Item**
 
-* `hasChildren()` Checks whether the item has childeren and returns a boolean accordingly
-* `children()` Returns all subitems of the item as an array of MenuItem objects
+* `hasChildren()` Checks whether the item has children and returns a boolean accordingly
+* `children()` Returns all sub-items of the item as an array of Item objects
 * `get_attributes()` Returns your item attributes as an array
 * `data(string $name, string $value)` Sets or gets meta data of an item 
 
@@ -883,7 +913,7 @@ It is also possible to render your menus in your own views.
 
 If you'd like to render your menu(s) according to your own design, you should create two views.
 
-* `View-1`  This view contains all the html codes like `nav` or `ul` or `div` tags wrapping your menu items.
+* `View-1`  This view contains all the HTML codes like `nav` or `ul` or `div` tags wrapping your menu items.
 * `View-2`  This view is responsible for rendering menu items and it is included in `View-1`.
 
 
@@ -935,7 +965,7 @@ In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-i
 @endforeach
 ```
 
-Let's describe what we did above, In `custom-menus.blade.php` we put whatever html code we had according to our design, then we included `custom-menu-items.blade.php` and passed the menu items at *root level* to `custom-menu-items.blade.php`:
+Let's describe what we did above, In `custom-menus.blade.php` we put whatever HTML code we had according to our design, then we included `custom-menu-items.blade.php` and passed the menu items at *root level* to `custom-menu-items.blade.php`:
 
 ```php
 ...
