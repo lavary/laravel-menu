@@ -3,81 +3,49 @@
 class Link {
 	
 	/**
-	 * Link text
+	 * Path Information
 	 *
 	 * @var array
 	 */
-	public $text;
-	
-	/**
-	 * Link URL
-	 *
-	 * @var array
-	 */
-	public $url;
-	
+	protected $path;
+
 	/**
 	 * Link attributes
 	 *
 	 * @var array
 	 */
-	public $attributes;
+	protected $attributes;
 	
 	/**
 	 * Creates a hyper link instance
 	 *
-	 * @param  string $title
-	 * @param  string  $url
-	 * @param  array  $attributes
+	 * @param  array  $path
 	 * @return void
 	 */
-	public function __construct($text, $url, $attributes = array())
+	public function __construct($path = array())
 	{
-		$this->text = $text;
-		$this->url = $url;
-		$this->attributes = $attributes;
+		$this->path = $path;
 	}
 
 	/**
-	 * Returns the link URL
+	 * Make the anchor active
 	 *
-	 * @return string $url
+	 * @return Lavary\Menu\Item
 	 */
-	public function get_url()
-	{
-		return $this->url;
-	}
-
-	/**
-	 * Returns the link title
-	 *
-	 * @return string $title
-	 */
-	public function get_text()
-	{
-		return $this->text;
-	}
-
-	/**
-	 * Prepends text or html to the link
-	 *
-	 * @return Lavary\Menu\Link
-	 */
-	public function prepend($html)
-	{
-		$this->text = $html . $this->text;
+	public function active(){
 	
+		$this->attributes['class'] = Builder::formatGroupClass(array('class' => 'active'), $this->attributes);
 		return $this;
 	}
 
 	/**
-	 * Appends text or html to the link
+	 * Make the url secure
 	 *
-	 * @return Lavary\Menu\Link
+	 * @return Lavary\Menu\Item
 	 */
-	public function append($html)
-	{
-		$this->text .= $html;
+	public function secure(){
+		
+		$this->path['secure'] = true;
 		
 		return $this;
 	}
@@ -85,14 +53,42 @@ class Link {
 	/**
 	 * Add attributes to the link
 	 *
-	 * @param array $attributes
-	 * @return Lavary\Menu\Link
+	 * @param  mixed
+	 * @return string|Lavary\Menu\Link
 	 */
-	public function attributes($attributes = array())
+	public function attr()
 	{
-		$this->attributes = $attributes;
-		
-		return $this;
+		$args = func_get_args();
+
+		if(isset($args[0]) && is_array($args[0])) {
+			$this->attributes = array_merge($this->attributes, $args[0]);
+			return $this;
+		}
+
+		elseif(isset($args[0]) && isset($args[1])) {
+			$this->attributes[$args[0]] = $args[1];
+			return $this;
+		} 
+
+		elseif(isset($args[0])) {
+			return isset($this->attributes[$args[0]]) ? $this->attributes[$args[0]] : null;
+		}
+
+		return $this->attributes;
 	}
 
+	/**
+	 * Check for a method of the same name if the attribute doesn't exist.
+	 *
+	 * @param  string
+	 * @return void
+	 */
+	public function __get($prop) {
+		
+		if( property_exists($this, $prop) ) {
+			return $this->$prop;
+		}
+
+		return false;
+	}	
 }

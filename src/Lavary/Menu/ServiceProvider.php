@@ -28,9 +28,12 @@ class ServiceProvider extends BaseServiceProvider {
 	 */
 	public function register()
 	{
-		 $this->app->bind('menu', function($app) {
-            return new Menu($app['html'], $app['url'], $app['view']);
-        });
+		 $this->app['menu'] = $this->app->share(function($app){
+
+		 		return new Menu($app['html'], $app['url'], $app['view']);
+		 		
+		 });
+           
 	}
 
 	/**
