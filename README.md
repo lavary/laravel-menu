@@ -165,6 +165,7 @@ You can insert a seprator after each item using `divider()` method.:
 ?>
 ```
 
+
 ## Named Routs and Controller Actions
 
 You can also define named routes or controller actions as item url:
@@ -463,6 +464,42 @@ Menu::make('MyNavBar', function($menu){
 ?>
 ```
 
+
+## Active Item
+
+You can activate an item by using `active()` method:
+
+```
+<?php
+	// ...
+	$menu->add('Home', '#')->active();
+	// ...
+	
+	/* Output
+	
+	<li class="active"><a href="#">#</a></li>	
+	
+	*/
+	
+?>
+```
+
+You can also add class 'active' to the anchor element instead of the wrapping element:
+
+```
+<?php
+	// ...
+	$menu->add('Home', '#')->link->active();
+	// ...
+	
+	/* Output
+	
+	<li><a class="active" href="#">#</a></li>	
+	
+	*/
+	
+?>
+```
 
 ## Adding Content to Item's Title
 
