@@ -284,7 +284,7 @@ You can also get an item by Id, if you have the id:
 ?>
 ```
 
-## Selecting a group of Ttems
+## Selecting a group of Items
 
 You can also search the items collection by magic where method.
 This method is consisted of `where` plus an item's property (meta data, attributes)
