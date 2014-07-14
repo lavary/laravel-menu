@@ -49,7 +49,7 @@ class Item {
 	 *
 	 * @var array
 	 */
-	protected $meta;
+	protected $data;
 	
 	/**
 	 * Attributes of menu item
@@ -258,25 +258,25 @@ class Item {
 	 * @param  mixed
 	 * @return string|Lavary\Menu\Item
 	 */
-	public function meta()
+	public function data()
 	{
 		$args = func_get_args();
 
 		if(isset($args[0]) && is_array($args[0])) {
-			$this->meta = array_merge($this->meta, array_change_key_case($args[0]));
+			$this->data = array_merge($this->data, array_change_key_case($args[0]));
 			return $this;
 		}
 
 		elseif(isset($args[0]) && isset($args[1])) {
-			$this->meta[strtolower($args[0])] = $args[1];
+			$this->data[strtolower($args[0])] = $args[1];
 			return $this;
 		} 
 
 		elseif(isset($args[0])) {
-			return isset($this->meta[$args[0]]) ? $this->meta[$args[0]] : null;
+			return isset($this->data[$args[0]]) ? $this->data[$args[0]] : null;
 		}
 
-		return $this->meta;
+		return $this->data;
 	}
 
 	/**
@@ -291,7 +291,7 @@ class Item {
 			return $this->$prop;
 		}
 		
-		return $this->meta($prop);
+		return $this->data($prop);
 	}
 
 }
