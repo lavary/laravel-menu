@@ -222,7 +222,7 @@ Menu::make('MyNavBar', function($menu){
 	
 	// or alternatively use this shortcut
 	
-	$menu->add('Members', array('url' => 'members'))->secure();
+	$menu->add('Members', array('url' => 'members'))->link->secure();
 	...
 });
 ?>
