@@ -165,6 +165,7 @@ You can insert a seprator after each item using `divider()` method.:
 ?>
 ```
 
+
 ## Named Routs and Controller Actions
 
 You can also define named routes or controller actions as item url:
@@ -272,6 +273,49 @@ As an example, let's insert a divider after `About us` item:
 	$menu->item('aboutUs')->divider();
 ?>
 ```
+
+You can also get an item by Id, if you have the id:
+
+```php
+<?php
+	// ...
+	$menu->find(12) ...
+	// ...
+?>
+```
+
+## Selecting a group of Ttems
+
+You can also search the items collection by magic where method.
+This method is consisted of `where` plus an item's property (meta data, attributes)
+
+For example to get an iem with parent=12, you can use it like so:
+
+```php
+<?php
+	// ...
+	$subs = $menu->whereParent(12);
+	// ...
+?>
+```
+
+For using this method with a meta data:
+
+```php
+<?php
+	// ...
+	$menu->add('Home', '#')      ->data('color', 'red');
+	$menu->add('About', '#')     ->data('color', 'blue');
+	$menu->add('Services', '#')  ->data('color', 'red');
+	$menu->add('Contact', '#')   ->data('color', 'green');
+	// ...
+	
+	$reds = $menu->whereColor('red');
+	
+?>
+```
+
+This method returns a laravel collection.
 
 ## Sub-menus
 
@@ -421,7 +465,43 @@ Menu::make('MyNavBar', function($menu){
 ```
 
 
-## Adding Content to Item's T	itle
+## Active Item
+
+You can activate an item by using `active()` method:
+
+```
+<?php
+	// ...
+	$menu->add('Home', '#')->active();
+	// ...
+	
+	/* Output
+	
+	<li class="active"><a href="#">#</a></li>	
+	
+	*/
+	
+?>
+```
+
+You can also add class 'active' to the anchor element instead of the wrapping element:
+
+```
+<?php
+	// ...
+	$menu->add('Home', '#')->link->active();
+	// ...
+	
+	/* Output
+	
+	<li><a class="active" href="#">#</a></li>	
+	
+	*/
+	
+?>
+```
+
+## Adding Content to Item's Title
 
 
 You can `append` or `prepend` html or plain text to each item
@@ -495,7 +575,7 @@ Attributes `style` and `data-role` would be applied to both `About` and `Service
 ```
 
 
-## Item Prefixing
+## URL Prefixing
 
 Just like Laravel route prefixing feature, a group of menu items may be prefixed by using the prefix option in the attributes array of a group:
 
@@ -585,7 +665,13 @@ If we render it as a ul:
 
 ## Meta Data
 
-You can attach meta data to each menu item if you need, this data can be anything from item placement order to the permissions required for accessing the item:
+You might encounter situations when you need to attach some meta data to each item; This data can be anything from item placement order to permissions required for accessing the item. You can do this by using `data()` method.
+
+`data()` method works exactly like `attr()` method:
+
+If you call `data()` with one argument, it will return the data value for you.
+If you call it with two arguments, It will consider the first and second parameters as an key/value pair and sets the data. 
+You can also pass an associative array of data if you need to add a group of key/value pairs in one step; Lastly if you call it without any arguments it will return all data as an array.
 
 ```php
 <?php
@@ -594,31 +680,33 @@ Menu::make('MyNavBar', function($menu){
   ...
   
   $menu->add('Users', array('route'  => 'admin.users'))
-       ->meta('permission', 'manage_users');
+       ->data('permission', 'manage_users');
 
 });
 ?>
 ```
 
-This meta data don't do anything to the item and won't be rendered in html. It is the developer who would decides what to do with these data when rendering the menu.
+You can also get a data value as an attribute of the item:
 
-**To retrieve meta data:**
-
-```php
+```
 <?php
-	...
-	$users = $menu->add('Users', array('route'  => 'admin.users'))
-       ->meta('permission', 'manage_users');
-       
-       $users->meta('permission');   // this will return: 'manage_users'
-	...
+	//...
+	$menu->add('Users', '#');
+	
+	$menu->users->data('placement', 12);
+	
+	echo $menu->users->placement;    // Output : 12
+	//...
 ?>
 ```
+
+This meta data don't do anything to the item and won't be rendered in HTML. It is the developer who would decides what to do with these data.
+
 
 ## Filtering Menu Items
 
 We can filter menu items based on user type, permission or any other policy we may have in our application.
-
+we return true for items we want to keep and false for items we want to exclude.
 
 Let's proceed with an example:
 
@@ -643,6 +731,50 @@ Menu::make('MyNavBar', function($menu){
 ```
 
 `Users` item will be visible to those who has the `manage_users` permission.
+
+
+## Sorting the Items
+
+`laravel-menu` can sort the items based on a user defiend function or a key (item properties like id,parent,etc) or meta data stored along with the item.
+
+You can pass a closure as the first argument to `SortBy()` method:
+
+```
+<?php
+Menu::make('main', function($m){
+
+	$m->add('About', '#')     ->data('order', 2);
+	$m->add('Home', '#')      ->data('order', 1);
+	$m->add('Services', '#')  ->data('order', 3);
+	$m->add('Contact', '#')   ->data('order', 5);
+	$m->add('Portfolio', '#') ->data('order', 4);
+
+})->sortBy(function($items) {
+	// Your sorting algorithm here...
+	
+});		
+?>
+```
+
+The closure receives the items collection as an array.
+
+You can also use stored data to sort the items:
+
+```
+<?php
+Menu::make('main', function($m){
+
+	$m->add('About', '#')     ->data('order', 2);
+	$m->add('Home', '#')      ->data('order', 1);
+	$m->add('Services', '#')  ->data('order', 3);
+	$m->add('Contact', '#')   ->data('order', 5);
+	$m->add('Portfolio', '#') ->data('order', 4);
+
+})->sortBy('order');		
+?>
+```
+
+`sortBy()` also recieves a second parameter which specifies the ordering direction: Ascending order(asc) or Descending Order(dsc). Default value is `asc`.
 
 
 ## Rendering Formats
@@ -722,20 +854,6 @@ Result:
 
 * **Menu as Bootstrap 3 Navbar**
 
-```php
-  {{ $MenuName->asBootstrap() }}
-```
-
-You can have your menu as a Bootstrap 3 `navbar`.
-
-`asBootstrap` method also takes an optional array parameter to defines some configurations, like `inverse` mode.
-
-To have your Bootstrap 3 navbar in `inverse` mode:
-
-
-```php
-  {{ $MenuName->asBootstrap(array('inverse' => true)  ) }}
-```
 
 I've prepared a tutorial about embedding several menu objects in a bootstrap navbar in case somebody is interested.
 You can read all about it [here](https://gist.github.com/lavary/c9da317446e2e3b32779).
@@ -750,19 +868,13 @@ You can read all about it [here](https://gist.github.com/lavary/c9da317446e2e3b3
 * `asUl(array $attributes)` Renders menu in an unordered list
 * `asOl(array $attributes)` Renders menu in an unordered list
 * `asDiv(array $attributes)` Renders menu in html divs
-* `asBootstrap(array $options)`Renders menu as Bootstrap 3 navbar
 
 **MenuItem**
 
-* `hasChilderen()` Checks whether the item has childeren and returns a boolean accordingly
-* `childeren()` Returns all subitems of the item as an array of MenuItem objects
-* `get_id()` Returns `id` of the item
-* `get_pid()` Returns `pid` of the item
+* `hasChildren()` Checks whether the item has childeren and returns a boolean accordingly
+* `children()` Returns all subitems of the item as an array of MenuItem objects
 * `get_attributes()` Returns your item attributes as an array
-* `get_title()` Returns item title
-* `get_url()` Returns menu item url
-* `link()` Generates an html link based on your settings
-* `meta(string $name, string $value)` Sets or gets meta data of an item 
+* `data(string $name, string $value)` Sets or gets meta data of an item 
 
 
 ## Advanced Usage
