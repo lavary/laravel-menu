@@ -2,7 +2,7 @@
 [![Latest Unstable Version](https://poser.pugx.org/lavary/laravel-menu/v/unstable.svg)](https://packagist.org/packages/lavary/laravel-menu)
 
 
-A Simple way to create menus in Laravel.
+A quick way to create menus in Laravel 4.x
 
 
 ## Installation
