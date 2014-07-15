@@ -139,7 +139,7 @@ class Item {
 	 * @param array $attributes
 	 * @return void
 	 */
-	public function divider($attributes = array()){
+	public function divide($attributes = array()){
 		
 		$attributes['class'] = Builder::formatGroupClass($attributes, array('class' => 'divider'));
 		
