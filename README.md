@@ -12,7 +12,7 @@ In the `require` key of `composer.json` file add `lavary/laravel-menu": "dev-mas
 ```
 ...
 "require": {
-	"laravel/framework": "4.1.*",
+	"laravel/framework": "4.2.*",
 	"lavary/laravel-menu": "dev-master"
   }  
 ```
