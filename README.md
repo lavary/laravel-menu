@@ -241,7 +241,7 @@ You can also get an item by Id if needed:
 ?>
 ```
 
-## Selecting a group of Items
+## Magic Where Methods
 
 You can also search the items collection by magic where method.
 This method is consisted of `where` concatenated with a property (meta data, property)
@@ -333,7 +333,7 @@ It is possible to add sub items directly using `parent` attribute:
 ?>
 ```  
 
-## HTML attributes
+## HTML Attributes
 
 Since all menu items would be rendered as HTML entities like list items or divs, you can define as many HTML attributes as you need for each item:
 
@@ -558,7 +558,7 @@ The above code will result:
 
 ```
 
-## Plain text items
+## Plain Text Items
 
 To insert items as plain text instead of hyper-links you can user `text()`:
 
@@ -991,7 +991,7 @@ To put the rendered menu in your application template, you can simply include `c
 I've prepared a tutorial about embedding several menu objects in a bootstrap navbar in case somebody is interested.
 You can read all about it [here](https://gist.github.com/lavary/c9da317446e2e3b32779).
 
-## If you need help
+## If You Need Help
 
 Please submit all issues and questions using GitHub issues and I will try to help you.
 
