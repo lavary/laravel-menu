@@ -567,7 +567,7 @@ To insert items as plain text instead of hyper-links you can user `text()`:
 ```php
 <?php
     // ...
-    $menu->text('Item's Title', array('class' => 'some-class'));  
+    $menu->text('Item Title', array('class' => 'some-class'));  
     
     $menu->add('About', 'about');
     $menu->About->text('Another Plain Text Item')
