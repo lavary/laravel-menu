@@ -428,7 +428,7 @@ Menu::make('MyNavBar', function($menu){
 
 You can mark an item as activated using `active()` on that item:
 
-```
+```php
 <?php
 	// ...
 	$menu->add('Home', '#')->active();
@@ -445,7 +445,7 @@ You can mark an item as activated using `active()` on that item:
 
 You can also add class 'active' to the anchor element instead of the wrapping element:
 
-```
+```php
 <?php
 	// ...
 	$menu->add('Home', '#')->link->active();
@@ -737,7 +737,7 @@ Menu::make('MyNavBar', function($menu){
 
 You can also access a data as if it's a property:
 
-```
+```php
 <?php
 	
 	//...
@@ -796,7 +796,7 @@ As result, `Users` item will be visible to those who has the `manage_users` perm
 
 Passing a closure:
 
-```
+```php
 <?php
 Menu::make('main', function($m){
 
@@ -817,7 +817,7 @@ The closure receives the items collection as an array.
 
 You can also use available properties and meta data to sort the items:
 
-```
+```php
 <?php
 Menu::make('main', function($m){
 
