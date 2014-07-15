@@ -42,7 +42,7 @@
 
 <pre><code>...
 "require": {
-    "laravel/framework": "4.1.*",
+    "laravel/framework": "4.2.*",
     "lavary/laravel-menu": "dev-master"
   }  
 </code></pre>
@@ -197,9 +197,9 @@
 <span class="cp">?&gt;</span><span class="x"></span>
 </pre></div>
 
-<p>The output as </p><ul> would be:
+<p>The output as <code>&lt;ul&gt;</code> would be:</p>
 
-</ul><div class="highlight highlight-html"><pre><span class="nt">&lt;ul&gt;</span>
+<div class="highlight highlight-html"><pre><span class="nt">&lt;ul&gt;</span>
     ...
     <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"https://yourdomain.com/members"</span><span class="nt">&gt;</span>Members<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
     ...
@@ -438,35 +438,35 @@ You can also pass an associative array of attributes if you need to add a group 
 
 <p>You can mark an item as activated using <code>active()</code> on that item:</p>
 
-<pre><code>&lt;?php
-    // ...
-    $menu-&gt;add('Home', '#')-&gt;active();
-    // ...
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+    <span class="c1">// ...</span>
+    <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Home'</span><span class="p">,</span> <span class="s1">'#'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">active</span><span class="p">();</span>
+    <span class="c1">// ...</span>
 
-    /* Output
+    <span class="cm">/* Output</span>
 
-    &lt;li class="active"&gt;&lt;a href="#"&gt;#&lt;/a&gt;&lt;/li&gt;   
+<span class="cm">    &lt;li class="active"&gt;&lt;a href="#"&gt;#&lt;/a&gt;&lt;/li&gt;   </span>
 
-    */
+<span class="cm">    */</span>
 
-?&gt;
-</code></pre>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
 
 <p>You can also add class 'active' to the anchor element instead of the wrapping element:</p>
 
-<pre><code>&lt;?php
-    // ...
-    $menu-&gt;add('Home', '#')-&gt;link-&gt;active();
-    // ...
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+    <span class="c1">// ...</span>
+    <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Home'</span><span class="p">,</span> <span class="s1">'#'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">link</span><span class="o">-&gt;</span><span class="na">active</span><span class="p">();</span>
+    <span class="c1">// ...</span>
 
-    /* Output
+    <span class="cm">/* Output</span>
 
-    &lt;li&gt;&lt;a class="active" href="#"&gt;#&lt;/a&gt;&lt;/li&gt;   
+<span class="cm">    &lt;li&gt;&lt;a class="active" href="#"&gt;#&lt;/a&gt;&lt;/li&gt;   </span>
 
-    */
+<span class="cm">    */</span>
 
-?&gt;
-</code></pre>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
 
 <h2>
 <a name="inserting-a-separator" class="anchor" href="#inserting-a-separator"><span class="octicon octicon-link"></span></a>Inserting a Separator</h2>
@@ -694,9 +694,9 @@ You can also pass an associative array of attributes if you need to add a group 
 <span class="cp">?&gt;</span><span class="x"></span>
 </pre></div>
 
-<p>If we render it as a </p><ul>:
+<p>If we render it as a ul:</p>
 
-</ul><div class="highlight highlight-html"><pre><span class="nt">&lt;ul&gt;</span>
+<div class="highlight highlight-html"><pre><span class="nt">&lt;ul&gt;</span>
     ...
     <span class="nt">&lt;li</span> <span class="na">data-info=</span><span class="s">"test"</span><span class="nt">&gt;</span>
         <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://yourdomain.com/pages/about"</span><span class="nt">&gt;</span>About<span class="nt">&lt;/a&gt;</span>
@@ -734,20 +734,20 @@ You can also pass an associative array of data if you need to add a group of key
 
 <p>You can also access a data as if it's a property:</p>
 
-<pre><code>&lt;?php
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
 
-    //...
+    <span class="c1">//...</span>
 
-    $menu-&gt;add('Users', '#');
+    <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Users'</span><span class="p">,</span> <span class="s1">'#'</span><span class="p">);</span>
 
-    $menu-&gt;users-&gt;data('placement', 12);
+    <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">users</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'placement'</span><span class="p">,</span> <span class="mi">12</span><span class="p">);</span>
 
-    // you can refer to placement as if it's a public property of the item object
-    echo $menu-&gt;users-&gt;placement;    // Output : 12
+    <span class="c1">// you can refer to placement as if it's a public property of the item object</span>
+    <span class="k">echo</span> <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">users</span><span class="o">-&gt;</span><span class="na">placement</span><span class="p">;</span>    <span class="c1">// Output : 12</span>
 
-    //...
-?&gt;
-</code></pre>
+    <span class="c1">//...</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
 
 <p>Meta data don't do anything to the item and won't be rendered in HTML either. It is the developer who would decide what to do with them.</p>
 
@@ -791,38 +791,38 @@ You can also pass an associative array of data if you need to add a group of key
 
 <p>Passing a closure:</p>
 
-<pre><code>&lt;?php
-Menu::make('main', function($m){
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="nx">Menu</span><span class="o">::</span><span class="na">make</span><span class="p">(</span><span class="s1">'main'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$m</span><span class="p">){</span>
 
-    $m-&gt;add('About', '#')     -&gt;data('order', 2);
-    $m-&gt;add('Home', '#')      -&gt;data('order', 1);
-    $m-&gt;add('Services', '#')  -&gt;data('order', 3);
-    $m-&gt;add('Contact', '#')   -&gt;data('order', 5);
-    $m-&gt;add('Portfolio', '#') -&gt;data('order', 4);
+    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'About'</span><span class="p">,</span> <span class="s1">'#'</span><span class="p">)</span>     <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'order'</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Home'</span><span class="p">,</span> <span class="s1">'#'</span><span class="p">)</span>      <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'order'</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Services'</span><span class="p">,</span> <span class="s1">'#'</span><span class="p">)</span>  <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'order'</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Contact'</span><span class="p">,</span> <span class="s1">'#'</span><span class="p">)</span>   <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'order'</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Portfolio'</span><span class="p">,</span> <span class="s1">'#'</span><span class="p">)</span> <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'order'</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
 
-})-&gt;sortBy(function($items) {
-    // Your sorting algorithm here...
+<span class="p">})</span><span class="o">-&gt;</span><span class="na">sortBy</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="nv">$items</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Your sorting algorithm here...</span>
 
-});     
-?&gt;
-</code></pre>
+<span class="p">});</span>     
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
 
 <p>The closure receives the items collection as an array.</p>
 
 <p>You can also use available properties and meta data to sort the items:</p>
 
-<pre><code>&lt;?php
-Menu::make('main', function($m){
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="nx">Menu</span><span class="o">::</span><span class="na">make</span><span class="p">(</span><span class="s1">'main'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$m</span><span class="p">){</span>
 
-    $m-&gt;add('About', '#')     -&gt;data('order', 2);
-    $m-&gt;add('Home', '#')      -&gt;data('order', 1);
-    $m-&gt;add('Services', '#')  -&gt;data('order', 3);
-    $m-&gt;add('Contact', '#')   -&gt;data('order', 5);
-    $m-&gt;add('Portfolio', '#') -&gt;data('order', 4);
+    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'About'</span><span class="p">,</span> <span class="s1">'#'</span><span class="p">)</span>     <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'order'</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Home'</span><span class="p">,</span> <span class="s1">'#'</span><span class="p">)</span>      <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'order'</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Services'</span><span class="p">,</span> <span class="s1">'#'</span><span class="p">)</span>  <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'order'</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Contact'</span><span class="p">,</span> <span class="s1">'#'</span><span class="p">)</span>   <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'order'</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Portfolio'</span><span class="p">,</span> <span class="s1">'#'</span><span class="p">)</span> <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'order'</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
 
-})-&gt;sortBy('order');        
-?&gt;
-</code></pre>
+<span class="p">})</span><span class="o">-&gt;</span><span class="na">sortBy</span><span class="p">(</span><span class="s1">'order'</span><span class="p">);</span>        
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
 
 <p><code>sortBy()</code> also receives a second parameter which specifies the ordering direction: Ascending order(<code>asc</code>) and Descending Order(<code>dsc</code>). </p>
 
