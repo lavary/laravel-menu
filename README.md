@@ -177,7 +177,7 @@ Menu::make('MyNavBar', function($menu){
 ?>
 ```
 
-The output as <ul> would be:
+The output as `<ul>` would be:
 
 ```html
 <ul>
@@ -695,7 +695,7 @@ Menu::make('MyNavBar', function($menu){
 ?>
 ```
 
-If we render it as a <ul>:
+If we render it as a ul:
 
 ```html
 <ul>
