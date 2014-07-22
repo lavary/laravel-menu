@@ -14,8 +14,8 @@
     "license": "MIT License",
     "require": {
         "php": ">=5.3.0",
-        "illuminate/support": ">=4.0",
-        "illuminate/view": ">=4.0"
+        "illuminate/support": ">=4.2",
+        "illuminate/view": ">=4.2"
     },
     "autoload": {
 
