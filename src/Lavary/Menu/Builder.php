@@ -507,7 +507,7 @@ class Builder {
 		
 		foreach ($this->whereParent($parent) as $item)
 		{
-			$items  .= "<{$item_tag}{$this->attributes($item->attr)}>";
+			$items  .= "<{$item_tag}{$this->attributes($item->attr())}>";
 
 			if($item->link) {
 				$items .= "<a{$this->attributes($item->link->attr())} href=\"{$item->url()}\">{$item->title}</a>";
