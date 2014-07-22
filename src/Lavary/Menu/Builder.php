@@ -517,7 +517,7 @@ class Builder {
 					
 			if( $item->hasChildren() ) {
 				$items .= "<{$type}>";
-				$items .= $this->render($type, $item->id());
+				$items .= $this->render($type, $item->id;
 				$items .= "</{$type}>";
 			}
 			
