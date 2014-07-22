@@ -7,14 +7,14 @@ class Link {
 	 *
 	 * @var array
 	 */
-	protected $path;
+	protected $path = array();
 
 	/**
 	 * Link attributes
 	 *
 	 * @var array
 	 */
-	protected $attributes;
+	protected $attributes = array();
 	
 	/**
 	 * Creates a hyper link instance

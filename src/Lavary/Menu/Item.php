@@ -35,7 +35,7 @@ class Item {
 	 *
 	 * @var array
 	 */
-	public $divider;
+	public $divider = array();
 
 	/**
 	 * Parent Id of the menu item
@@ -49,7 +49,7 @@ class Item {
 	 *
 	 * @var array
 	 */
-	protected $data;
+	protected $data = array();
 	
 	/**
 	 * Attributes of menu item
