@@ -1,8 +1,10 @@
 # Laravel Menu
-[![Latest Unstable Version](https://poser.pugx.org/lavary/laravel-menu/v/unstable.svg)](https://packagist.org/packages/lavary/laravel-menu)
+[![Latest Stable Version](https://poser.pugx.org/lavary/laravel-menu/v/stable.svg)](https://packagist.org/packages/lavary/laravel-menu)
+[![Total Downloads](https://poser.pugx.org/lavary/laravel-menu/downloads.svg)](https://packagist.org/packages/lavary/laravel-menu)
+[![License](https://poser.pugx.org/lavary/laravel-menu/license.svg)](https://packagist.org/packages/lavary/laravel-menu)
 
 
-A Simple way to create menus in Laravel.
+A quick way to create menus in [Laravel 4.x](http://laravel.com/)
 
 
 ## Installation
@@ -12,7 +14,7 @@ In the `require` key of `composer.json` file add `lavary/laravel-menu": "dev-mas
 ```
 ...
 "require": {
-	"laravel/framework": "4.1.*",
+	"laravel/framework": "4.2.*",
 	"lavary/laravel-menu": "dev-master"
   }  
 ```
@@ -177,7 +179,7 @@ Menu::make('MyNavBar', function($menu){
 ?>
 ```
 
-The output as <ul> would be:
+The output as `<ul>` would be:
 
 ```html
 <ul>
@@ -428,7 +430,7 @@ Menu::make('MyNavBar', function($menu){
 
 You can mark an item as activated using `active()` on that item:
 
-```
+```php
 <?php
 	// ...
 	$menu->add('Home', '#')->active();
@@ -445,7 +447,7 @@ You can mark an item as activated using `active()` on that item:
 
 You can also add class 'active' to the anchor element instead of the wrapping element:
 
-```
+```php
 <?php
 	// ...
 	$menu->add('Home', '#')->link->active();
@@ -565,7 +567,7 @@ To insert items as plain text instead of hyper-links you can user `text()`:
 ```php
 <?php
     // ...
-    $menu->text('Item's Title', array('class' => 'some-class'));  
+    $menu->text('Item Title', array('class' => 'some-class'));  
     
     $menu->add('About', 'about');
     $menu->About->text('Another Plain Text Item')
@@ -695,7 +697,7 @@ Menu::make('MyNavBar', function($menu){
 ?>
 ```
 
-If we render it as a <ul>:
+If we render it as a ul:
 
 ```html
 <ul>
@@ -737,7 +739,7 @@ Menu::make('MyNavBar', function($menu){
 
 You can also access a data as if it's a property:
 
-```
+```php
 <?php
 	
 	//...
@@ -796,7 +798,7 @@ As result, `Users` item will be visible to those who has the `manage_users` perm
 
 Passing a closure:
 
-```
+```php
 <?php
 Menu::make('main', function($m){
 
@@ -817,7 +819,7 @@ The closure receives the items collection as an array.
 
 You can also use available properties and meta data to sort the items:
 
-```
+```php
 <?php
 Menu::make('main', function($m){
 
