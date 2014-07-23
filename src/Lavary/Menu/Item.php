@@ -56,7 +56,7 @@ class Item {
 	 *
 	 * @var array
 	 */
-	protected $attributes = array();
+	public $attributes = array();
 
 	/**
 	 * Creates a new Lavary\Menu\MenuItem instance.
@@ -192,6 +192,11 @@ class Item {
 	 * @return string
 	 */
 	public function url(){
+			
+			if( isset($this->link->href) ) {
+				
+				return $this->link->href;			
+			}
 			
 			return $this->builder->dispatch($this->link->path);
 	}

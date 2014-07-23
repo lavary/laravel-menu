@@ -10,11 +10,18 @@ class Link {
 	protected $path = array();
 
 	/**
+	 * Explicit href for the link
+	 *
+	 * @var string
+	 */
+	public $href;
+
+	/**
 	 * Link attributes
 	 *
 	 * @var array
 	 */
-	protected $attributes = array();
+	public $attributes = array();
 	
 	/**
 	 * Creates a hyper link instance
@@ -30,11 +37,23 @@ class Link {
 	/**
 	 * Make the anchor active
 	 *
-	 * @return Lavary\Menu\Item
+	 * @return Lavary\Menu\Link
 	 */
 	public function active(){
 	
 		$this->attributes['class'] = Builder::formatGroupClass(array('class' => 'active'), $this->attributes);
+		return $this;
+	}
+
+	/**
+	 * Set Anchor's href property
+	 *
+	 * @return Lavary\Menu\Link
+	 */
+	public function href($href){
+	
+		$this->href = $href;
+		
 		return $this;
 	}
 
@@ -86,9 +105,12 @@ class Link {
 	public function __get($prop) {
 		
 		if( property_exists($this, $prop) ) {
+			
 			return $this->$prop;
-		}
 
-		return false;
+		} 
+
+		return $this->attr($prop);
+		
 	}	
 }
