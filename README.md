@@ -427,7 +427,7 @@ Menu::make('MyNavBar', function($menu){
 
 ### Link's Href Property
 
-If you don't want to use the routing feature of `laravel-menu` or you dont't want the builder to prefix your URL with anything (Your host address for example), you can explicitly set your link's href value:
+If you don't want to use the routing feature of `laravel-menu` or you don't want the builder to prefix your URL with anything (Your host address for example), you can explicitly set your link's href property:
 
 ```
 <?php
