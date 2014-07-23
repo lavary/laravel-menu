@@ -193,7 +193,7 @@ class Item {
 	 */
 	public function url(){
 			
-			if( isset($this->link->href) ) {
+			if( $this->link->href ) {
 				
 				return $this->link->href;			
 			}
