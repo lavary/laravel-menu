@@ -14,7 +14,7 @@ class Link {
 	 *
 	 * @var string
 	 */
-	public $href;
+	protected $href;
 
 	/**
 	 * Link attributes
