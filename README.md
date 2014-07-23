@@ -245,8 +245,8 @@ You can also get an item by Id if needed:
 
 ## Magic Where Methods
 
-You can also search the items collection by magic where method.
-This method is consisted of `where` concatenated with a property (meta data, property)
+You can also search the items collection by magic where methods.
+These methods are consisted of a `where` concatenated with a property (object property or even meta data)
 
 For example to get an item with parent equal to 12, you can use it like so:
 
@@ -258,7 +258,7 @@ For example to get an item with parent equal to 12, you can use it like so:
 ?>
 ```
 
-For using this method with a meta data:
+Or to get item's with a specific meta data:
 
 ```php
 <?php
