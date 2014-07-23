@@ -420,11 +420,22 @@ Menu::make('MyNavBar', function($menu){
   $about->link->attr(array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'));
   
  // ...
- 
+  
 });
 ?>
 ```
 
+### Link's Href Property
+
+If you don't want the builder to prefix your URL with anything (Your host address for example), you can explicitly set your link's href value:
+
+```
+<?php
+// ...
+$menu->add('About')->link->href('#');
+// ...
+?>
+```
 
 ## Active Item
 
