@@ -31,7 +31,7 @@ class Menu {
 	 * @param  \Illuminate\View\Factory          $environment
 	 * @return void
 	 */
-	public function __construct($html, $url, $environment)
+	public function __construct(\Illuminate\Html\HtmlBuilder $html, \Illuminate\Routing\UrlGenerator $url, \Illuminate\View\Factory $environment)
 	{
 		$this->url  = $url;
 		$this->html = $html;
