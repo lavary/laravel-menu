@@ -55,7 +55,7 @@ class Menu {
 			call_user_func($callback, $menu);
 			
 			// We make the menu available in all views
-			\View::share($name, $menu);
+			$this->environment->share($name, $menu);
 
 			return $menu;
 		}
