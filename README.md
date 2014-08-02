@@ -4,7 +4,7 @@
 [![License](https://poser.pugx.org/lavary/laravel-menu/license.svg)](https://packagist.org/packages/lavary/laravel-menu)
 
 
-A quick way to create menus in [Laravel 4.x](http://laravel.com/)
+A quick way to create menus in [Laravel 4.x](http://laravel.com/).
 
 
 ## Installation
@@ -86,7 +86,7 @@ Menu::make('MyNavBar', function($menu){
 
 In the above example `Menu::make()` creates a menu named `MyNavBar` and makes `$myNavBar` object available in the views.
 
-This method accepts a callable inside which you can define your items by `add` method. `add` adds a new item to the menu and returns an instance of `Item`. `add()` receives two parameters, the first one is the item title and the second one is options.
+This method accepts a callable inside which you can define your items by `add()` method. `add()` adds a new item to the menu and returns an instance of `Item`. `add()` receives two parameters, the first one is the item title and the second one is options.
 
 *options* can be a simple string representing a URL or an associative array of options and HTML attributes which we'll discuss in a bit.
 
@@ -94,9 +94,7 @@ This method accepts a callable inside which you can define your items by `add` m
 
 **To render the menu in your view:**
 
-`Laravel-menu` provides three rendering methods out of the box. However you can create your own renderer using the right methods and attributes.
-
-As noted earlier, `laravel-menu` provides three rendering formats out of the box, asUl(), asOl() and asDiv(). We'll talk about these methods in detail later.
+`laravel-menu` provides three rendering methods out of the box: `asUl()`, `asOl()` and `asDiv()`. However you can create your own renderer using the right methods and attributes. We'll talk about these methods in detail later.
 
 ```html
 {{ $MyNavBar->asUl() }}
@@ -114,7 +112,7 @@ This will render your menu like so:
 ```
 And that's all about it!
 
-## Named Routs and Controller Actions
+## Named Routes and Controller Actions
 
 `laravel-menu` supports named routes or controller actions as item URL:
 
@@ -143,7 +141,7 @@ Menu::make('MyNavBar', function($menu){
 });
 ?>
 ```
-if you need to send some data to routes, URLs or controller actions as a query string, you can simply include them in an array along with the route, action or URL value:
+If you need to send some data to routes, URLs or controller actions as a query string, you can simply include them in an array along with the route, action or URL value:
 
 ```php
 <?php
@@ -369,7 +367,7 @@ It is also possible to set or get HTML attributes after the item has been define
 
 
 If you call `attr()` with one argument, it will return the attribute value for you.
-If you call it with two arguments, It will consider the first and second parameters as a key/value pair and sets the attribute. 
+If you call it with two arguments, it will consider the first and second parameters as a key/value pair and sets the attribute. 
 You can also pass an associative array of attributes if you need to add a group of HTML attributes in one step; Lastly if you call it without any arguments it will return all the attributes as an array.
 
 ```php
@@ -401,7 +399,7 @@ You can also pass an associative array of attributes if you need to add a group 
 ?>
 ```
 
-## Maniuplating Links
+## Manipulating Links
 
 All the HTML attributes will go to the wrapping tags(li, div, etc); You might encounter situations when you need to add some HTML attributes to `<a>` tags as well.
 
@@ -427,7 +425,7 @@ Menu::make('MyNavBar', function($menu){
 
 ### Link's Href Property
 
-If you don't want to use the routing feature of `laravel-menu` or you don't want the builder to prefix your URL with anything (Your host address for example), you can explicitly set your link's href property:
+If you don't want to use the routing feature of `laravel-menu` or you don't want the builder to prefix your URL with anything (your host address for example), you can explicitly set your link's href property:
 
 ```
 <?php
@@ -573,7 +571,7 @@ The above code will result:
 
 ## Plain Text Items
 
-To insert items as plain text instead of hyper-links you can user `text()`:
+To insert items as plain text instead of hyperlinks you can use `text()`:
 
 ```php
 <?php
@@ -772,10 +770,9 @@ Meta data don't do anything to the item and won't be rendered in HTML either. It
 ## Filtering Menu Items
 
 We can filter menu items by a using `filter()` method. 
-`Filter()` receives a closure which is defined by you.It then iterates over the items and run your closure on each of them.
+`filter()` receives a closure which is defined by you. It then iterates over the items and run your closure on each of them.
 
 You must return false for items you want to exclude and true for those you want to keep.
-
 
 Let's proceed with a real world scenario:
 
@@ -805,7 +802,7 @@ As result, `Users` item will be visible to those who has the `manage_users` perm
 
 ## Sorting the Items
 
-`laravel-menu` can sort the items based on a user defined function Or a key which can be item properties like id,parent,etc or meta data stored with each item.
+`laravel-menu` can sort the items based on a user defined function or a key which can be item properties like id, parent, etc or meta data stored with each item.
 
 Passing a closure:
 
@@ -844,7 +841,7 @@ Menu::make('main', function($m){
 ?>
 ```
 
-`sortBy()` also receives a second parameter which specifies the ordering direction: Ascending order(`asc`) and Descending Order(`dsc`). 
+`sortBy()` also receives a second parameter which specifies the ordering direction: Ascending Order(`asc`) and Descending Order(`dsc`). 
 
 Default value is `asc`.
 
@@ -907,7 +904,7 @@ Result:
   {{ $MenuName->asDiv() }}
 ```
 
-`asDiv()` method will render your menu as nested HTML divs. it also takes an optional parameter to define attributes for the parent `<div>` tag itself:
+`asDiv()` method will render your menu as nested HTML divs. It also takes an optional parameter to define attributes for the parent `<div>` tag itself:
 
 ```php
 {{ $MenuName->asDiv( array('class' => 'awsome-div') ) }}
@@ -1000,9 +997,6 @@ Let's describe what we did above, In `custom-menus.blade.php` we put whatever HT
 In `custom-menu-items.blade.php` we ran a `foreach` loop and called the file recursively in case the current item had any children.
 
 To put the rendered menu in your application template, you can simply include `custom-menu` view in your master layout.
-
-I've prepared a tutorial about embedding several menu objects in a bootstrap navbar in case somebody is interested.
-You can read all about it [here](https://gist.github.com/lavary/c9da317446e2e3b32779).
 
 ## If You Need Help
 
