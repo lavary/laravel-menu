@@ -405,7 +405,7 @@ All the HTML attributes will go to the wrapping tags(li, div, etc); You might en
 
 Each `Item` instance has an attribute which stores an instance of `Link` object. This object is provided for you to manipulate `<a>` tags.
 
-Just like each item, `Link` also has an `attr()` method which works exactly like item's:
+Just like each item, `Link` also has an `attr()` method which functions exactly like item's:
 
 ```php
 <?php
@@ -682,7 +682,7 @@ This will generate:
 
 ## Nested Groups
 
-Laravel Menu supports nested grouping feature as well.  grouA menup merges its own attribute with its parent group then shares them between its wrapped items:
+Laravel Menu supports nested grouping feature as well. A menu group merges its own attribute with its parent group then shares them between its wrapped items:
 
 ```php
 <?php
