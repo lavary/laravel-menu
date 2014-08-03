@@ -503,6 +503,7 @@ class Builder {
 	public function render($type = 'ul', $parent = null)
 	{
 		$items = '';
+		
 		$item_tag = in_array($type, array('ul', 'ol')) ? 'li' : $type;
 		
 		foreach ($this->whereParent($parent) as $item)

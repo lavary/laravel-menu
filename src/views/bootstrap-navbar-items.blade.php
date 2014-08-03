@@ -1,5 +1,5 @@
 @foreach($items as $item)
-  <li@lm-attrs($item) @if($item->hasChildren()) class =      "   dropdown good yes " data-model = " nice-one     " @endif @lm-endattrs>
+  <li@lm-attrs($item) @if($item->hasChildren())class ="dropdown"@endif @lm-endattrs>
       @if($item->link)<a{{$item->builder->attributes($item->link->attr())}} href="{{ $item->url() }}" @if($item->hasChildren()) class="dropdown-toggle" data-toggle="dropdown" @endif>
         {{ $item->title }}
         @if($item->hasChildren()) <b class="caret"></b> @endif
