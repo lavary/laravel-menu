@@ -19,6 +19,9 @@ class ServiceProvider extends BaseServiceProvider {
 	public function boot()
 	{
 		$this->package('lavary/laravel-menu');
+
+		// Extending Blade engine
+		require_once('Extensions/BladeExtension.php');
 	}
 
 	/**
