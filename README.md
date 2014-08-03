@@ -950,7 +950,7 @@ Laravel Menu provides a parital view out of the box which generates menu items i
 
 You can access the partial view using `Config`.
 
-All you need to do is to pass the root level items to the view:
+All you need to do is to pass the root level items to the partial view:
 
 ```
 {{{...}}}
