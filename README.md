@@ -1076,7 +1076,7 @@ To put the rendered menu in your application template, you can simply include `c
 
 ## Blade Control Structure
 
-You might encounter situations when some of your HTML properties are inside your view instead of being defined when adding the item. Hoever you will need to merge these static attributes with your Item's attributes:
+You might encounter situations when some of your HTML properties are explicitly written inside your view instead of dynamically being defined when adding the item; However you will need to merge these static attributes with your Item's attributes.
 
 ```
 @foreach($items as $item)
@@ -1136,4 +1136,4 @@ Please submit all issues and questions using GitHub issues and I will try to hel
 
 ## License
 
-*Laravel-Menu* is free software distributed under the terms of the MIT license
+*Laravel-Menu* is free software distributed under the terms of the MIT license.
