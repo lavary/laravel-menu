@@ -1040,7 +1040,7 @@ Menu::make('MyNavBar', function($menu){
 In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-items.blade.php`.
 
 **custom-menu.blade.php**
-```html
+```
 <nav class="navbar">
   <ul class="horizontal-navbar">
     @include('custom-menu-items', array('items', $MyNavBar->roots()))
@@ -1049,7 +1049,7 @@ In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-i
 ```
 
 **custom-menu-items.blade.php**
-```html
+```
 @foreach($items as $item)
   <li @if($item->hasChildren()) class="dropdown" @endif>
       <a href="{{ $item->url }}">{{ $item->title }} </a>
@@ -1078,7 +1078,7 @@ To put the rendered menu in your application template, you can simply include `c
 
 You might encounter situations when some of your HTML properties are inside your view instead of being defined when adding the item. Hoever you will need to merge these static attributes with your Item's attributes:
 
-```html
+```
 @foreach($items as $item)
   <li @if($item->hasChildren()) class="dropdown" @endif>
       <a href="{{ $item->url }}">{{ $item->title }} </a>
@@ -1104,9 +1104,9 @@ $menu->add('Dropdown', array('class' => 'item item-1', 'id' => 'my-item'));
 
 The view:
 
-```html
+```
 @foreach($items as $item)
-  <li @lm-attrs($item) @if($item->hasChildren()) class="dropdown" data-test="test" @endif  @lm-endattrs>
+  <li@lm-attrs($item) @if($item->hasChildren()) class="dropdown" data-test="test" @endif  @lm-endattrs>
       <a href="{{ $item->url }}">{{ $item->title }} </a>
       @if($item->hasChildren())
         <ul class="dropdown-menu">
