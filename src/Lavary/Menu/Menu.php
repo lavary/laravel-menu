@@ -1,6 +1,15 @@
 <?php namespace Lavary\Menu;
 
+use Illuminate\Support\Collection as Collection;
+
 class Menu {
+
+	/**
+	* Menu collection
+	*
+	* @var Illuminate\Support\Collection
+	*/
+	public $collection;
 
 	/**
 	* HTML generator dependency
@@ -33,6 +42,7 @@ class Menu {
 	 */
 	public function __construct($html, $url, $environment)
 	{
+		$this->collection = new Collection();
 		$this->url  = $url;
 		$this->html = $html;
 		$this->environment = $environment;
@@ -52,13 +62,29 @@ class Menu {
 		{
 			$menu = new Builder($this->html, $this->url, $this->environment);
 			
+			// Registering the items
 			call_user_func($callback, $menu);
 			
-			// We make the menu available in all views
+			// Storing each menu instance in the collection
+			$this->collection->put($name, $menu);
+			
+			// Make the instance available in all views
 			\View::share($name, $menu);
 
 			return $menu;
 		}
+	}
+
+	/**
+	 * Return Menu instance from the collection by key
+	 *
+	 * @param  string  $key
+	 * @return \Lavary\Menu\Item
+	 */
+	public function get($key) {
+		
+		return $this->collection->get($key);
+
 	}
 
 }
