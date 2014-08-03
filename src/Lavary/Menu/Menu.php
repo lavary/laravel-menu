@@ -9,7 +9,7 @@ class Menu {
 	*
 	* @var Illuminate\Support\Collection
 	*/
-	public $collection;
+	protected $collection;
 
 	/**
 	* HTML generator dependency
@@ -84,6 +84,18 @@ class Menu {
 	public function get($key) {
 		
 		return $this->collection->get($key);
+
+	}
+
+
+	/**
+	 * Return Menu collection 
+	 *
+	 * @return \Illuminate\Support\Collection
+	 */
+	public function getCollection() {
+		
+		return $this->collection;
 
 	}
 
