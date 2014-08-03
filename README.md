@@ -1010,7 +1010,7 @@ As noted earlier you can create your own rendering formats.
 If you'd like to render your menu(s) according to your own design, you should create two views.
 
 * `View-1`  This view contains all the HTML codes like `nav` or `ul` or `div` tags wrapping your menu items.
-* `View-2`  This view is responsible for rendering menu items (it is going to be included in `View-1`.)
+* `View-2`  This view is actually a partial view responsible for rendering menu items (it is going to be included in `View-1`.)
 
 
 The reason we use two view files here is that `View-2` calls itself recursively to render the items to the deepest level required in multi-level menus.
@@ -1074,8 +1074,60 @@ In `custom-menu-items.blade.php` we ran a `foreach` loop and called the file rec
 
 To put the rendered menu in your application template, you can simply include `custom-menu` view in your master layout.
 
-I've prepared a tutorial about embedding several menu objects in a bootstrap navbar in case somebody is interested.
-You can read all about it [here](https://gist.github.com/lavary/c9da317446e2e3b32779).
+## Blade Control Structure
+
+You might encounter situations when some of your HTML properties are inside your view instead of being defined when adding the item. Hoever you will need to merge these static attributes with your Item's attributes:
+
+```html
+@foreach($items as $item)
+  <li @if($item->hasChildren()) class="dropdown" @endif>
+      <a href="{{ $item->url }}">{{ $item->title }} </a>
+      @if($item->hasChildren())
+        <ul class="dropdown-menu">
+              @include('custom-menu-items', array('items' => $item->children()))
+        </ul> 
+      @endif
+  </li>
+@endforeach
+```
+
+In the above snippet the `li` tag has class `dropdown` explicitly defined in your view. Laravel Menu provides a control structure which takes care of this for you.
+
+suppose the item has several attributes defined when being added to the menu:
+
+```php
+<?php
+// ...
+$menu->add('Dropdown', array('class' => 'item item-1', 'id' => 'my-item'));
+// ...
+```
+
+The view:
+
+```html
+@foreach($items as $item)
+  <li @lm-attrs($item) @if($item->hasChildren()) class="dropdown" data-test="test" @endif  @lm-endattrs>
+      <a href="{{ $item->url }}">{{ $item->title }} </a>
+      @if($item->hasChildren())
+        <ul class="dropdown-menu">
+              @include('custom-menu-items', array('items' => $item->children()))
+        </ul> 
+      @endif
+  </li>
+@endforeach
+```
+
+This control structure automatically merges the static HTML properties with the dynamically defined properties.
+
+Here's the result:
+
+```
+...
+<li class="item item-1 dropdown" id="my-item" data-test="test">...</li>
+...
+```
+
+
 
 ## If You Need Help
 
