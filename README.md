@@ -1080,7 +1080,7 @@ You might encounter situations when some of your HTML properties are inside your
 
 ```
 @foreach($items as $item)
-  <li @if($item->hasChildren()) class="dropdown" @endif>
+  <li @if($item->hasChildren()) class="dropdown" @endif data-test="test">
       <a href="{{ $item->url }}">{{ $item->title }} </a>
       @if($item->hasChildren())
         <ul class="dropdown-menu">
@@ -1091,9 +1091,9 @@ You might encounter situations when some of your HTML properties are inside your
 @endforeach
 ```
 
-In the above snippet the `li` tag has class `dropdown` explicitly defined in your view. Laravel Menu provides a control structure which takes care of this for you.
+In the above snippet the `li` tag has class `dropdown` and `data-test` property explicitly defined in the view; Laravel Menu provides a control structure which takes care of this.
 
-suppose the item has several attributes defined when being added to the menu:
+Suppose the item has also several attributes dynamically defined when being added:
 
 ```php
 <?php
@@ -1106,7 +1106,7 @@ The view:
 
 ```
 @foreach($items as $item)
-  <li@lm-attrs($item) @if($item->hasChildren()) class="dropdown" data-test="test" @endif  @lm-endattrs>
+  <li@lm-attrs($item) @if($item->hasChildren()) class="dropdown" @endif data-test="test" @lm-endattrs>
       <a href="{{ $item->url }}">{{ $item->title }} </a>
       @if($item->hasChildren())
         <ul class="dropdown-menu">
