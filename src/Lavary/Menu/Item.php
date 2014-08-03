@@ -77,12 +77,13 @@ class Item {
 		$this->attributes  = $this->builder->getAttributes($options); 
 		$this->parent      = (is_array($options) && isset($options['parent'])) ? $options['parent'] : null;
 		
+		
+		// Storing path options with each link instance.
 		if(!is_array($options)) {
 			
 			$path = array('url' => $options);
 		}
-		elseif( isset($options['plaintext']) && 
-				$options['plaintext'] === true ) {
+		elseif( isset($options['plaintext']) && $options['plaintext'] === true ) {
 			
 			$path = null;
 
@@ -94,10 +95,20 @@ class Item {
 		} 
 
 		if(!is_null($path)) {
+			
 			$path['prefix'] = $this->builder->getLastGroupPrefix();
 		}
 
+		
 		$this->link = $path ? new Link($path) : null;
+
+		// If the item's URL is the same as request URI, 
+		// activate the item and it's parent nodes too.
+		if( \Request::url() == $this->url() ) {
+
+			$this->activate();
+
+		} 
 
 	}
 
@@ -201,6 +212,7 @@ class Item {
 			return $this->builder->dispatch($this->link->path);
 	}
 
+
 	/**
 	 * Prepends text or html to the item
 	 *
@@ -246,6 +258,32 @@ class Item {
 	}
 
 	/**
+	 * Decide if the item should be active
+	 *
+	 */
+	public function activate( \Lavary\Menu\Item $item = null ){
+	
+		$item = is_null($item) ? $this : $item;
+		
+		
+		// Check to see which element should have class 'active' set.
+		if( \Config::get('laravel-menu::options.active_element') == 'item' ) {
+			
+			$item->active();
+
+		} else {
+			
+			$item->link->active();
+		}	
+		
+		// Moving up through the parent nodes and activate them too.
+		if( $item->parent ) {
+		
+			$this->activate( $this->builder->whereId( $item->parent )->first() );
+		}
+	}
+
+	/**
 	 * Make the item active
 	 *
 	 * @return Lavary\Menu\Item
@@ -285,7 +323,7 @@ class Item {
 	}
 
 	/**
-	 * Search in meta data if an attribute doesn't exist
+	 * Search in meta data if a property doesn't exist otherwise return the property
 	 *
 	 * @param  string
 	 * @return string
