@@ -84,7 +84,7 @@ Menu::make('MyNavBar', function($menu){
 
 **Attention** `$MyNavBar` is just a hypothetical name I used in these examples; You can name your menus whatever you please.
 
-In the above example `Menu::make()` creates a menu named `MyNavBar` and makes `$myNavBar` object available in the views.
+In the above example `Menu::make()` creates a menu named `MyNavBar`, Adds the menu instance to the `Menu::collection` and finally makes `$myNavBar` object available in the views.
 
 This method accepts a callable inside which you can define your items by `add` method. `add` adds a new item to the menu and returns an instance of `Item`. `add()` receives two parameters, the first one is the item title and the second one is options.
 
@@ -100,6 +100,14 @@ As noted earlier, `laravel-menu` provides three rendering formats out of the box
 
 ```html
 {{ $MyNavBar->asUl() }}
+```
+
+You can also access the menu via the menu collection:
+
+```php
+<?php
+{{ Menu::get('MyNavBar')->asUl() }}
+?>
 ```
 
 This will render your menu like so:
@@ -471,6 +479,18 @@ You can also add class 'active' to the anchor element instead of the wrapping el
 	*/
 	
 ?>
+```
+
+Laravel Menu does this for you automatically according to the current **URI** the time you reigster the item.
+
+You can also choose the element to be activated (item or the link) in `options.php` which resides in package's config directory:
+
+```php
+
+	// ...
+	'active_element' => 'item',    // item|link
+	// ...
+
 ```
 
 ## Inserting a Separator
@@ -926,6 +946,54 @@ Result:
 
 * **Menu as Bootstrap 3 Navbar**
 
+Laravel Menu provides a parital view out of the box which generates menu items in a bootstrap friendly format which you can **include** in your Bootstrap based navigation bars:
+
+You can access the partial view using `Config`:
+
+```
+@include(Config::get('laravel-menu::views.bootstrap-items')
+```
+
+This how your Bootstrap code is going to look like:
+
+```php
+
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Brand</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+       @include(Config::get('laravel-menu::views.bootstrap-items'), array('items' => $mainNav->roots()))
+
+      </ul>
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+
+        @include(Config::get('laravel-menu::views.bootstrap-items'), array('items' => $loginNav->roots()))
+
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<?php
+```
 
 I've prepared a tutorial about embedding several menu objects in a bootstrap navbar in case somebody is interested.
 You can read all about it [here](https://gist.github.com/lavary/c9da317446e2e3b32779).
