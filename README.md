@@ -84,7 +84,7 @@ Menu::make('MyNavBar', function($menu){
 
 **Attention** `$MyNavBar` is just a hypothetical name I used in these examples; You can name your menus whatever you please.
 
-In the above example `Menu::make()` creates a menu named `MyNavBar` and makes `$myNavBar` object available in the views.
+In the above example `Menu::make()` creates a menu named `MyNavBar`, Adds the menu instance to the `Menu::collection` and finally makes `$myNavBar` object available in the views.
 
 This method accepts a callable inside which you can define your items by `add` method. `add` adds a new item to the menu and returns an instance of `Item`. `add()` receives two parameters, the first one is the item title and the second one is options.
 
@@ -100,6 +100,14 @@ As noted earlier, `laravel-menu` provides three rendering formats out of the box
 
 ```html
 {{ $MyNavBar->asUl() }}
+```
+
+You can also access the menu via the menu collection:
+
+```php
+<?php
+{{ Menu::get('MyNavBar')->asUl() }}
+?>
 ```
 
 This will render your menu like so:
@@ -471,6 +479,18 @@ You can also add class 'active' to the anchor element instead of the wrapping el
 	*/
 	
 ?>
+```
+
+Laravel Menu does this for you automatically according to the current **URI** the time you reigster the item.
+
+You can also choose the element to be activated (item or the link) in `options.php` which resides in package's config directory:
+
+```php
+
+	// ...
+	'active_element' => 'item',    // item|link
+	// ...
+
 ```
 
 ## Inserting a Separator
@@ -926,6 +946,59 @@ Result:
 
 * **Menu as Bootstrap 3 Navbar**
 
+Laravel Menu provides a parital view out of the box which generates menu items in a bootstrap friendly format which you can **include** in your Bootstrap based navigation bars:
+
+You can access the partial view using `Config`.
+
+All you need to do is to pass the root level items to the partial view:
+
+```
+{{{...}}}
+
+@include(Config::get('laravel-menu::views.bootstrap-items'), array('items' => $mainNav->roots()))
+
+{{{...}}}
+
+```
+
+This how your Bootstrap code is going to look like:
+
+```html
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Brand</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+       @include(Config::get('laravel-menu::views.bootstrap-items'), array('items' => $mainNav->roots()))
+
+      </ul>
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+
+        @include(Config::get('laravel-menu::views.bootstrap-items'), array('items' => $loginNav->roots()))
+
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+```
 
 I've prepared a tutorial about embedding several menu objects in a bootstrap navbar in case somebody is interested.
 You can read all about it [here](https://gist.github.com/lavary/c9da317446e2e3b32779).
@@ -937,7 +1010,7 @@ As noted earlier you can create your own rendering formats.
 If you'd like to render your menu(s) according to your own design, you should create two views.
 
 * `View-1`  This view contains all the HTML codes like `nav` or `ul` or `div` tags wrapping your menu items.
-* `View-2`  This view is responsible for rendering menu items (it is going to be included in `View-1`.)
+* `View-2`  This view is actually a partial view responsible for rendering menu items (it is going to be included in `View-1`.)
 
 
 The reason we use two view files here is that `View-2` calls itself recursively to render the items to the deepest level required in multi-level menus.
@@ -967,7 +1040,7 @@ Menu::make('MyNavBar', function($menu){
 In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-items.blade.php`.
 
 **custom-menu.blade.php**
-```html
+```
 <nav class="navbar">
   <ul class="horizontal-navbar">
     @include('custom-menu-items', array('items', $MyNavBar->roots()))
@@ -976,7 +1049,7 @@ In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-i
 ```
 
 **custom-menu-items.blade.php**
-```html
+```
 @foreach($items as $item)
   <li @if($item->hasChildren()) class="dropdown" @endif>
       <a href="{{ $item->url }}">{{ $item->title }} </a>
@@ -1001,8 +1074,60 @@ In `custom-menu-items.blade.php` we ran a `foreach` loop and called the file rec
 
 To put the rendered menu in your application template, you can simply include `custom-menu` view in your master layout.
 
-I've prepared a tutorial about embedding several menu objects in a bootstrap navbar in case somebody is interested.
-You can read all about it [here](https://gist.github.com/lavary/c9da317446e2e3b32779).
+## Blade Control Structure
+
+You might encounter situations when some of your HTML properties are explicitly written inside your view instead of dynamically being defined when adding the item; However you will need to merge these static attributes with your Item's attributes.
+
+```
+@foreach($items as $item)
+  <li @if($item->hasChildren()) class="dropdown" @endif data-test="test">
+      <a href="{{ $item->url }}">{{ $item->title }} </a>
+      @if($item->hasChildren())
+        <ul class="dropdown-menu">
+              @include('custom-menu-items', array('items' => $item->children()))
+        </ul> 
+      @endif
+  </li>
+@endforeach
+```
+
+In the above snippet the `li` tag has class `dropdown` and `data-test` property explicitly defined in the view; Laravel Menu provides a control structure which takes care of this.
+
+Suppose the item has also several attributes dynamically defined when being added:
+
+```php
+<?php
+// ...
+$menu->add('Dropdown', array('class' => 'item item-1', 'id' => 'my-item'));
+// ...
+```
+
+The view:
+
+```
+@foreach($items as $item)
+  <li@lm-attrs($item) @if($item->hasChildren()) class="dropdown" @endif data-test="test" @lm-endattrs>
+      <a href="{{ $item->url }}">{{ $item->title }} </a>
+      @if($item->hasChildren())
+        <ul class="dropdown-menu">
+              @include('custom-menu-items', array('items' => $item->children()))
+        </ul> 
+      @endif
+  </li>
+@endforeach
+```
+
+This control structure automatically merges the static HTML properties with the dynamically defined properties.
+
+Here's the result:
+
+```
+...
+<li class="item item-1 dropdown" id="my-item" data-test="test">...</li>
+...
+```
+
+
 
 ## If You Need Help
 
@@ -1011,4 +1136,4 @@ Please submit all issues and questions using GitHub issues and I will try to hel
 
 ## License
 
-*Laravel-Menu* is free software distributed under the terms of the MIT license
+*Laravel-Menu* is free software distributed under the terms of the MIT license.
