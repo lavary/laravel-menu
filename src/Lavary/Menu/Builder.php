@@ -585,6 +585,24 @@ class Builder {
 		return $this->html->attributes($attributes);
 	}
 
+	/**
+	 * Merge item's attributes with a static string of attributes
+	 *
+	 * @param string $attributes
+	 *
+	 * @return string
+	 */
+	public function mergeStatic($new = null, array $old = array()) {
+		
+		// Parses the string into an associative array
+		parse_str(preg_replace('/\s*([\w-]+)\s*=\s*"([^"]+)"/', '$1=$2&',  $new), $attrs);
+
+        // Merge classes
+		$attrs['class']  = self::formatGroupClass($attrs, $old);
+
+		// Merging new and old array and parse it as a string
+		return $this->attributes(array_merge_recursive(array_except($old, array('class')), $attrs));
+	}
 
 	/**
 	 * Search the menu based on an attribute
