@@ -948,16 +948,22 @@ Result:
 
 Laravel Menu provides a parital view out of the box which generates menu items in a bootstrap friendly format which you can **include** in your Bootstrap based navigation bars:
 
-You can access the partial view using `Config`:
+You can access the partial view using `Config`.
+
+All you need to do is to pass the root level items to the view:
 
 ```
-@include(Config::get('laravel-menu::views.bootstrap-items')
+{{{...}}}
+
+@include(Config::get('laravel-menu::views.bootstrap-items'), array('items' => $mainNav->roots()))
+
+{{{...}}}
+
 ```
 
 This how your Bootstrap code is going to look like:
 
-```php
-
+```html
 <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -992,7 +998,6 @@ This how your Bootstrap code is going to look like:
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-<?php
 ```
 
 I've prepared a tutorial about embedding several menu objects in a bootstrap navbar in case somebody is interested.
