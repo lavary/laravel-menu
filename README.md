@@ -554,7 +554,7 @@ You can insert a separator after each item using `divide()` method:
 ## Adding Content to Item's Title
 
 
-You can `append` or `prepend` HTML or plain text to each item's title after it is defined:
+You can `append` or `prepend` HTML or plain-text to each item's title after it is defined:
 
 ```php
 <?php
@@ -589,9 +589,9 @@ The above code will result:
 
 ```
 
-## Plain Text Items
+## Raw Items
 
-To insert items as plain text instead of hyper-links you can user `text()`:
+To insert items as plain text instead of hyper-links you can user `raw()`. You can also use `text()` which is an alias of `raw():`
 
 ```php
 <?php
@@ -599,7 +599,7 @@ To insert items as plain text instead of hyper-links you can user `text()`:
     $menu->text('Item Title', array('class' => 'some-class'));  
     
     $menu->add('About', 'about');
-    $menu->About->text('Another Plain Text Item')
+    $menu->About->raw('Another Plain Text Item')
     // ...
     
     /* Output as an unordered list:
