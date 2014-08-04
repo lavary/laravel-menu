@@ -30,51 +30,24 @@ class Builder {
 	*
 	* @var array
 	*/
-	protected $reserved = array('route', 'action', 'url', 'prefix', 'parent', 'secure', 'plaintext');
+	protected $reserved = array('route', 'action', 'url', 'prefix', 'parent', 'secure', 'raw');
 
 	/**
 	* The last inserted item's id
 	*
 	* @var int
 	*/
-	protected   $last_id;
-	
-	/**
-	* HTML generator
-	*
-	* @var Illuminate\Html\HtmlBuilder
-	*/
-	protected $html;
-	
-	/**
-	* The URL generator
-	*
-	* @var Illuminate\Routing\UrlGenerator
-	*/
-	protected $url;	
-	
-	/**
-	* The Environment instance
-	*
-	* @var Illuminate\View\Factory
-	*/
-	protected $environment;
+	protected $last_id;
 	
 	/**
 	 * Initializing the menu manager
 	 *
-	 * @param  \Illuminate\Html\HtmlBuilder      $html
-	 * @param  \Illuminate\Routing\UrlGenerator  $url
-	 * @param  \Illuminate\View\Factory          $environment
 	 * @return void
 	 */
-	public function __construct($html, $url, $environment)
+	public function __construct()
 	{
-		$this->items       = new Collection;
-		
-		$this->url         = $url;
-		$this->html        = $html;
-		$this->environment = $environment;
+		// creating a laravel collection ofr storing enu items
+		$this->items = new Collection;
 	}
 
 	/**
@@ -108,13 +81,13 @@ class Builder {
 	}
 
 	/**
-	 * Add a plain text item
+	 * Add raw content
 	 *
 	 * @return Lavary\Menu\Item
 	 */
-	public function text($title, array $options = array())
+	public function raw($title, array $options = array())
 	{
-		$options['plaintext'] = true;
+		$options['raw'] = true;
 		
 		return $this->add($title, $options);
 	}
@@ -301,7 +274,7 @@ class Builder {
 	 * @param  array   $options
 	 * @return string
 	 */
-	public function getAttributes($options = array())
+	public function extractAttributes($options = array())
 	{
 		if(is_array($options)) {
 			
@@ -368,7 +341,7 @@ class Builder {
 
 			}
 
-			return $this->url->to($prefix . '/' . $url[0], array_slice($url, 1), $secure);
+			return \URL::to($prefix . '/' . $url[0], array_slice($url, 1), $secure);
 		}
 		
 		if( self::isAbs($url) ){
@@ -376,7 +349,7 @@ class Builder {
 			return $url;
 
 		}
-		return $this->url->to($prefix . '/' . $url, array(), $secure);
+		return \URL::to($prefix . '/' . $url, array(), $secure);
 	}
 
 	/**
@@ -400,10 +373,10 @@ class Builder {
 	{
 		if (is_array($options))
 		{
-			return $this->url->route($options[0], array_slice($options, 1));
+			return \URL::route($options[0], array_slice($options, 1));
 		}
 
-		return $this->url->route($options);
+		return \URL::route($options);
 	}
 
 	/**
@@ -416,10 +389,10 @@ class Builder {
 	{
 		if (is_array($options))
 		{
-			return $this->url->action($options[0], array_slice($options, 1));
+			return \URL::action($options[0], array_slice($options, 1));
 		}
 
-		return $this->url->action($options);
+		return \URL::action($options);
 	}
 
 	/**
@@ -539,7 +512,7 @@ class Builder {
 	 */
 	public function asUl($attributes = array())
 	{
-		return "<ul{$this->html->attributes($attributes)}>{$this->render('ul')}</ul>";
+		return "<ul{$this->attributes($attributes)}>{$this->render('ul')}</ul>";
 	}
 
 	/**
@@ -549,7 +522,7 @@ class Builder {
 	 */
 	public function asOl($attributes = array())
 	{
-		return "<ol{$this->html->attributes($attributes)}>{$this->render('ol')}</ol>";
+		return "<ol{$this->attributes($attributes)}>{$this->render('ol')}</ol>";
 	}
 
 	/**
@@ -559,19 +532,7 @@ class Builder {
 	 */
 	public function asDiv($attributes = array())
 	{
-		return "<div{$this->html->attributes($attributes)}>{$this->render('div')}</div>";
-	}
-
-	/**
-	 * Returns the menu as view
-	 *
-	 * @param string $view
-	 * @param string $menu
-	 * @return string
-	 */
-	public function asView($view, $name = 'menu')
-	{
-		return $this->environment->make($view, array($name => $this));
+		return "<div{$this->attributes($attributes)}>{$this->render('div')}</div>";
 	}
 
 	/**
@@ -583,7 +544,7 @@ class Builder {
 	 */
 	public function attributes($attributes = array()) {
 
-		return $this->html->attributes($attributes);
+		return \HTML::attributes($attributes);
 	}
 
 	/**
@@ -593,7 +554,7 @@ class Builder {
 	 *
 	 * @return string
 	 */
-	public function mergeStatic($new = null, array $old = array()) {
+	public static function mergeStatic($new = null, array $old = array()) {
 		
 		// Parses the string into an associative array
 		parse_str(preg_replace('/\s*([\w-]+)\s*=\s*"([^"]+)"/', '$1=$2&',  $new), $attrs);
@@ -602,7 +563,7 @@ class Builder {
 		$attrs['class']  = self::formatGroupClass($attrs, $old);
 
 		// Merging new and old array and parse it as a string
-		return $this->attributes(array_merge_recursive(array_except($old, array('class')), $attrs));
+		return \HTML::attributes(array_merge_recursive(array_except($old, array('class')), $attrs));
 	}
 
 	/**

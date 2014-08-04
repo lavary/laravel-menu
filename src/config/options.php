@@ -1,5 +1,7 @@
 <?php
 
 return array(
-	'active_element' => 'item',    // item|link
+	'auto_activate'    => true,
+	'activate_parents' => true,
+	'active_element'   => 'item',    // item|link
 );

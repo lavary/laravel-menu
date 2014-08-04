@@ -13,9 +13,9 @@
 
 Blade::extend( function($view, $compiler){
 
-    $pattern = '/(\s*)@lm-attrs\s*\((\$[\w]+)\)/';
+    $pattern = '/(\s*)@lm-attrs\s*\((\$[^)]+)\)/';
     return preg_replace($pattern, 
-                       '$1<?php $MenuItem = $2; ob_start(); ?>',
+                       '$1<?php $lm_attrs = $2->attr(); ob_start(); ?>',
                         $view);
 });
 
@@ -35,6 +35,6 @@ Blade::extend( function($view, $compiler){
 
     $pattern = $compiler->CreatePlainMatcher('lm-endattrs');
     return preg_replace($pattern, 
-			           '$1<?php echo $MenuItem->builder->mergeStatic(ob_get_clean(), $MenuItem->attr()); ?>$2', 
+			           '$1<?php echo \Lavary\Menu\Builder::mergeStatic(ob_get_clean(), $lm_attrs); ?>$2', 
 			            $view);
 });

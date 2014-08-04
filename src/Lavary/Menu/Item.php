@@ -74,7 +74,7 @@ class Item {
 		$this->id          = $id;
 		$this->title       = $title;
 		$this->nickname    = camel_case($title);
-		$this->attributes  = $this->builder->getAttributes($options); 
+		$this->attributes  = $this->builder->extractAttributes($options); 
 		$this->parent      = (is_array($options) && isset($options['parent'])) ? $options['parent'] : null;
 		
 		
@@ -83,10 +83,9 @@ class Item {
 			
 			$path = array('url' => $options);
 		}
-		elseif( isset($options['plaintext']) && $options['plaintext'] === true ) {
+		elseif( isset($options['raw']) && $options['raw'] == true ) {
 			
 			$path = null;
-
 		}
 		else {	
 			
@@ -140,11 +139,11 @@ class Item {
 	 *
 	 * @return Lavary\Menu\Item
 	 */
-	public function text($title, array $options = array())
+	public function raw($title, array $options = array())
 	{
 		$options['parent'] = $this->id;
 		
-		return $this->builder->text($title, $options);
+		return $this->builder->raw($title, $options);
 	}
 
 	/**
@@ -207,12 +206,19 @@ class Item {
 	 */
 	public function url(){
 			
-			if( $this->link->href ) {
+			// If the item has a link proceed:
+			if( !is_null( $this->link ) ) {
 				
-				return $this->link->href;			
+				// If item's link has `href` property explcitly defined
+				// return it
+				if( $this->link->href ) {
+					
+					return $this->link->href;			
+				}
+				
+				// Otherwise dispatch to the proper address
+				return $this->builder->dispatch($this->link->path);
 			}
-			
-			return $this->builder->dispatch($this->link->path);
 	}
 
 

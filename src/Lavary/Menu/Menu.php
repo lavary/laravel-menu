@@ -12,40 +12,12 @@ class Menu {
 	protected $collection;
 
 	/**
-	* HTML generator dependency
-	*
-	* @var Illuminate\Html\HtmlBuilder
-	*/
-	public $html;
-	
-	/**
-	* The URL generator dependency
-	*
-	* @var Illuminate\Routing\UrlGenerator
-	*/
-	protected $url;	
-	
-	/**
-	* The Environment instance
-	*
-	* @var Illuminate\View\Factory
-	*/
-	private $environment;
-
-	/**
 	 * Initializing the menu builder
-	 *
-	 * @param  \Illuminate\Html\HtmlBuilder      $html
-	 * @param  \Illuminate\Routing\UrlGenerator  $url
-	 * @param  \Illuminate\View\Factory          $environment
-	 * @return void
 	 */
-	public function __construct($html, $url, $environment)
+	public function __construct()
 	{
+		// creating a collection for storing menus
 		$this->collection = new Collection();
-		$this->url  = $url;
-		$this->html = $html;
-		$this->environment = $environment;
 	}
 
 
@@ -60,7 +32,7 @@ class Menu {
 	{
 		if(is_callable($callback))
 		{
-			$menu = new Builder($this->html, $this->url, $this->environment);
+			$menu = new Builder();
 			
 			// Registering the items
 			call_user_func($callback, $menu);

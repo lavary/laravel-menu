@@ -33,8 +33,7 @@ class ServiceProvider extends BaseServiceProvider {
 	{
 		 $this->app['menu'] = $this->app->share(function($app){
 
-		 		return new Menu($app['html'], $app['url'], $app['view']);
-		 		
+		 		return new Menu();
 		 });
            
 	}
