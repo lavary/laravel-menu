@@ -591,7 +591,7 @@ The above code will result:
 
 ## Raw Items
 
-To insert items as plain text instead of hyper-links you can user `raw()`. You can also use `text()` which is an alias of `raw():`
+To insert items as plain text instead of hyper-links you can use `raw()`:
 
 ```php
 <?php
