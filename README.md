@@ -946,7 +946,7 @@ Result:
 
 Laravel Menu provides a parital view out of the box which generates menu items in a bootstrap friendly format which you can **include** in your Bootstrap based navigation bars:
 
-You can access the partial view using `Config`.
+You can access the partial view via `Config::get('laravel-menu::views.bootstrap-items')`.
 
 All you need to do is to pass the root level items to the partial view:
 
@@ -959,7 +959,7 @@ All you need to do is to pass the root level items to the partial view:
 
 ```
 
-This how your Bootstrap code is going to look like:
+This is how your Bootstrap code is going to look like:
 
 ```html
 <nav class="navbar navbar-default" role="navigation">
@@ -1072,7 +1072,7 @@ In `custom-menu-items.blade.php` we ran a `foreach` loop and called the file rec
 
 To put the rendered menu in your application template, you can simply include `custom-menu` view in your master layout.
 
-## Blade Control Structure
+## Control Structures For Blade
 
 You might encounter situations when some of your HTML properties are explicitly written inside your view instead of dynamically being defined when adding the item; However you will need to merge these static attributes with your Item's attributes.
 
