@@ -881,13 +881,13 @@ Several rendering formats are available out of the box:
 `asUl()` will render your menu in an unordered list. it also takes an optional parameter to define attributes for the `<ul>` tag itself:
 
 ```php
-{{ $MenuName->asUl( array('class' => 'awsome-ul') ) }}
+{{ $MenuName->asUl( array('class' => 'awesome-ul') ) }}
 ```
 
 Result:
 
 ```html
-<ul class="awsome-ul">
+<ul class="awesome-ul">
   <li><a href="http://yourdomain.com">Home</a></li>
   <li><a href="http://yourdomain.com/about">About</a></li>
   <li><a href="http://yourdomain.com/services">Services</a></li>
@@ -905,13 +905,13 @@ Result:
 `asOl()` method will render your menu in an ordered list. it also takes an optional parameter to define attributes for the `<ol>` tag itself:
 
 ```php
-{{ $MenuName->asOl( array('class' => 'awsome-ol') ) }}
+{{ $MenuName->asOl( array('class' => 'awesome-ol') ) }}
 ```
 
 Result:
 
 ```html
-<ol class="awsome-ol">
+<ol class="awesome-ol">
   <li><a href="http://yourdomain.com">Home</a></li>
   <li><a href="http://yourdomain.com/about">About</a></li>
   <li><a href="http://yourdomain.com/services">Services</a></li>
@@ -929,13 +929,13 @@ Result:
 `asDiv()` method will render your menu as nested HTML divs. it also takes an optional parameter to define attributes for the parent `<div>` tag itself:
 
 ```php
-{{ $MenuName->asDiv( array('class' => 'awsome-div') ) }}
+{{ $MenuName->asDiv( array('class' => 'awesome-div') ) }}
 ```
 
 Result:
 
 ```html
-<div class="awsome-div">
+<div class="awesome-div">
   <div><a href="http://yourdomain.com">Home</a></div>
   <div><a href="http://yourdomain.com/about">About</a></div>
   <div><a href="http://yourdomain.com/services">Services</a></div>
@@ -949,7 +949,7 @@ Laravel Menu provides a parital view out of the box which generates menu items i
 
 You can access the partial view via `Config::get('laravel-menu::views.bootstrap-items')`.
 
-All you need to do is to pass the root level items to the partial view:
+All you need to do is to include the partial view and pass the root level items to it:
 
 ```
 {{{...}}}
