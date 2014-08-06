@@ -810,7 +810,7 @@ Menu::make('MyNavBar', function($menu){
        ->data('permission', 'manage_users');
 
 })->filter(function($item){
-  if(User::get()->hasRole( $item->meta('permission'))) {
+  if(User::get()->hasRole( $item->data('permission'))) {
       return true;
   }
   return false;
