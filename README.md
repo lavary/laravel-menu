@@ -811,7 +811,7 @@ You can also access a data as if it's a property:
 Meta data don't do anything to the item and won't be rendered in HTML either. It is the developer who would decide what to do with them.
 
 
-## Filtering Menu Items
+## Filtering the Items
 
 We can filter menu items by a using `filter()` method. 
 `Filter()` receives a closure which is defined by you.It then iterates over the items and run your closure on each of them.
