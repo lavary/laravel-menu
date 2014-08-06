@@ -121,9 +121,9 @@ This will render your menu like so:
 ```
 And that's all about it!
 
-## Named Routs and Controller Actions
+## Named Routs
 
-`laravel-menu` supports named routes or controller actions as item URL:
+`laravel-menu` supports named routes as item URL:
 
 This time instead of passing a simple string to `add()`, we pass an associative array like so:
 
@@ -150,7 +150,33 @@ Menu::make('MyNavBar', function($menu){
 });
 ?>
 ```
-if you need to send some data to routes, URLs or controller actions as a query string, you can simply include them in an array along with the route, action or URL value:
+
+## Controller Actions
+
+Laravel Menu supports controller actions as well.
+
+You will just need to set `action` key of your options array to a controller action:
+
+// ...
+
+```php
+<?php
+
+/* Suppose we have these routes defined in our app/routes.php file */
+// ...
+Route::get('services', 'ServiceController@index');
+//...
+
+
+  // ...
+  $menu->add('services', array('action' => 'ServicesController@index'));
+  // ...
+
+?>
+```
+
+
+**Note:** if you need to send some data to routes, URLs or controller actions as a query string, you can simply include them in an array along with the route, action or URL value:
 
 ```php
 <?php
@@ -168,21 +194,20 @@ Menu::make('MyNavBar', function($menu){
 
 ## HTTPS
 
-If you need to serve the route over HTTPS, you can add key `secure` to the options array and set it to `true` or alternatively call `secure()` on the item's `link` attribute:
+If you need to serve the route over HTTPS, call `secure()` on the item's `link` attribute or alternatively add key `secure` to the options array and set it to `true`:
 
 ```php
 <?php
-Menu::make('MyNavBar', function($menu){
 	// ...
+	$menu->add('Members', 'members')->link->secure();
 	
-	$menu->add('Members', array('url' => 'members', 'secure' => true));
 	
 	// or alternatively use this shortcut
 	
-	$menu->add('Members', 'members')->link->secure();
+	$menu->add('Members', array('url' => 'members', 'secure' => true));
 	
 	// ...
-});
+
 ?>
 ```
 
@@ -552,7 +577,7 @@ You can insert a separator after each item using `divide()` method:
 ```
 
 
-## Adding Content to Item's Title
+## Append and Prepend
 
 
 You can `append` or `prepend` HTML or plain-text to each item's title after it is defined:
@@ -597,7 +622,7 @@ To insert items as plain text instead of hyper-links you can use `raw()`:
 ```php
 <?php
     // ...
-    $menu->text('Item Title', array('class' => 'some-class'));  
+    $menu->raw('Item Title', array('class' => 'some-class'));  
     
     $menu->add('About', 'about');
     $menu->About->raw('Another Plain Text Item')
