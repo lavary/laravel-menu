@@ -135,7 +135,6 @@ This time instead of passing a simple string to `add()`, we pass an associative 
 /* Suppose we have these routes defined in our app/routes.php file */
 Route::get('/',        array('as' => 'home.page',  function(){...}));
 Route::get('about',    array('as' => 'page.about', function(){...}));
-Route::get('services', 'ServiceController@index');
 
 //...
 
@@ -144,8 +143,7 @@ Menu::make('MyNavBar', function($menu){
   
   $menu->add('Home',     array('route'  => 'home.page'));
   $menu->add('About',    array('route'  => 'page.about'));
-  $menu->add('services', array('action' => 'ServicesController@index'));
-  $menu->add('Contact',  'contact');
+  // ...
 
 });
 ?>
