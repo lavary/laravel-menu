@@ -1115,6 +1115,10 @@ To put the rendered menu in your application template, you can simply include `c
 
 ## Control Structures For Blade
 
+Laravel menu extends Blade to handle special layouts.
+
+### @lm-attrs
+
 You might encounter situations when some of your HTML properties are explicitly written inside your view instead of dynamically being defined when adding the item; However you will need to merge these static attributes with your Item's attributes.
 
 ```
