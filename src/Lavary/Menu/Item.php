@@ -157,6 +157,8 @@ class Item {
 		$attributes['class'] = Builder::formatGroupClass($attributes, array('class' => 'divider'));
 		
 		$this->divider = $attributes;
+
+		return $this;
 	}
 
 

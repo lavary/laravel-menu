@@ -116,6 +116,39 @@ class Builder {
 					->first();		
 	}
 
+	
+	/**
+	 * Return all items in the collection
+	 *
+	 * @return array
+	 */
+	public function all(){
+		
+		return $this->items;
+	
+	}
+
+	/**
+	 * Return the first item in the collection
+	 *
+	 * @return Lavary\Menu\Item
+	 */
+	public function first(){
+		
+		return $this->items->first();
+	
+	}
+
+	/**
+	 * Return the last item in the collection
+	 *
+	 * @return Lavary\Menu\Item
+	 */
+	public function last(){
+		
+		return $this->items->last();	
+	}
+
 	/**
 	 * Returns menu item by name
 	 *
@@ -139,7 +172,7 @@ class Builder {
 		$attributes['class'] = self::formatGroupClass(array('class' => 'divider'), $attributes);
 		
 		$this->items->last()->divider = $attributes;
-		
+
 	}
 
 	/**
@@ -203,7 +236,7 @@ class Builder {
 		
 		$new['class']  = self::formatGroupClass($new, $old);
 		
-		return array_merge_recursive(array_except($old, array('prefix', 'class')), $new);
+		return array_merge(array_except($old, array('prefix', 'class')), $new);
 	}
 
 	/**
@@ -563,7 +596,7 @@ class Builder {
 		$attrs['class']  = self::formatGroupClass($attrs, $old);
 
 		// Merging new and old array and parse it as a string
-		return \HTML::attributes(array_merge_recursive(array_except($old, array('class')), $attrs));
+		return \HTML::attributes(array_merge(array_except($old, array('class')), $attrs));
 	}
 
 	/**
