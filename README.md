@@ -797,7 +797,7 @@ You can also access a data as if it's a property:
 	
 	//...
 	
-	$menu->add('Users', '#')->data('placement', 12);;
+	$menu->add('Users', '#')->data('placement', 12);
 	
 	// you can refer to placement as if it's a public property of the item object
 	echo $menu->users->placement;    // Output : 12
