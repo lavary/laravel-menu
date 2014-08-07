@@ -288,7 +288,7 @@ You can also get an item by Id if needed:
 	$menu->all();
 
 	// or outside of the builder context
-	Menu::get('MenuName')->all();
+	Menu::get('MyNavBar')->all();
 	// ...
 ?>
 ```
@@ -302,7 +302,7 @@ You can also get an item by Id if needed:
 	$menu->first();
 
 	// or outside of the builder context
-	Menu::get('MenuName')->first();
+	Menu::get('MyNavBar')->first();
 	// ...
 ?>
 ```
@@ -315,7 +315,7 @@ You can also get an item by Id if needed:
 	$menu->last();
 
 	// or outside of the builder context
-	Menu::get('MenuName')->last();
+	Menu::get('MyNavBar')->last();
 	// ...
 ?>
 ```
@@ -345,10 +345,10 @@ To check if an item has any children or not, you can use `hasChildren()`
 	}
 
 	// or outside of the builder context
-	Menu::get('MenuName')->about->children();
+	Menu::get('MyNavBar')->about->children();
 
 	// Or
-	Menu::get('MenuName')->item('about')->children();
+	Menu::get('MyNavBar')->item('about')->children();
 	// ...
 ?>
 ```
