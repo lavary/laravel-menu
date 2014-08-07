@@ -845,30 +845,10 @@ As result, `Users` item will be visible to those who has the `manage_users` perm
 
 ## Sorting the Items
 
-`laravel-menu` can sort the items based on a user defined function Or a key which can be item properties like id,parent,etc or meta data stored with each item.
+`laravel-menu` can sort the items based on either a user defined function or a key which can be item properties like id,parent,etc or meta data stored with each item.
 
-Passing a closure:
 
-```php
-<?php
-Menu::make('main', function($m){
-
-	$m->add('About', '#')     ->data('order', 2);
-	$m->add('Home', '#')      ->data('order', 1);
-	$m->add('Services', '#')  ->data('order', 3);
-	$m->add('Contact', '#')   ->data('order', 5);
-	$m->add('Portfolio', '#') ->data('order', 4);
-
-})->sortBy(function($items) {
-	// Your sorting algorithm here...
-	
-});		
-?>
-```
-
-The closure receives the items collection as an array.
-
-You can also use available properties and meta data to sort the items:
+To sort the items based on a property and or meta data:
 
 ```php
 <?php
@@ -887,6 +867,45 @@ Menu::make('main', function($m){
 `sortBy()` also receives a second parameter which specifies the ordering direction: Ascending order(`asc`) and Descending Order(`dsc`). 
 
 Default value is `asc`.
+
+
+To sort the items based on `Id` in descending order:
+
+```php
+<?php
+Menu::make('main', function($m){
+
+	$m->add('About');
+	$m->add('Home');
+	$m->add('Services');
+	$m->add('Contact');
+	$m->add('Portfolio');
+
+})->sortBy('id', 'desc');		
+?>
+```
+
+
+Sorting the items by passing a closure:
+
+```php
+<?php
+Menu::make('main', function($m){
+
+	$m->add('About')     ->data('order', 2);
+	$m->add('Home')      ->data('order', 1);
+	$m->add('Services')  ->data('order', 3);
+	$m->add('Contact')   ->data('order', 5);
+	$m->add('Portfolio') ->data('order', 4);
+
+})->sortBy(function($items) {
+	// Your sorting algorithm here...
+	
+});		
+?>
+```
+
+The closure takes the items collection as argument.
 
 
 ## Rendering Formats
