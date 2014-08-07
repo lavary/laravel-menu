@@ -325,6 +325,8 @@ You can also get an item by Id if needed:
 First of all you need to get the item using the methods described above then call `children()` on it.
 
 To get children of `About` item:
+
+```php
 <?php
 	// ...
 	$aboutSubs = $menu->about->children();
@@ -335,6 +337,7 @@ To get children of `About` item:
 
 To check if an item has any children or not, you can use `hasChildren()`
 
+```php
 <?php
 	// ...
 	if( $menu->about->hasChildren() ) {
