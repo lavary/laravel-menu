@@ -1,39 +1,45 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Laravel-menu by lavary</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <title>Laravel-menu by lavary</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Laravel-menu</h1>
-        <p>A quick way to create menus in Laravel 4.x</p>
+    <div id="container">
+      <div class="inner">
 
-        <p class="view"><a href="https://github.com/lavary/laravel-menu">View the Project on GitHub <small>lavary/laravel-menu</small></a></p>
+        <header>
+          <h1>Laravel-menu</h1>
+          <h2>A quick way to create menus in Laravel 4.x</h2>
+        </header>
 
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/lavary/laravel-menu/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/lavary/laravel-menu/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/lavary/laravel-menu" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
 
-        <ul>
-          <li><a href="https://github.com/lavary/laravel-menu/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/lavary/laravel-menu/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/lavary/laravel-menu">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h1>
+        <hr>
+
+        <section id="main_content">
+          <h1>
 <a name="laravel-menu" class="anchor" href="#laravel-menu"><span class="octicon octicon-link"></span></a>Laravel Menu</h1>
 
-<p><a href="https://packagist.org/packages/lavary/laravel-menu"><img src="https://poser.pugx.org/lavary/laravel-menu/v/unstable.svg" alt="Latest Unstable Version"></a></p>
+<p><a href="https://packagist.org/packages/lavary/laravel-menu"><img src="https://poser.pugx.org/lavary/laravel-menu/v/stable.svg" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/lavary/laravel-menu"><img src="https://poser.pugx.org/lavary/laravel-menu/v/unstable.svg" alt="Latest Unstable Version"></a>
+<a href="https://packagist.org/packages/lavary/laravel-menu"><img src="https://poser.pugx.org/lavary/laravel-menu/downloads.svg" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/lavary/laravel-menu"><img src="https://poser.pugx.org/lavary/laravel-menu/license.svg" alt="License"></a></p>
 
-<p>A quick way to create menus in Laravel 4.x</p>
+<p>A quick way to create menus in <a href="http://laravel.com/">Laravel 4.x</a></p>
 
 <h2>
 <a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
@@ -105,7 +111,7 @@
 
 <p><strong>Attention</strong> <code>$MyNavBar</code> is just a hypothetical name I used in these examples; You can name your menus whatever you please.</p>
 
-<p>In the above example <code>Menu::make()</code> creates a menu named <code>MyNavBar</code> and makes <code>$myNavBar</code> object available in the views.</p>
+<p>In the above example <code>Menu::make()</code> creates a menu named <code>MyNavBar</code>, Adds the menu instance to the <code>Menu::collection</code> and finally makes <code>$myNavBar</code> object available in the views.</p>
 
 <p>This method accepts a callable inside which you can define your items by <code>add</code> method. <code>add</code> adds a new item to the menu and returns an instance of <code>Item</code>. <code>add()</code> receives two parameters, the first one is the item title and the second one is options.</p>
 
@@ -117,8 +123,13 @@
 
 <p>As noted earlier, <code>laravel-menu</code> provides three rendering formats out of the box, asUl(), asOl() and asDiv(). We'll talk about these methods in detail later.</p>
 
-<div class="highlight highlight-html"><pre>{{ $MyNavBar-&gt;asUl() }}
-</pre></div>
+<pre><code>{{ $MyNavBar-&gt;asUl() }}
+</code></pre>
+
+<p>You can also access the menu via the menu collection:</p>
+
+<pre><code>{{ Menu::get('MyNavBar')-&gt;asUl() }}
+</code></pre>
 
 <p>This will render your menu like so:</p>
 
@@ -133,9 +144,9 @@
 <p>And that's all about it!</p>
 
 <h2>
-<a name="named-routs-and-controller-actions" class="anchor" href="#named-routs-and-controller-actions"><span class="octicon octicon-link"></span></a>Named Routs and Controller Actions</h2>
+<a name="named-routs" class="anchor" href="#named-routs"><span class="octicon octicon-link"></span></a>Named Routs</h2>
 
-<p><code>laravel-menu</code> supports named routes or controller actions as item URL:</p>
+<p><code>laravel-menu</code> supports named routes as item URL:</p>
 
 <p>This time instead of passing a simple string to <code>add()</code>, we pass an associative array like so:</p>
 
@@ -146,7 +157,6 @@
 <span class="cm">/* Suppose we have these routes defined in our app/routes.php file */</span>
 <span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span>        <span class="k">array</span><span class="p">(</span><span class="s1">'as'</span> <span class="o">=&gt;</span> <span class="s1">'home.page'</span><span class="p">,</span>  <span class="k">function</span><span class="p">(){</span><span class="o">...</span><span class="p">}));</span>
 <span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">'about'</span><span class="p">,</span>    <span class="k">array</span><span class="p">(</span><span class="s1">'as'</span> <span class="o">=&gt;</span> <span class="s1">'page.about'</span><span class="p">,</span> <span class="k">function</span><span class="p">(){</span><span class="o">...</span><span class="p">}));</span>
-<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">'services'</span><span class="p">,</span> <span class="s1">'ServiceController@index'</span><span class="p">);</span>
 
 <span class="c1">//...</span>
 
@@ -155,14 +165,37 @@
 
   <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Home'</span><span class="p">,</span>     <span class="k">array</span><span class="p">(</span><span class="s1">'route'</span>  <span class="o">=&gt;</span> <span class="s1">'home.page'</span><span class="p">));</span>
   <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'About'</span><span class="p">,</span>    <span class="k">array</span><span class="p">(</span><span class="s1">'route'</span>  <span class="o">=&gt;</span> <span class="s1">'page.about'</span><span class="p">));</span>
-  <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'services'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">'action'</span> <span class="o">=&gt;</span> <span class="s1">'ServicesController@index'</span><span class="p">));</span>
-  <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Contact'</span><span class="p">,</span>  <span class="s1">'contact'</span><span class="p">);</span>
+  <span class="c1">// ...</span>
 
 <span class="p">});</span>
 <span class="cp">?&gt;</span><span class="x"></span>
 </pre></div>
 
-<p>if you need to send some data to routes, URLs or controller actions as a query string, you can simply include them in an array along with the route, action or URL value:</p>
+<h2>
+<a name="controller-actions" class="anchor" href="#controller-actions"><span class="octicon octicon-link"></span></a>Controller Actions</h2>
+
+<p>Laravel Menu supports controller actions as well.</p>
+
+<p>You will just need to set <code>action</code> key of your options array to a controller action:</p>
+
+<p>// ...</p>
+
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="cm">/* Suppose we have these routes defined in our app/routes.php file */</span>
+<span class="c1">// ...</span>
+<span class="nx">Route</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">'services'</span><span class="p">,</span> <span class="s1">'ServiceController@index'</span><span class="p">);</span>
+<span class="c1">//...</span>
+
+
+  <span class="c1">// ...</span>
+  <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'services'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">'action'</span> <span class="o">=&gt;</span> <span class="s1">'ServicesController@index'</span><span class="p">));</span>
+  <span class="c1">// ...</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<p><strong>Note:</strong> if you need to send some data to routes, URLs or controller actions as a query string, you can simply include them in an array along with the route, action or URL value:</p>
 
 <div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="nx">Menu</span><span class="o">::</span><span class="na">make</span><span class="p">(</span><span class="s1">'MyNavBar'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$menu</span><span class="p">){</span>
@@ -180,20 +213,19 @@
 <h2>
 <a name="https" class="anchor" href="#https"><span class="octicon octicon-link"></span></a>HTTPS</h2>
 
-<p>If you need to serve the route over HTTPS, you can add key <code>secure</code> to the options array and set it to <code>true</code> or alternatively call <code>secure()</code> on the item's <code>link</code> attribute:</p>
+<p>If you need to serve the route over HTTPS, call <code>secure()</code> on the item's <code>link</code> attribute or alternatively add key <code>secure</code> to the options array and set it to <code>true</code>:</p>
 
 <div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="nx">Menu</span><span class="o">::</span><span class="na">make</span><span class="p">(</span><span class="s1">'MyNavBar'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$menu</span><span class="p">){</span>
     <span class="c1">// ...</span>
+    <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Members'</span><span class="p">,</span> <span class="s1">'members'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">link</span><span class="o">-&gt;</span><span class="na">secure</span><span class="p">();</span>
 
-    <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Members'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">'url'</span> <span class="o">=&gt;</span> <span class="s1">'members'</span><span class="p">,</span> <span class="s1">'secure'</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">));</span>
 
     <span class="c1">// or alternatively use this shortcut</span>
 
-    <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Members'</span><span class="p">,</span> <span class="s1">'members'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">link</span><span class="o">-&gt;</span><span class="na">secure</span><span class="p">();</span>
+    <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Members'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">'url'</span> <span class="o">=&gt;</span> <span class="s1">'members'</span><span class="p">,</span> <span class="s1">'secure'</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">));</span>
 
     <span class="c1">// ...</span>
-<span class="p">});</span>
+
 <span class="cp">?&gt;</span><span class="x"></span>
 </pre></div>
 
@@ -261,8 +293,8 @@
 <h2>
 <a name="magic-where-methods" class="anchor" href="#magic-where-methods"><span class="octicon octicon-link"></span></a>Magic Where Methods</h2>
 
-<p>You can also search the items collection by magic where method.
-This method is consisted of <code>where</code> concatenated with a property (meta data, property)</p>
+<p>You can also search the items collection by magic where methods.
+These methods are consisted of a <code>where</code> concatenated with a property (object property or even meta data)</p>
 
 <p>For example to get an item with parent equal to 12, you can use it like so:</p>
 
@@ -273,7 +305,7 @@ This method is consisted of <code>where</code> concatenated with a property (met
 <span class="cp">?&gt;</span><span class="x"></span>
 </pre></div>
 
-<p>For using this method with a meta data:</p>
+<p>Or to get item's with a specific meta data:</p>
 
 <div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
     <span class="c1">// ...</span>
@@ -433,6 +465,18 @@ You can also pass an associative array of attributes if you need to add a group 
 <span class="cp">?&gt;</span><span class="x"></span>
 </pre></div>
 
+<h3>
+<a name="links-href-property" class="anchor" href="#links-href-property"><span class="octicon octicon-link"></span></a>Link's Href Property</h3>
+
+<p>If you don't want to use the routing feature of <code>laravel-menu</code> or you don't want the builder to prefix your URL with anything (your host address for example), you can explicitly set your link's href property:</p>
+
+<pre><code>&lt;?php
+// ...
+$menu-&gt;add('About')-&gt;link-&gt;href('#');
+// ...
+?&gt;
+</code></pre>
+
 <h2>
 <a name="active-item" class="anchor" href="#active-item"><span class="octicon octicon-link"></span></a>Active Item</h2>
 
@@ -466,6 +510,17 @@ You can also pass an associative array of attributes if you need to add a group 
 <span class="cm">    */</span>
 
 <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<p>Laravel Menu does this for you automatically according to the current <strong>URI</strong> the time you reigster the item.</p>
+
+<p>You can also choose the element to be activated (item or the link) in <code>options.php</code> which resides in package's config directory:</p>
+
+<div class="highlight highlight-php"><pre>
+    <span class="c1">// ...</span>
+    <span class="s1">'active_element'</span> <span class="o">=&gt;</span> <span class="s1">'item'</span><span class="p">,</span>    <span class="c1">// item|link</span>
+    <span class="c1">// ...</span>
+
 </pre></div>
 
 <h2>
@@ -527,9 +582,9 @@ You can also pass an associative array of attributes if you need to add a group 
 </pre></div>
 
 <h2>
-<a name="adding-content-to-items-title" class="anchor" href="#adding-content-to-items-title"><span class="octicon octicon-link"></span></a>Adding Content to Item's Title</h2>
+<a name="append-and-prepend" class="anchor" href="#append-and-prepend"><span class="octicon octicon-link"></span></a>Append and Prepend</h2>
 
-<p>You can <code>append</code> or <code>prepend</code> HTML or plain text to each item's title after it is defined:</p>
+<p>You can <code>append</code> or <code>prepend</code> HTML or plain-text to each item's title after it is defined:</p>
 
 <div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="nx">Menu</span><span class="o">::</span><span class="na">make</span><span class="p">(</span><span class="s1">'MyNavBar'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$menu</span><span class="p">){</span>
@@ -563,31 +618,31 @@ You can also pass an associative array of attributes if you need to add a group 
 </pre></div>
 
 <h2>
-<a name="plain-text-items" class="anchor" href="#plain-text-items"><span class="octicon octicon-link"></span></a>Plain Text Items</h2>
+<a name="raw-items" class="anchor" href="#raw-items"><span class="octicon octicon-link"></span></a>Raw Items</h2>
 
-<p>To insert items as plain text instead of hyper-links you can user <code>text()</code>:</p>
+<p>To insert items as plain text instead of hyper-links you can use <code>raw()</code>:</p>
 
 <div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
     <span class="c1">// ...</span>
-    <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">text</span><span class="p">(</span><span class="s1">'Item'</span><span class="nx">s</span> <span class="nx">Title</span><span class="s1">', array('</span><span class="nx">class</span><span class="s1">' =&gt; '</span><span class="nx">some</span><span class="o">-</span><span class="nx">class</span><span class="s1">'));  </span>
+    <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">raw</span><span class="p">(</span><span class="s1">'Item Title'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'some-class'</span><span class="p">));</span>  
 
-<span class="s1">    $menu-&gt;add('</span><span class="nx">About</span><span class="s1">', '</span><span class="nx">about</span><span class="s1">');</span>
-<span class="s1">    $menu-&gt;About-&gt;text('</span><span class="nx">Another</span> <span class="nx">Plain</span> <span class="nx">Text</span> <span class="nx">Item</span><span class="s1">')</span>
-<span class="s1">    // ...</span>
+    <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'About'</span><span class="p">,</span> <span class="s1">'about'</span><span class="p">);</span>
+    <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">About</span><span class="o">-&gt;</span><span class="na">raw</span><span class="p">(</span><span class="s1">'Another Plain Text Item'</span><span class="p">)</span>
+    <span class="c1">// ...</span>
 
-<span class="s1">    /* Output as an unordered list:</span>
-<span class="s1">       &lt;ul&gt;</span>
-<span class="s1">            ...</span>
-<span class="s1">            &lt;li class="some-class"&gt;Item'</span><span class="nx">s</span> <span class="nx">Title</span><span class="o">&lt;/</span><span class="nx">li</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;</span>
-                <span class="nx">About</span>
-                <span class="o">&lt;</span><span class="nx">ul</span><span class="o">&gt;</span>
-                    <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;</span><span class="nx">Another</span> <span class="nx">Plain</span> <span class="nx">Text</span> <span class="nx">Item</span><span class="o">&lt;/</span><span class="nx">li</span><span class="o">&gt;</span>
-                <span class="o">&lt;/</span><span class="nx">ul</span><span class="o">&gt;</span>
-            <span class="o">&lt;/</span><span class="nx">li</span><span class="o">&gt;</span>
-            <span class="o">...</span>
-        <span class="o">&lt;/</span><span class="nx">ul</span><span class="o">&gt;</span>
-    <span class="o">*/</span>
+    <span class="cm">/* Output as an unordered list:</span>
+<span class="cm">       &lt;ul&gt;</span>
+<span class="cm">            ...</span>
+<span class="cm">            &lt;li class="some-class"&gt;Item's Title&lt;/li&gt;</span>
+<span class="cm">            &lt;li&gt;</span>
+<span class="cm">                About</span>
+<span class="cm">                &lt;ul&gt;</span>
+<span class="cm">                    &lt;li&gt;Another Plain Text Item&lt;/li&gt;</span>
+<span class="cm">                &lt;/ul&gt;</span>
+<span class="cm">            &lt;/li&gt;</span>
+<span class="cm">            ...</span>
+<span class="cm">        &lt;/ul&gt;</span>
+<span class="cm">    */</span>
 <span class="cp">?&gt;</span><span class="x"></span>
 </pre></div>
 
@@ -738,9 +793,7 @@ You can also pass an associative array of data if you need to add a group of key
 
     <span class="c1">//...</span>
 
-    <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Users'</span><span class="p">,</span> <span class="s1">'#'</span><span class="p">);</span>
-
-    <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">users</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'placement'</span><span class="p">,</span> <span class="mi">12</span><span class="p">);</span>
+    <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Users'</span><span class="p">,</span> <span class="s1">'#'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'placement'</span><span class="p">,</span> <span class="mi">12</span><span class="p">);</span>
 
     <span class="c1">// you can refer to placement as if it's a public property of the item object</span>
     <span class="k">echo</span> <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">users</span><span class="o">-&gt;</span><span class="na">placement</span><span class="p">;</span>    <span class="c1">// Output : 12</span>
@@ -752,7 +805,7 @@ You can also pass an associative array of data if you need to add a group of key
 <p>Meta data don't do anything to the item and won't be rendered in HTML either. It is the developer who would decide what to do with them.</p>
 
 <h2>
-<a name="filtering-menu-items" class="anchor" href="#filtering-menu-items"><span class="octicon octicon-link"></span></a>Filtering Menu Items</h2>
+<a name="filtering-the-items" class="anchor" href="#filtering-the-items"><span class="octicon octicon-link"></span></a>Filtering the Items</h2>
 
 <p>We can filter menu items by a using <code>filter()</code> method. 
 <code>Filter()</code> receives a closure which is defined by you.It then iterates over the items and run your closure on each of them.</p>
@@ -772,7 +825,7 @@ You can also pass an associative array of data if you need to add a group of key
        <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'permission'</span><span class="p">,</span> <span class="s1">'manage_users'</span><span class="p">);</span>
 
 <span class="p">})</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="nv">$item</span><span class="p">){</span>
-  <span class="k">if</span><span class="p">(</span><span class="nx">User</span><span class="o">::</span><span class="na">get</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">hasRole</span><span class="p">(</span> <span class="nv">$item</span><span class="o">-&gt;</span><span class="na">meta</span><span class="p">(</span><span class="s1">'permission'</span><span class="p">)))</span> <span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="nx">User</span><span class="o">::</span><span class="na">get</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">hasRole</span><span class="p">(</span> <span class="nv">$item</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'permission'</span><span class="p">)))</span> <span class="p">{</span>
       <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
   <span class="p">}</span>
   <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
@@ -787,29 +840,9 @@ You can also pass an associative array of data if you need to add a group of key
 <h2>
 <a name="sorting-the-items" class="anchor" href="#sorting-the-items"><span class="octicon octicon-link"></span></a>Sorting the Items</h2>
 
-<p><code>laravel-menu</code> can sort the items based on a user defined function Or a key which can be item properties like id,parent,etc or meta data stored with each item.</p>
+<p><code>laravel-menu</code> can sort the items based on either a user defined function or a key which can be item properties like id,parent,etc or meta data stored with each item.</p>
 
-<p>Passing a closure:</p>
-
-<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="nx">Menu</span><span class="o">::</span><span class="na">make</span><span class="p">(</span><span class="s1">'main'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$m</span><span class="p">){</span>
-
-    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'About'</span><span class="p">,</span> <span class="s1">'#'</span><span class="p">)</span>     <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'order'</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
-    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Home'</span><span class="p">,</span> <span class="s1">'#'</span><span class="p">)</span>      <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'order'</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Services'</span><span class="p">,</span> <span class="s1">'#'</span><span class="p">)</span>  <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'order'</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
-    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Contact'</span><span class="p">,</span> <span class="s1">'#'</span><span class="p">)</span>   <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'order'</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
-    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Portfolio'</span><span class="p">,</span> <span class="s1">'#'</span><span class="p">)</span> <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'order'</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
-
-<span class="p">})</span><span class="o">-&gt;</span><span class="na">sortBy</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="nv">$items</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// Your sorting algorithm here...</span>
-
-<span class="p">});</span>     
-<span class="cp">?&gt;</span><span class="x"></span>
-</pre></div>
-
-<p>The closure receives the items collection as an array.</p>
-
-<p>You can also use available properties and meta data to sort the items:</p>
+<p>To sort the items based on a property and or meta data:</p>
 
 <div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="nx">Menu</span><span class="o">::</span><span class="na">make</span><span class="p">(</span><span class="s1">'main'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$m</span><span class="p">){</span>
@@ -828,6 +861,41 @@ You can also pass an associative array of data if you need to add a group of key
 
 <p>Default value is <code>asc</code>.</p>
 
+<p>To sort the items based on <code>Id</code> in descending order:</p>
+
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="nx">Menu</span><span class="o">::</span><span class="na">make</span><span class="p">(</span><span class="s1">'main'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$m</span><span class="p">){</span>
+
+    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'About'</span><span class="p">);</span>
+    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Home'</span><span class="p">);</span>
+    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Services'</span><span class="p">);</span>
+    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Contact'</span><span class="p">);</span>
+    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Portfolio'</span><span class="p">);</span>
+
+<span class="p">})</span><span class="o">-&gt;</span><span class="na">sortBy</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'desc'</span><span class="p">);</span>       
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<p>Sorting the items by passing a closure:</p>
+
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="nx">Menu</span><span class="o">::</span><span class="na">make</span><span class="p">(</span><span class="s1">'main'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$m</span><span class="p">){</span>
+
+    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'About'</span><span class="p">)</span>     <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'order'</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Home'</span><span class="p">)</span>      <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'order'</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Services'</span><span class="p">)</span>  <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'order'</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Contact'</span><span class="p">)</span>   <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'order'</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+    <span class="nv">$m</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Portfolio'</span><span class="p">)</span> <span class="o">-&gt;</span><span class="na">data</span><span class="p">(</span><span class="s1">'order'</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+
+<span class="p">})</span><span class="o">-&gt;</span><span class="na">sortBy</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="nv">$items</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Your sorting algorithm here...</span>
+
+<span class="p">});</span>     
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<p>The closure takes the items collection as argument.</p>
+
 <h2>
 <a name="rendering-formats" class="anchor" href="#rendering-formats"><span class="octicon octicon-link"></span></a>Rendering Formats</h2>
 
@@ -840,12 +908,12 @@ You can also pass an associative array of data if you need to add a group of key
 
 <p><code>asUl()</code> will render your menu in an unordered list. it also takes an optional parameter to define attributes for the <code>&lt;ul&gt;</code> tag itself:</p>
 
-<div class="highlight highlight-php"><pre><span class="p">{{</span> <span class="nv">$MenuName</span><span class="o">-&gt;</span><span class="na">asUl</span><span class="p">(</span> <span class="k">array</span><span class="p">(</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'awsome-ul'</span><span class="p">)</span> <span class="p">)</span> <span class="p">}}</span>
+<div class="highlight highlight-php"><pre><span class="p">{{</span> <span class="nv">$MenuName</span><span class="o">-&gt;</span><span class="na">asUl</span><span class="p">(</span> <span class="k">array</span><span class="p">(</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'awesome-ul'</span><span class="p">)</span> <span class="p">)</span> <span class="p">}}</span>
 </pre></div>
 
 <p>Result:</p>
 
-<div class="highlight highlight-html"><pre><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"awsome-ul"</span><span class="nt">&gt;</span>
+<div class="highlight highlight-html"><pre><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"awesome-ul"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"http://yourdomain.com"</span><span class="nt">&gt;</span>Home<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
   <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"http://yourdomain.com/about"</span><span class="nt">&gt;</span>About<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
   <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"http://yourdomain.com/services"</span><span class="nt">&gt;</span>Services<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
@@ -860,12 +928,12 @@ You can also pass an associative array of data if you need to add a group of key
 
 <p><code>asOl()</code> method will render your menu in an ordered list. it also takes an optional parameter to define attributes for the <code>&lt;ol&gt;</code> tag itself:</p>
 
-<div class="highlight highlight-php"><pre><span class="p">{{</span> <span class="nv">$MenuName</span><span class="o">-&gt;</span><span class="na">asOl</span><span class="p">(</span> <span class="k">array</span><span class="p">(</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'awsome-ol'</span><span class="p">)</span> <span class="p">)</span> <span class="p">}}</span>
+<div class="highlight highlight-php"><pre><span class="p">{{</span> <span class="nv">$MenuName</span><span class="o">-&gt;</span><span class="na">asOl</span><span class="p">(</span> <span class="k">array</span><span class="p">(</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'awesome-ol'</span><span class="p">)</span> <span class="p">)</span> <span class="p">}}</span>
 </pre></div>
 
 <p>Result:</p>
 
-<div class="highlight highlight-html"><pre><span class="nt">&lt;ol</span> <span class="na">class=</span><span class="s">"awsome-ol"</span><span class="nt">&gt;</span>
+<div class="highlight highlight-html"><pre><span class="nt">&lt;ol</span> <span class="na">class=</span><span class="s">"awesome-ol"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"http://yourdomain.com"</span><span class="nt">&gt;</span>Home<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
   <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"http://yourdomain.com/about"</span><span class="nt">&gt;</span>About<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
   <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"http://yourdomain.com/services"</span><span class="nt">&gt;</span>Services<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
@@ -880,12 +948,12 @@ You can also pass an associative array of data if you need to add a group of key
 
 <p><code>asDiv()</code> method will render your menu as nested HTML divs. it also takes an optional parameter to define attributes for the parent <code>&lt;div&gt;</code> tag itself:</p>
 
-<div class="highlight highlight-php"><pre><span class="p">{{</span> <span class="nv">$MenuName</span><span class="o">-&gt;</span><span class="na">asDiv</span><span class="p">(</span> <span class="k">array</span><span class="p">(</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'awsome-div'</span><span class="p">)</span> <span class="p">)</span> <span class="p">}}</span>
+<div class="highlight highlight-php"><pre><span class="p">{{</span> <span class="nv">$MenuName</span><span class="o">-&gt;</span><span class="na">asDiv</span><span class="p">(</span> <span class="k">array</span><span class="p">(</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'awesome-div'</span><span class="p">)</span> <span class="p">)</span> <span class="p">}}</span>
 </pre></div>
 
 <p>Result:</p>
 
-<div class="highlight highlight-html"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"awsome-div"</span><span class="nt">&gt;</span>
+<div class="highlight highlight-html"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"awesome-div"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;div&gt;&lt;a</span> <span class="na">href=</span><span class="s">"http://yourdomain.com"</span><span class="nt">&gt;</span>Home<span class="nt">&lt;/a&gt;&lt;/div&gt;</span>
   <span class="nt">&lt;div&gt;&lt;a</span> <span class="na">href=</span><span class="s">"http://yourdomain.com/about"</span><span class="nt">&gt;</span>About<span class="nt">&lt;/a&gt;&lt;/div&gt;</span>
   <span class="nt">&lt;div&gt;&lt;a</span> <span class="na">href=</span><span class="s">"http://yourdomain.com/services"</span><span class="nt">&gt;</span>Services<span class="nt">&lt;/a&gt;&lt;/div&gt;</span>
@@ -895,7 +963,59 @@ You can also pass an associative array of data if you need to add a group of key
 
 <ul>
 <li><strong>Menu as Bootstrap 3 Navbar</strong></li>
-</ul><p>I've prepared a tutorial about embedding several menu objects in a bootstrap navbar in case somebody is interested.
+</ul><p>Laravel Menu provides a parital view out of the box which generates menu items in a bootstrap friendly format which you can <strong>include</strong> in your Bootstrap based navigation bars:</p>
+
+<p>You can access the partial view via <code>Config::get('laravel-menu::views.bootstrap-items')</code>.</p>
+
+<p>All you need to do is to include the partial view and pass the root level items to it:</p>
+
+<pre><code>{{{...}}}
+
+@include(Config::get('laravel-menu::views.bootstrap-items'), array('items' =&gt; $mainNav-&gt;roots()))
+
+{{{...}}}
+
+</code></pre>
+
+<p>This is how your Bootstrap code is going to look like:</p>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">"navbar navbar-default"</span> <span class="na">role=</span><span class="s">"navigation"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container-fluid"</span><span class="nt">&gt;</span>
+    <span class="c">&lt;!-- Brand and toggle get grouped for better mobile display --&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"navbar-header"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">"button"</span> <span class="na">class=</span><span class="s">"navbar-toggle"</span> <span class="na">data-toggle=</span><span class="s">"collapse"</span> <span class="na">data-target=</span><span class="s">"#bs-example-navbar-collapse-1"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"sr-only"</span><span class="nt">&gt;</span>Toggle navigation<span class="nt">&lt;/span&gt;</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"icon-bar"</span><span class="nt">&gt;&lt;/span&gt;</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"icon-bar"</span><span class="nt">&gt;&lt;/span&gt;</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"icon-bar"</span><span class="nt">&gt;&lt;/span&gt;</span>
+      <span class="nt">&lt;/button&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"navbar-brand"</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Brand<span class="nt">&lt;/a&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+
+    <span class="c">&lt;!-- Collect the nav links, forms, and other content for toggling --&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"collapse navbar-collapse"</span> <span class="na">id=</span><span class="s">"bs-example-navbar-collapse-1"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"nav navbar-nav"</span><span class="nt">&gt;</span>
+
+       @include(Config::get('laravel-menu::views.bootstrap-items'), array('items' =&gt; $mainNav-&gt;roots()))
+
+      <span class="nt">&lt;/ul&gt;</span>
+      <span class="nt">&lt;form</span> <span class="na">class=</span><span class="s">"navbar-form navbar-right"</span> <span class="na">role=</span><span class="s">"search"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">class=</span><span class="s">"form-control"</span> <span class="na">placeholder=</span><span class="s">"Search"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+        <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">class=</span><span class="s">"btn btn-default"</span><span class="nt">&gt;</span>Submit<span class="nt">&lt;/button&gt;</span>
+      <span class="nt">&lt;/form&gt;</span>
+      <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"nav navbar-nav navbar-right"</span><span class="nt">&gt;</span>
+
+        @include(Config::get('laravel-menu::views.bootstrap-items'), array('items' =&gt; $loginNav-&gt;roots()))
+
+      <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;/div&gt;</span><span class="c">&lt;!-- /.navbar-collapse --&gt;</span>
+  <span class="nt">&lt;/div&gt;</span><span class="c">&lt;!-- /.container-fluid --&gt;</span>
+<span class="nt">&lt;/nav&gt;</span>
+</pre></div>
+
+<p>I've prepared a tutorial about embedding several menu objects in a bootstrap navbar in case somebody is interested.
 You can read all about it <a href="https://gist.github.com/lavary/c9da317446e2e3b32779">here</a>.</p>
 
 <h2>
@@ -909,7 +1029,7 @@ You can read all about it <a href="https://gist.github.com/lavary/c9da317446e2e3
 <li>
 <code>View-1</code>  This view contains all the HTML codes like <code>nav</code> or <code>ul</code> or <code>div</code> tags wrapping your menu items.</li>
 <li>
-<code>View-2</code>  This view is responsible for rendering menu items (it is going to be included in <code>View-1</code>.)</li>
+<code>View-2</code>  This view is actually a partial view responsible for rendering menu items (it is going to be included in <code>View-1</code>.)</li>
 </ul><p>The reason we use two view files here is that <code>View-2</code> calls itself recursively to render the items to the deepest level required in multi-level menus.</p>
 
 <p>Let's make this easier with an example:</p>
@@ -937,26 +1057,26 @@ You can read all about it <a href="https://gist.github.com/lavary/c9da317446e2e3
 
 <p><strong>custom-menu.blade.php</strong></p>
 
-<div class="highlight highlight-html"><pre><span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">"navbar"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"horizontal-navbar"</span><span class="nt">&gt;</span>
+<pre><code>&lt;nav class="navbar"&gt;
+  &lt;ul class="horizontal-navbar"&gt;
     @include('custom-menu-items', array('items', $MyNavBar-&gt;roots()))
-  <span class="nt">&lt;/ul&gt;</span>
-<span class="nt">&lt;/nav&gt;</span><span class="c">&lt;!--/nav--&gt;</span>
-</pre></div>
+  &lt;/ul&gt;
+&lt;/nav&gt;&lt;!--/nav--&gt;
+</code></pre>
 
 <p><strong>custom-menu-items.blade.php</strong></p>
 
-<div class="highlight highlight-html"><pre>@foreach($items as $item)
-  <span class="nt">&lt;li</span> <span class="err">@</span><span class="na">if</span><span class="err">($</span><span class="na">item-</span><span class="nt">&gt;</span>hasChildren()) class="dropdown" @endif&gt;
-      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"{{ $item-&gt;url }}"</span><span class="nt">&gt;</span>{{ $item-&gt;title }} <span class="nt">&lt;/a&gt;</span>
+<pre><code>@foreach($items as $item)
+  &lt;li @if($item-&gt;hasChildren()) class="dropdown" @endif&gt;
+      &lt;a href="{{ $item-&gt;url }}"&gt;{{ $item-&gt;title }} &lt;/a&gt;
       @if($item-&gt;hasChildren())
-        <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"dropdown-menu"</span><span class="nt">&gt;</span>
+        &lt;ul class="dropdown-menu"&gt;
               @include('custom-menu-items', array('items' =&gt; $item-&gt;children()))
-        <span class="nt">&lt;/ul&gt;</span> 
+        &lt;/ul&gt; 
       @endif
-  <span class="nt">&lt;/li&gt;</span>
+  &lt;/li&gt;
 @endforeach
-</pre></div>
+</code></pre>
 
 <p>Let's describe what we did above, In <code>custom-menus.blade.php</code> we put whatever HTML boilerplate code we had according to our design, then we included <code>custom-menu-items.blade.php</code> and passed the menu items at <em>root level</em> to <code>custom-menu-items.blade.php</code>:</p>
 
@@ -969,8 +1089,60 @@ You can read all about it <a href="https://gist.github.com/lavary/c9da317446e2e3
 
 <p>To put the rendered menu in your application template, you can simply include <code>custom-menu</code> view in your master layout.</p>
 
-<p>I've prepared a tutorial about embedding several menu objects in a bootstrap navbar in case somebody is interested.
-You can read all about it <a href="https://gist.github.com/lavary/c9da317446e2e3b32779">here</a>.</p>
+<h2>
+<a name="control-structures-for-blade" class="anchor" href="#control-structures-for-blade"><span class="octicon octicon-link"></span></a>Control Structures For Blade</h2>
+
+<p>Laravel menu extends Blade to handle special layouts.</p>
+
+<h3>
+<a name="lm-attrs" class="anchor" href="#lm-attrs"><span class="octicon octicon-link"></span></a>@lm-attrs</h3>
+
+<p>You might encounter situations when some of your HTML properties are explicitly written inside your view instead of dynamically being defined when adding the item; However you will need to merge these static attributes with your Item's attributes.</p>
+
+<pre><code>@foreach($items as $item)
+  &lt;li @if($item-&gt;hasChildren()) class="dropdown" @endif data-test="test"&gt;
+      &lt;a href="{{ $item-&gt;url }}"&gt;{{ $item-&gt;title }} &lt;/a&gt;
+      @if($item-&gt;hasChildren())
+        &lt;ul class="dropdown-menu"&gt;
+              @include('custom-menu-items', array('items' =&gt; $item-&gt;children()))
+        &lt;/ul&gt; 
+      @endif
+  &lt;/li&gt;
+@endforeach
+</code></pre>
+
+<p>In the above snippet the <code>li</code> tag has class <code>dropdown</code> and <code>data-test</code> property explicitly defined in the view; Laravel Menu provides a control structure which takes care of this.</p>
+
+<p>Suppose the item has also several attributes dynamically defined when being added:</p>
+
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="c1">// ...</span>
+<span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'Dropdown'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'item item-1'</span><span class="p">,</span> <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="s1">'my-item'</span><span class="p">));</span>
+<span class="c1">// ...</span>
+</pre></div>
+
+<p>The view:</p>
+
+<pre><code>@foreach($items as $item)
+  &lt;li@lm-attrs($item) @if($item-&gt;hasChildren()) class="dropdown" @endif data-test="test" @lm-endattrs&gt;
+      &lt;a href="{{ $item-&gt;url }}"&gt;{{ $item-&gt;title }} &lt;/a&gt;
+      @if($item-&gt;hasChildren())
+        &lt;ul class="dropdown-menu"&gt;
+              @include('custom-menu-items', array('items' =&gt; $item-&gt;children()))
+        &lt;/ul&gt; 
+      @endif
+  &lt;/li&gt;
+@endforeach
+</code></pre>
+
+<p>This control structure automatically merges the static HTML properties with the dynamically defined properties.</p>
+
+<p>Here's the result:</p>
+
+<pre><code>...
+&lt;li class="item item-1 dropdown" id="my-item" data-test="test"&gt;...&lt;/li&gt;
+...
+</code></pre>
 
 <h2>
 <a name="if-you-need-help" class="anchor" href="#if-you-need-help"><span class="octicon octicon-link"></span></a>If You Need Help</h2>
@@ -980,14 +1152,16 @@ You can read all about it <a href="https://gist.github.com/lavary/c9da317446e2e3
 <h2>
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
-<p><em>Laravel-Menu</em> is free software distributed under the terms of the MIT license</p>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/lavary">lavary</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
+<p><em>Laravel-Menu</em> is free software distributed under the terms of the MIT license.</p>
+        </section>
+
+        <footer>
+          Laravel-menu is maintained by <a href="https://github.com/lavary">lavary</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
   </body>
 </html>
