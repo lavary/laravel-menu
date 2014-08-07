@@ -156,7 +156,7 @@ class Builder {
 	 */
 	public function item($title){
 		
-		return $this->whereNickname($attribute)
+		return $this->whereNickname($title)
 		
 					->first();		
 	}
