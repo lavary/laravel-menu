@@ -330,6 +330,12 @@ To get children of `About` item:
 <?php
 	// ...
 	$aboutSubs = $menu->about->children();
+
+	// or outside of the builder context
+	$aboutSubs = Menu::get('MyNavBar')->about->children();
+
+	// Or
+	$aboutSubs = Menu::get('MyNavBar')->item('about')->children();
 	// ...
 ?>
 ```
@@ -345,10 +351,10 @@ To check if an item has any children or not, you can use `hasChildren()`
 	}
 
 	// or outside of the builder context
-	Menu::get('MyNavBar')->about->children();
+	Menu::get('MyNavBar')->about->hasChildren();
 
 	// Or
-	Menu::get('MyNavBar')->item('about')->children();
+	Menu::get('MyNavBar')->item('about')->hasChildren();
 	// ...
 ?>
 ```
