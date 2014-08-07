@@ -241,7 +241,12 @@
 <h2>
 <a name="accessing-defined-items" class="anchor" href="#accessing-defined-items"><span class="octicon octicon-link"></span></a>Accessing Defined Items</h2>
 
-<p>You can access defined items throughout your code using the below methods along with item's title in <em>camel case</em>:</p>
+<p>You can access defined items throughout your code using the methods described below.</p>
+
+<h4>
+<a name="get-item-by-title" class="anchor" href="#get-item-by-title"><span class="octicon octicon-link"></span></a>Get Item by Title</h4>
+
+<p>along with item's title in <em>camel case</em>:</p>
 
 <div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
     <span class="c1">// ...</span>
@@ -281,6 +286,9 @@
 <span class="cp">?&gt;</span><span class="x"></span>
 </pre></div>
 
+<h4>
+<a name="get-item-by-id" class="anchor" href="#get-item-by-id"><span class="octicon octicon-link"></span></a>Get Item By Id</h4>
+
 <p>You can also get an item by Id if needed:</p>
 
 <div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
@@ -289,6 +297,78 @@
     <span class="c1">// ...</span>
 <span class="cp">?&gt;</span><span class="x"></span>
 </pre></div>
+
+<h4>
+<a name="get-all-items" class="anchor" href="#get-all-items"><span class="octicon octicon-link"></span></a>Get All Items</h4>
+
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+    <span class="c1">// ...</span>
+    <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">all</span><span class="p">();</span>
+
+    <span class="c1">// or outside of the builder context</span>
+    <span class="nx">Menu</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">'MenuName'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">all</span><span class="p">();</span>
+    <span class="c1">// ...</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<p><code>all()</code> returns a <em>Laravel Collection</em>.</p>
+
+<h4>
+<a name="get-the-first-item" class="anchor" href="#get-the-first-item"><span class="octicon octicon-link"></span></a>Get the First Item</h4>
+
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+    <span class="c1">// ...</span>
+    <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">first</span><span class="p">();</span>
+
+    <span class="c1">// or outside of the builder context</span>
+    <span class="nx">Menu</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">'MenuName'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">first</span><span class="p">();</span>
+    <span class="c1">// ...</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<h4>
+<a name="get-the-last-item" class="anchor" href="#get-the-last-item"><span class="octicon octicon-link"></span></a>Get the Last Item</h4>
+
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+    <span class="c1">// ...</span>
+    <span class="nv">$menu</span><span class="o">-&gt;</span><span class="na">last</span><span class="p">();</span>
+
+    <span class="c1">// or outside of the builder context</span>
+    <span class="nx">Menu</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">'MenuName'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">last</span><span class="p">();</span>
+    <span class="c1">// ...</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<h4>
+<a name="get-sub-items-of-the-item" class="anchor" href="#get-sub-items-of-the-item"><span class="octicon octicon-link"></span></a>Get Sub-Items of the Item</h4>
+
+<p>First of all you need to get the item using the methods described above then call <code>children()</code> on it.</p>
+
+<p>To get children of <code>About</code> item:
+&lt;?php
+    // ...
+    $aboutSubs = $menu-&gt;about-&gt;children();
+    // ...
+?&gt;</p>
+
+<pre><code>`children()` returns a *Laravel Collection*.
+
+To check if an item has any children or not, you can use `hasChildren()`
+
+&lt;?php
+    // ...
+    if( $menu-&gt;about-&gt;hasChildren() ) {
+        // Do something
+    }
+
+    // or outside of the builder context
+    Menu::get('MenuName')-&gt;about-&gt;children();
+
+    // Or
+    Menu::get('MenuName')-&gt;item('about')-&gt;children();
+    // ...
+?&gt;
+</code></pre>
 
 <h2>
 <a name="magic-where-methods" class="anchor" href="#magic-where-methods"><span class="octicon octicon-link"></span></a>Magic Where Methods</h2>
