@@ -457,7 +457,7 @@ Menu::make('MyNavBar', function($menu){
 
 ### Link's Href Property
 
-If you don't want to use the routing feature of `laravel-menu` or you don't want the builder to prefix your URL with anything (Your host address for example), you can explicitly set your link's href property:
+If you don't want to use the routing feature of `laravel-menu` or you don't want the builder to prefix your URL with anything (your host address for example), you can explicitly set your link's href property:
 
 ```
 <?php
@@ -797,9 +797,7 @@ You can also access a data as if it's a property:
 	
 	//...
 	
-	$menu->add('Users', '#');
-	
-	$menu->users->data('placement', 12);
+	$menu->add('Users', '#')->data('placement', 12);;
 	
 	// you can refer to placement as if it's a public property of the item object
 	echo $menu->users->placement;    // Output : 12
