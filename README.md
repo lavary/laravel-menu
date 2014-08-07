@@ -224,7 +224,7 @@ The output as `<ul>` would be:
 
 You can access defined items throughout your code using the methods described below.
 
-### Get Item by Title
+#### Get Item by Title
 
  along with item's title in *camel case*:
 
@@ -268,7 +268,7 @@ As an example, let's insert a divider after `About us` item after we've defined 
 ?>
 ```
 
-### Get an Item By Id
+#### Get Item By Id
 
 You can also get an item by Id if needed:
 
@@ -280,7 +280,7 @@ You can also get an item by Id if needed:
 ?>
 ```
 
-### Get All Items
+#### Get All Items
 
 ```php
 <?php
@@ -294,7 +294,7 @@ You can also get an item by Id if needed:
 ```
 `all()` returns a *Laravel Collection*.
 
-### Get the First Item
+#### Get the First Item
 
 ```php
 <?php
@@ -307,7 +307,7 @@ You can also get an item by Id if needed:
 ?>
 ```
 
-### Get the Last Item
+#### Get the Last Item
 
 ```php
 <?php
@@ -320,7 +320,7 @@ You can also get an item by Id if needed:
 ?>
 ```
 
-### Get Sub-Items of the Item
+#### Get Sub-Items of the Item
 
 First of all you need to get the item using the methods described above then call `children()` on it.
 
