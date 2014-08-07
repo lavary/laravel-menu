@@ -221,7 +221,12 @@ The output as `<ul>` would be:
 
 ## Accessing Defined Items
 
-You can access defined items throughout your code using the below methods along with item's title in *camel case*:
+
+You can access defined items throughout your code using the methods described below.
+
+### Get Item by Title
+
+ along with item's title in *camel case*:
 
 ```php
 <?php
@@ -263,12 +268,84 @@ As an example, let's insert a divider after `About us` item after we've defined 
 ?>
 ```
 
+### Get an Item By Id
+
 You can also get an item by Id if needed:
 
 ```php
 <?php
 	// ...
 	$menu->find(12) ...
+	// ...
+?>
+```
+
+### Get All Items
+
+```php
+<?php
+	// ...
+	$menu->all();
+
+	// or outside of the builder context
+	Menu::get('MenuName')->all();
+	// ...
+?>
+```
+`all()` returns a *Laravel Collection*.
+
+### Get the First Item
+
+```php
+<?php
+	// ...
+	$menu->first();
+
+	// or outside of the builder context
+	Menu::get('MenuName')->first();
+	// ...
+?>
+```
+
+### Get the Last Item
+
+```php
+<?php
+	// ...
+	$menu->last();
+
+	// or outside of the builder context
+	Menu::get('MenuName')->last();
+	// ...
+?>
+```
+
+### Get Sub-Items of the Item
+
+First of all you need to get the item using the methods described above then call `children()` on it.
+
+To get children of `About` item:
+<?php
+	// ...
+	$aboutSubs = $menu->about->children();
+	// ...
+?>
+```
+`children()` returns a *Laravel Collection*.
+
+To check if an item has any children or not, you can use `hasChildren()`
+
+<?php
+	// ...
+	if( $menu->about->hasChildren() ) {
+		// Do something
+	}
+
+	// or outside of the builder context
+	Menu::get('MenuName')->about->children();
+
+	// Or
+	Menu::get('MenuName')->item('about')->children();
 	// ...
 ?>
 ```
