@@ -462,14 +462,18 @@ You might encounter situations when you need to refer to menu instances out of t
 
 ```php
 <?php
+	// ...
 	$menus = Menu::all();
+	// ...
 ?>
 ```
 You can also call `getCollection()` to get the same result:
 
-```
+```php
 <?php
+	// ...
 	$menus = Menu::getCollection();
+	// ...
 ?>
 ```
 
