@@ -421,7 +421,7 @@ To check if an item has any children or not, you can use `hasChildren()`
 
 
 
-#### Magic Where Methods
+**Magic Where Methods**
 
 You can also search the items collection by magic where methods.
 These methods are consisted of a `where` concatenated with a property (object property or even meta data)
@@ -459,6 +459,19 @@ This method returns a *Laravel collection*.
 ## Referring to Menu Instances
 
 You might encounter situations when you need to refer to menu instances out of the builder context.
+
+
+To get a specific menu by name:
+
+```php
+<?php
+	// ...
+	$menu = Menu::get('MyNavBar');
+	// ...
+?>
+```
+
+Or to get all menus instances:
 
 ```php
 <?php
