@@ -71,4 +71,15 @@ class Menu {
 
 	}
 
+	/**
+	 * Alias for getCollection
+	 *
+	 * @return \Illuminate\Support\Collection
+	 */
+	public function all() {
+		
+		return $this->collection;
+
+	}
+
 }
