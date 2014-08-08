@@ -219,7 +219,67 @@ The output as `<ul>` would be:
 </ul>
 ```
 
-## Accessing Defined Items
+
+## Sub-items
+
+Items can have sub-items too: 
+
+```php
+<?php
+Menu::make('MyNavBar', function($menu){
+
+  //...
+  
+  $menu->add('About',    array('route'  => 'page.about'));
+  
+  // these items will go under Item 'About'
+  
+  // refer to about as a property of $menu object then call `add()` on it
+  $menu->about->add('Who We are', 'who-we-are');
+
+  // or
+  
+  $menu->get('about')->add('What We Do', 'what-we-do');
+  
+  // or
+  
+  $menu->item('about')->add('Our Goals', 'our-goals');
+  
+  //...
+
+});
+?>
+```
+
+You can also chain the item definitions and go as deep as you wish:
+
+```php  
+<?php
+
+  // ...
+  
+  $menu->add('About',    array('route'  => 'page.about'))
+		     ->add('Level2', 'link address')
+		          ->add('level3', 'Link address')
+		               ->add('level4', 'Link address');
+        
+  // ...      
+?>
+```  
+
+It is possible to add sub items directly using `parent` attribute:
+
+```php  
+<?php
+	//...
+	$menu->add('About',    array('route'  => 'page.about'));
+	$menu->add('Level2', array('url' => 'Link address', 'parent' => $menu->about->id));
+	//...
+?>
+```  
+
+
+## Referring to Items
 
 
 You can access defined items throughout your code using the methods described below.
@@ -359,7 +419,9 @@ To check if an item has any children or not, you can use `hasChildren()`
 ?>
 ```
 
-## Magic Where Methods
+
+
+#### Magic Where Methods
 
 You can also search the items collection by magic where methods.
 These methods are consisted of a `where` concatenated with a property (object property or even meta data)
@@ -393,63 +455,25 @@ Or to get item's with a specific meta data:
 
 This method returns a *Laravel collection*.
 
-## Sub-items
 
-Items can have sub-items too: 
+## Referring to Menu Instances
+
+You might encounter situations when you need to refer to menu instances out of the builder context.
 
 ```php
 <?php
-Menu::make('MyNavBar', function($menu){
+	$menus = Menu::all();
+?>
+```
+You can also call `getCollection()` to get the same result:
 
-  //...
-  
-  $menu->add('About',    array('route'  => 'page.about'));
-  
-  // these items will go under Item 'About'
-  
-  // refer to about as a property of $menu object then call `add()` on it
-  $menu->about->add('Who We are', 'who-we-are');
-
-  // or
-  
-  $menu->get('about')->add('What We Do', 'what-we-do');
-  
-  // or
-  
-  $menu->item('about')->add('Our Goals', 'our-goals');
-  
-  //...
-
-});
+```
+<?php
+	$menus = Menu::getCollection();
 ?>
 ```
 
-You can also chain the item definitions and go as deep as you wish:
-
-```php  
-<?php
-
-  // ...
-  
-  $menu->add('About',    array('route'  => 'page.about'))
-		     ->add('Level2', 'link address')
-		          ->add('level3', 'Link address')
-		               ->add('level4', 'Link address');
-        
-  // ...      
-?>
-```  
-
-It is possible to add sub items directly using `parent` attribute:
-
-```php  
-<?php
-	//...
-	$menu->add('About',    array('route'  => 'page.about'));
-	$menu->add('Level2', array('url' => 'Link address', 'parent' => $menu->about->id));
-	//...
-?>
-```  
+Both methods return a *Laravel Collection*
 
 ## HTML Attributes
 
