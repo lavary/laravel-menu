@@ -99,13 +99,13 @@ This method accepts a callable inside which you can define your items by `add` m
 
 As noted earlier, `laravel-menu` provides three rendering formats out of the box, asUl(), asOl() and asDiv(). We'll talk about these methods in detail later.
 
-```
+```php
 {{ $MyNavBar->asUl() }}
 ```
 
 You can also access the menu via the menu collection:
 
-```
+```php
 {{ Menu::get('MyNavBar')->asUl() }}
 ```
 
