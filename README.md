@@ -808,7 +808,7 @@ Attributes `style` and `data-role` would be applied to both `About` and `Service
 
 ## URL Prefixing
 
-Just like Laravel route prefixing feature, a group of menu items may be prefixed by using the `prefix` option in the passing array to group.
+Just like Laravel route prefixing feature, a group of menu items may be prefixed by using the `prefix` option in the  array being passed to the group.
 
 **Attention:** Prefixing only works on the menu items addressed with `url` but not `route` or `action`. 
 
@@ -1035,7 +1035,7 @@ Menu::make('main', function($m){
 The closure takes the items collection as argument.
 
 
-## Rendering Formats
+## Rendering Methods
 
 Several rendering formats are available out of the box:
 
@@ -1112,7 +1112,7 @@ Result:
 
 * **Menu as Bootstrap 3 Navbar**
 
-Laravel Menu provides a parital view out of the box which generates menu items in a bootstrap friendly format which you can **include** in your Bootstrap based navigation bars:
+Laravel Menu provides a parital view out of the box which generates menu items in a bootstrap friendly style which you can **include** in your Bootstrap based navigation bars:
 
 You can access the partial view via `Config::get('laravel-menu::views.bootstrap-items')`.
 
