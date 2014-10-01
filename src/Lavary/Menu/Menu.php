@@ -32,7 +32,7 @@ class Menu {
 	{
 		if(is_callable($callback))
 		{
-			$menu = new Builder();
+			$menu = new Builder($name, $this->loadConf($name));
 			
 			// Registering the items
 			call_user_func($callback, $menu);
@@ -45,6 +45,24 @@ class Menu {
 
 			return $menu;
 		}
+	}
+
+	/**
+	 * Loads and merges configuration data
+	 *
+	 * @param  string  $name
+	 * @return array
+	 */
+	public function loadConf($name) {
+		
+		$options = \Config::get('laravel-menu::settings');
+		$name    = strtolower($name);
+		
+		if( isset($options[$name]) && is_array($options[$name]) ) {
+			return array_merge($options['default'], $options[$name] );
+		}
+
+		return $options['default'];
 	}
 
 	/**

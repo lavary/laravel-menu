@@ -19,6 +19,13 @@ class Builder {
 	protected $name;
 
 	/**
+	 * The Menu configuration data
+	 *
+	 * @var array
+	 */
+	protected $conf;
+
+	/**
 	 * The route group attribute stack.
 	 *
 	 * @var array
@@ -44,10 +51,14 @@ class Builder {
 	 *
 	 * @return void
 	 */
-	public function __construct()
+	public function __construct($name, $conf)
 	{
+		$this->name = $name;
+
 		// creating a laravel collection ofr storing enu items
 		$this->items = new Collection;
+
+		$this->conf = $conf;
 	}
 
 	/**
@@ -579,6 +590,19 @@ class Builder {
 
 		return \HTML::attributes($attributes);
 	}
+
+	/**
+	 * Return configuration value by key
+	 * @param string $key
+	 *
+	 * @return string
+	 */
+	public function conf($key) {
+
+		return $this->conf[$key];
+	}
+
+	
 
 	/**
 	 * Merge item's attributes with a static string of attributes

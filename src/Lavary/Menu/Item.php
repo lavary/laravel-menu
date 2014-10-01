@@ -102,7 +102,7 @@ class Item {
 		$this->link = $path ? new Link($path) : null;
 		
 		// Activate the item if items's url matches the request uri
-		if( true === \Config::get('laravel-menu::options.auto_activate') ) {
+		if( true === $this->builder->conf('auto_activate') ) {
 			$this->checkStatus();
 		} 
 	}
@@ -267,7 +267,7 @@ class Item {
 	 */
 	public function checkStatus(){
 		
-		if( \Config::get('laravel-menu::options.restful') == true ) {
+		if( $this->builder->conf['restful'] == true ) {
 
 			$path = ltrim(parse_url($this->url(), PHP_URL_PATH), '/');
 			if( preg_match("@^{$path}(/.+)?\z@", \Request::path()) ) {
@@ -294,7 +294,7 @@ class Item {
 		
 		
 		// Check to see which element should have class 'active' set.
-		if( \Config::get('laravel-menu::options.active_element') == 'item' ) {
+		if( $this->builder->conf('active_element') == 'item' ) {
 			
 			$item->active();
 
@@ -304,7 +304,7 @@ class Item {
 		}	
 		
 		// If parent activation is enabled:
-		if( true === \Config::get('laravel-menu::options.activate_parents') ){
+		if( true === $this->builder->conf('activate_parents') ){
 			// Moving up through the parent nodes, activating them as well.
 			if( $item->parent ) {
 				
