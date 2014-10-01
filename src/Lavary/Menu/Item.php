@@ -100,18 +100,12 @@ class Item {
 
 		
 		$this->link = $path ? new Link($path) : null;
-
-		// If the item's URL is the same as request URI, 
-		// activate the item and it's parent nodes too.
+		// Activate the item if items's url matches the request uri
 		if( true === \Config::get('laravel-menu::options.auto_activate') ) {
-
-			if( \Request::url() == $this->url() ) {
-
+			if( preg_match("@^{$this->url()}(/.+)?\z@", \Request::url()) ) {
 				$this->activate();
-
 			}
 		} 
-
 	}
 
 	/**
@@ -288,10 +282,11 @@ class Item {
 		}	
 		
 		if( true === \Config::get('laravel-menu::options.activate_parents') ){
-			// Moving up through the parent nodes and activate them too.
+			// Moving up through the parent nodes, activating them as well.
 			if( $item->parent ) {
-			
+				
 				$this->activate( $this->builder->whereId( $item->parent )->first() );
+
 			}
 		}
 	}
