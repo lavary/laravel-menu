@@ -642,11 +642,11 @@ You can also choose the element to be activated (item or the link) in `options.p
 
 ```
 
-### RESTful URLs
+**RESTful URLs**
 
 RESTful URLs are also supported as long as `resful` option is set as `true` (which is by default) in `config/settings.php` file, E.g. item with url `resource` will be activated by `resource/slug` or `resource/slug/edit`.  
 
-### URL Wildcards
+**URL Wildcards**
 
 You're also able to define a pattern for a certain item, if the automatic activation can't help:
 
