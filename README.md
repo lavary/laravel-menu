@@ -642,6 +642,23 @@ You can also choose the element to be activated (item or the link) in `options.p
 
 ```
 
+### RESTful URLs
+
+RESTful URLs are also supported as long as `resful` option is set as `true` (which is by default) in `config/settings.php` file, E.g. item with url `resource` will be activated by `resource/slug` or `resource/slug/edit`.  
+
+### URL Wildcards
+
+You're also able to define a pattern for a certain item, if the automatic activation can't help:
+
+```php
+<?php
+// ...
+$menu->add('Articles', 'articles')->active('this-is-another-url/*')
+// ...
+```
+
+So `this-is-another-url`, `this-is-another-url/and-another` will both activate `Articles` item.
+
 ## Inserting a Separator
 
 You can insert a separator after each item using `divide()` method:
@@ -1239,6 +1256,34 @@ Let's describe what we did above, In `custom-menus.blade.php` we put whatever HT
 In `custom-menu-items.blade.php` we ran a `foreach` loop and called the file recursively in case the current item had any children.
 
 To put the rendered menu in your application template, you can simply include `custom-menu` view in your master layout.
+
+## Configuration
+
+You can adjust the behavior of the menu builder in `config/settings.php` file. Currently it provide a few options out of the box:
+
+* **auto_activate** Automatically activates menu items based on the current URI
+* **activate_parents** Activates the parents of an active item
+* **restful** Activates RESTful URLS. E.g `resource/slug` will activate item with `resource` url.
+* **active_element** You can choose the HTML element to which you want to add activation classes (anchor or the wrapping element).
+
+You're also able to override the default settings for each menu. To override settings for menu, just add the lower-cased menu name as a key in the settings array and add the options you need to override:
+
+```php
+<?php
+return array(
+	'default' => array(
+		'auto_activate'    => true,
+		'activate_parents' => true,
+		'restful'          => true,
+		'active_element'   => 'item',    // item|link
+	),
+	'yourmenuname' => array(
+		'auto_activate'    => false
+	),
+);
+```
+
+
 
 ## Control Structures For Blade
 
