@@ -6,5 +6,5 @@ return array(
 		'activate_parents' => true,
 		'restful'          => true,
 		'active_element'   => 'item',    // item|link
-	),
+	)
 );

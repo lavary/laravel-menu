@@ -103,7 +103,7 @@ class Item {
 		
 		// Activate the item if items's url matches the request uri
 		if( true === $this->builder->conf('auto_activate') ) {
-			$this->checkStatus();
+			$this->checkActivationStatus();
 		} 
 	}
 
@@ -265,7 +265,7 @@ class Item {
 	 * Decide if the item should be active
 	 *
 	 */
-	public function checkStatus(){
+	public function checkActivationStatus(){
 		
 		if( $this->builder->conf['restful'] == true ) {
 
@@ -319,8 +319,19 @@ class Item {
 	 *
 	 * @return Lavary\Menu\Item
 	 */
-	public function active(){
+	public function active($pattern = null){
 	
+		if(!is_null($pattern)) {
+
+			$pattern = ltrim(preg_replace('/\/\*/', '(/.*)?', $pattern), '/');
+			exit($pattern);
+			if( preg_match("@^{$pattern}\z@", \Request::path()) ){
+				$this->activate();
+			}	
+
+			return $this;
+		}
+
 		$this->attributes['class'] = Builder::formatGroupClass(array('class' => 'active'), $this->attributes);
 		
 		return $this;
