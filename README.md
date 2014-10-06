@@ -646,6 +646,8 @@ You can also choose the element to be activated (item or the link) in `options.p
 
 RESTful URLs are also supported as long as `resful` option is set as `true` in `config/settings.php` file, E.g. item with url `resource` will be activated by `resource/slug` or `resource/slug/edit`.  
 
+You might encounter situations where your app is in a directory instead of the root directory or your resources have a common prefix; In such case you need to set `rest_base` option to a proper prefix for a better restful activation support. `rest_base` can take a simple string, array of string or a function call as value.
+
 **URL Wildcards**
 
 You're also able to define a pattern for a certain item, if the automatic activation can't help:
@@ -1264,6 +1266,7 @@ You can adjust the behavior of the menu builder in `config/settings.php` file. C
 * **auto_activate** Automatically activates menu items based on the current URI
 * **activate_parents** Activates the parents of an active item
 * **restful** Activates RESTful URLS. E.g `resource/slug` will activate item with `resource` url.
+* **rest_base** The base URL that all restful resources might be prefixed with.
 * **active_element** You can choose the HTML element to which you want to add activation classes (anchor or the wrapping element).
 
 You're also able to override the default settings for each menu. To override settings for menu, just add the lower-cased menu name as a key in the settings array and add the options you need to override:
