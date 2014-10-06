@@ -269,8 +269,18 @@ class Item {
 		
 		if( $this->builder->conf['restful'] == true ) {
 
-			$path = ltrim(parse_url($this->url(), PHP_URL_PATH), '/');
-			if( preg_match("@^{$path}(/.+)?\z@", \Request::path()) ) {
+			$path  = ltrim(parse_url($this->url(), PHP_URL_PATH), '/');
+			$rpath = \Request::path();
+			
+
+			if($this->builder->conf['rest_base'] ) {
+				
+				$base = ( is_array($this->builder->conf['rest_base']) ) ? implode('|', $this->builder->conf['rest_base']) : $this->builder->conf['rest_base'];
+
+				list($path, $rpath) = preg_replace('@^('. $base . ')/@', '' , [$path, $rpath], 1);
+			}
+
+			if( preg_match("@^{$path}(/.+)?\z@", $rpath) ) {
 				
 				$this->activate();
 			}

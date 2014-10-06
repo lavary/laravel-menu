@@ -59,6 +59,7 @@ class Builder {
 		$this->items = new Collection;
 
 		$this->conf = $conf;
+
 	}
 
 	/**
