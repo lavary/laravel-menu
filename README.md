@@ -121,7 +121,9 @@ This will render your menu like so:
 ```
 And that's all about it!
 
-## Named Routs
+## Routing
+
+#### Named Routs
 
 `laravel-menu` supports named routes as item URL:
 
@@ -149,7 +151,7 @@ Menu::make('MyNavBar', function($menu){
 ?>
 ```
 
-## Controller Actions
+#### Controller Actions
 
 Laravel Menu supports controller actions as well.
 
@@ -190,7 +192,7 @@ Menu::make('MyNavBar', function($menu){
 ?>
 ```
 
-## HTTPS
+#### HTTPS
 
 If you need to serve the route over HTTPS, call `secure()` on the item's `link` attribute or alternatively add key `secure` to the options array and set it to `true`:
 
