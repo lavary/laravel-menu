@@ -1,7 +1,5 @@
 <?php namespace Lavary\Menu;
 
-use Illuminate\Support\Collection as Collection;
-
 class Menu {
 
 	/**

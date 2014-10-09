@@ -1,7 +1,5 @@
 <?php namespace Lavary\Menu;
 
-use Illuminate\Support\Collection as Collection;
-
 class Builder {
 	
 	/**
@@ -622,6 +620,25 @@ class Builder {
 
 		// Merging new and old array and parse it as a string
 		return \HTML::attributes(array_merge(array_except($old, array('class')), $attrs));
+	}
+
+	/**
+	 * Return children of an item
+	 *
+	 * @param integer $parent
+	 * @param boolean  $recursive
+	 *
+	 * @return Lavary\Menu\Collection
+	 */
+	public function whereParent($parent = null, $recursive = false) {
+		
+		if( !$recursive ) {
+			return $this->items->filter( function($item) use ($parent) {
+				return $item->parent == $parent or false; 
+			});
+		} else {
+			// pass fr now...
+		}
 	}
 
 	/**
