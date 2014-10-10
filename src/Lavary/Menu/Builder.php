@@ -459,7 +459,7 @@ class Builder {
 	{
 		if( is_callable($callback) ) {
 	
-			$collection = $this->items->filter($callback);
+			$this->items = $this->items->filter($callback);
 		}
 
 		return $this;
