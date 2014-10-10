@@ -254,11 +254,21 @@ class Item {
 	/**
 	 * Returns childeren of the item
 	 *
-	 * @return array
+	 * @return Lavary\Menu\Collection
 	 */
 	public function children()
 	{
 		return $this->builder->whereParent($this->id);
+	}
+
+	/**
+	 * Returns all childeren of the item
+	 *
+	 * @return Lavary\Menu\Collection
+	 */
+	public function all()
+	{
+		return $this->builder->whereParent($this->id, true);
 	}
 
 	/**
@@ -357,20 +367,54 @@ class Item {
 		$args = func_get_args();
 
 		if(isset($args[0]) && is_array($args[0])) {
+		
 			$this->data = array_merge($this->data, array_change_key_case($args[0]));
+			
+			// Cascade data to item's children if cascade_data option is enabled
+			if($this->builder->conf['cascade_data']) {
+				$this->cascade_data($args);
+			}
+
 			return $this;
 		}
 
 		elseif(isset($args[0]) && isset($args[1])) {
+		
 			$this->data[strtolower($args[0])] = $args[1];
+			
+			// Cascade data to item's children if cascade_data option is enabled
+			if($this->builder->conf['cascade_data']) {
+				$this->cascade_data($args);
+			}
+
 			return $this;
 		} 
 
 		elseif(isset($args[0])) {
+			
 			return isset($this->data[$args[0]]) ? $this->data[$args[0]] : null;
+
 		}
 
 		return $this->data;
+	}
+
+	/**
+	 * Cascade data to children
+	 *
+	 * @param  array $args
+	 */
+	public function cascade_data($args = array()) {
+		
+		if( !$this->hasChildren() ) {
+			return false;
+		}
+
+		if( count($args) >= 2 ) {
+			$this->children()->data($args[0], $args[1]);
+		} else {
+			$this->children()->data($args[0]);
+		}
 	}
 
 	/**
