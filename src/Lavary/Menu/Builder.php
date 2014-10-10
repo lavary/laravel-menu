@@ -459,8 +459,7 @@ class Builder {
 	{
 		if( is_callable($callback) ) {
 	
-			$this->items = $this->items->filter($callback);
-	
+			$collection = $this->items->filter($callback);
 		}
 
 		return $this;
@@ -623,22 +622,38 @@ class Builder {
 	}
 
 	/**
-	 * Return children of an item
+	 * Filter items recursively
 	 *
-	 * @param integer $parent
-	 * @param boolean  $recursive
+	 * @param string $attribute
+	 * @param mixed  $value
 	 *
 	 * @return Lavary\Menu\Collection
 	 */
-	public function whereParent($parent = null, $recursive = false) {
+	public function filterRecursive($attribute, $value){
+
+		$collection = new Collection;
 		
-		if( !$recursive ) {
-			return $this->items->filter( function($item) use ($parent) {
-				return $item->parent == $parent or false; 
-			});
-		} else {
-			// pass fr now...
-		}
+		// Iterate over all the items in the main collection
+		$this->items->each( function ($item) use ($attribute, $value, &$collection) {
+			
+			if ( !property_exists($item, $attribute) )
+			{
+				return false;
+			}
+			if( $item->$attribute == $value ) {
+				
+				$collection->push($item);
+				
+				// Check if item has any children
+				if( $item->hasChildren() ) {
+					
+					$collection = $collection->merge( $this->filterRecursive($attribute, $item->id) );
+				}
+			}
+
+		});
+
+		return $collection;
 	}
 
 	/**
@@ -660,7 +675,12 @@ class Builder {
 		}
 
 		$value     = $args ? $args[0] : null;
+		$recursive = isset($args[1]) ? $args[1] : false;
 		
+		if( $recursive ) {
+			return $this->filterRecursive($attribute, $value);
+		} 
+
 		return $this->items->filter(function($item) use ($attribute, $value) {
 
 			if ( !property_exists($item, $attribute) )
