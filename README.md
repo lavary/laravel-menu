@@ -560,6 +560,22 @@ You can also pass an associative array of attributes if you need to add a group 
 ?>
 ```
 
+You can use `attr` on a collection, if you need to target a group of items:
+
+```php
+<?php
+  // ...
+  $menu->add('About', 'about');
+  
+  $menu->about->add('Who we are', 'about/whoweare');
+  $menu->about->add('What we do', 'about/whatwedo');
+  
+  // add a class to children of About
+  $menu->about->children()->attr('class', 'about-item');
+  
+  // ...
+```
+
 ## Maniuplating Links
 
 All the HTML attributes will go to the wrapping tags(li, div, etc); You might encounter situations when you need to add some HTML attributes to `<a>` tags as well.
@@ -761,6 +777,8 @@ The above code will result:
 
 ```
 
+You can call `prepend` and `append` on collections as well.
+
 ## Raw Items
 
 To insert items as plain text instead of hyper-links you can use `raw()`:
@@ -956,6 +974,21 @@ You can also access a data as if it's a property:
 
 Meta data don't do anything to the item and won't be rendered in HTML either. It is the developer who would decide what to do with them.
 
+You can use `data` on a collection, if you need to target a group of items:
+
+```php
+<?php
+  // ...
+  $menu->add('Users', 'users');
+  
+  $menu->users->add('New User', 'users/new');
+  $menu->users->add('Uses', 'users');
+  
+  // add a meta data to children of Users
+  $menu->users->children()->data('anything', 'value');
+  
+  // ...
+```
 
 ## Filtering the Items
 
