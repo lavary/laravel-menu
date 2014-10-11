@@ -7,7 +7,7 @@
 
 A quick way to create menus in [Laravel 4.x](http://laravel.com/)
 
-#Documentation
+##Documentation
 
 * [Installation](#installation)
 * [Basic Usage](#basic-usage)
