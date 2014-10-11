@@ -7,6 +7,38 @@
 
 A quick way to create menus in [Laravel 4.x](http://laravel.com/)
 
+#Documentation
+
+* [Installation](https://github.com/lavary/laravel-menu#installation)
+* [Basic Usage](https://github.com/lavary/laravel-menu#basic-usage)
+* [Routing](https://github.com/lavary/laravel-menu#routing)
+* * [Named Routes](https://github.com/lavary/laravel-menu#named-routs)
+* * [Controller Actions](https://github.com/lavary/laravel-menu#controller-actions)
+* * [HTTPS](https://github.com/lavary/laravel-menu#https)
+* [Sub-items](https://github.com/lavary/laravel-menu#sub-items)
+* [Referring to Items](https://github.com/lavary/laravel-menu#referring-to-items)
+* [Referring to Menu Objects](https://github.com/lavary/laravel-menu#referring-to-menu-instances)
+* [HTML Attributes](https://github.com/lavary/laravel-menu#html-attributes)
+* [Maniuplating Links](https://github.com/lavary/laravel-menu#maniuplating-links)
+* * [Link's Href Property](https://github.com/lavary/laravel-menu#links-href-property)
+* [Active Item](https://github.com/lavary/laravel-menu#active-item)
+* [Inserting a Separator](https://github.com/lavary/laravel-menu#inserting-a-separator)
+* [Append and Prepend](https://github.com/lavary/laravel-menu#append-and-prepend)
+* [Raw Items](https://github.com/lavary/laravel-menu#raw-items)
+* [Menu Groups](https://github.com/lavary/laravel-menu#menu-groups)
+* [URL Prefixing](https://github.com/lavary/laravel-menu#url-prefixing)
+* [Nested Groups](https://github.com/lavary/laravel-menu#nested-groups)
+* [Meta Data](https://github.com/lavary/laravel-menu#meta-data)
+* [Filtering the Items](https://github.com/lavary/laravel-menu#filtering-the-items)
+* [Sorting the Items](https://github.com/lavary/laravel-menu#sorting-the-items)
+* [Rendering Methods](https://github.com/lavary/laravel-menu#rendering-methods)
+* [Advanced Usage](https://github.com/lavary/laravel-menu#advanced-usage)
+* [Configuration](https://github.com/lavary/laravel-menu#configuration)
+* [Control Structures for Blade](https://github.com/lavary/laravel-menu#control-structures-for-blade)
+* * [@lm-attrs](https://github.com/lavary/laravel-menu#lm-attrs)
+* [If You Need Help](https://github.com/lavary/laravel-menu#if-you-need-help)
+* [License](https://github.com/lavary/laravel-menu#license)
+
 
 ## Installation
 
@@ -286,7 +318,7 @@ It is possible to add sub items directly using `parent` attribute:
 
 You can access defined items throughout your code using the methods described below.
 
-**Get Item by Title**
+#### Get Item by Title
 
  along with item's title in *camel case*:
 
