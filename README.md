@@ -473,7 +473,7 @@ If you need to fetch descendants of the matched items as well, Just set the seco
 $reds = $menu->whereColor('red', true);
 ```
 
-This will give all items which color red and their decsendants.
+This will give all items with color red and their decsendants.
 
 
 ## Referring to Menu Instances
