@@ -421,6 +421,15 @@ To check if an item has any children or not, you can use `hasChildren()`
 ?>
 ```
 
+To get all descendants of an item you may use `all`:
+
+```php
+<?php
+// ...
+$aboutSubs = $menu->about->all();
+// ...
+
+```
 
 
 **Magic Where Methods**
@@ -456,6 +465,15 @@ Or to get item's with a specific meta data:
 ```
 
 This method returns a *Laravel collection*.
+
+If you need to fetch descendants of the matched items as well, Just set the second argument as true.
+
+```php
+<?php
+$reds = $menu->whereColor('red', true);
+```
+
+This will give all items which color red and their decsendants.
 
 
 ## Referring to Menu Instances
