@@ -1301,6 +1301,7 @@ You can adjust the behavior of the menu builder in `config/settings.php` file. C
 * **auto_activate** Automatically activates menu items based on the current URI
 * **activate_parents** Activates the parents of an active item
 * **restful** Activates RESTful URLS. E.g `resource/slug` will activate item with `resource` url.
+* **cascade_data** If you need descendants of an item to inherit meta data from their parents, make sure this option is enabled.
 * **rest_base** The base URL that all restful resources might be prefixed with.
 * **active_element** You can choose the HTML element to which you want to add activation classes (anchor or the wrapping element).
 
