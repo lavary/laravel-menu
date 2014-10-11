@@ -12,15 +12,15 @@ A quick way to create menus in [Laravel 4.x](http://laravel.com/)
 * [Installation](https://github.com/lavary/laravel-menu#installation)
 * [Basic Usage](https://github.com/lavary/laravel-menu#basic-usage)
 * [Routing](https://github.com/lavary/laravel-menu#routing)
-* * [Named Routes](https://github.com/lavary/laravel-menu#named-routs)
-* * [Controller Actions](https://github.com/lavary/laravel-menu#controller-actions)
-* * [HTTPS](https://github.com/lavary/laravel-menu#https)
+* - [Named Routes](https://github.com/lavary/laravel-menu#named-routs)
+* - [Controller Actions](https://github.com/lavary/laravel-menu#controller-actions)
+* - [HTTPS](https://github.com/lavary/laravel-menu#https)
 * [Sub-items](https://github.com/lavary/laravel-menu#sub-items)
 * [Referring to Items](https://github.com/lavary/laravel-menu#referring-to-items)
 * [Referring to Menu Objects](https://github.com/lavary/laravel-menu#referring-to-menu-instances)
 * [HTML Attributes](https://github.com/lavary/laravel-menu#html-attributes)
 * [Maniuplating Links](https://github.com/lavary/laravel-menu#maniuplating-links)
-* * [Link's Href Property](https://github.com/lavary/laravel-menu#links-href-property)
+* - [Link's Href Property](https://github.com/lavary/laravel-menu#links-href-property)
 * [Active Item](https://github.com/lavary/laravel-menu#active-item)
 * [Inserting a Separator](https://github.com/lavary/laravel-menu#inserting-a-separator)
 * [Append and Prepend](https://github.com/lavary/laravel-menu#append-and-prepend)
@@ -35,7 +35,7 @@ A quick way to create menus in [Laravel 4.x](http://laravel.com/)
 * [Advanced Usage](https://github.com/lavary/laravel-menu#advanced-usage)
 * [Configuration](https://github.com/lavary/laravel-menu#configuration)
 * [Control Structures for Blade](https://github.com/lavary/laravel-menu#control-structures-for-blade)
-* * [@lm-attrs](https://github.com/lavary/laravel-menu#lm-attrs)
+* - [@lm-attrs](https://github.com/lavary/laravel-menu#lm-attrs)
 * [If You Need Help](https://github.com/lavary/laravel-menu#if-you-need-help)
 * [License](https://github.com/lavary/laravel-menu#license)
 
@@ -362,7 +362,7 @@ As an example, let's insert a divider after `About us` item after we've defined 
 ?>
 ```
 
-**Get Item By Id**
+#### Get Item By Id
 
 You can also get an item by Id if needed:
 
@@ -374,7 +374,7 @@ You can also get an item by Id if needed:
 ?>
 ```
 
-**Get All Items**
+#### Get All Items
 
 ```php
 <?php
@@ -388,7 +388,7 @@ You can also get an item by Id if needed:
 ```
 `all()` returns a *Laravel Collection*.
 
-**Get the First Item**
+#### Get the First Item
 
 ```php
 <?php
@@ -401,7 +401,7 @@ You can also get an item by Id if needed:
 ?>
 ```
 
-**Get the Last Item**
+#### Get the Last Item
 
 ```php
 <?php
@@ -414,7 +414,7 @@ You can also get an item by Id if needed:
 ?>
 ```
 
-**Get Sub-Items of the Item**
+#### Get Sub-Items of the Item
 
 First of all you need to get the item using the methods described above then call `children()` on it.
 
@@ -464,7 +464,7 @@ $aboutSubs = $menu->about->all();
 ```
 
 
-**Magic Where Methods**
+#### Magic Where Methods
 
 You can also search the items collection by magic where methods.
 These methods are consisted of a `where` concatenated with a property (object property or even meta data)
@@ -650,7 +650,7 @@ Menu::make('MyNavBar', function($menu){
 ?>
 ```
 
-### Link's Href Property
+#### Link's Href Property
 
 If you don't want to use the routing feature of `laravel-menu` or you don't want the builder to prefix your URL with anything (your host address for example), you can explicitly set your link's href property:
 
@@ -710,13 +710,13 @@ You can also choose the element to be activated (item or the link) in `options.p
 
 ```
 
-**RESTful URLs**
+#### RESTful URLs
 
 RESTful URLs are also supported as long as `resful` option is set as `true` in `config/settings.php` file, E.g. item with url `resource` will be activated by `resource/slug` or `resource/slug/edit`.  
 
 You might encounter situations where your app is in a directory instead of the root directory or your resources have a common prefix; In such case you need to set `rest_base` option to a proper prefix for a better restful activation support. `rest_base` can take a simple string, array of string or a function call as value.
 
-**URL Wildcards**
+#### URL Wildcards
 
 You're also able to define a pattern for a certain item, if the automatic activation can't help:
 
@@ -1143,7 +1143,7 @@ The closure takes the items collection as argument.
 
 Several rendering formats are available out of the box:
 
-* **Menu as Unordered List**
+#### Menu as Unordered List
 
 ```html
   {{ $MenuName->asUl() }}
@@ -1166,7 +1166,7 @@ Result:
 </ul>
 ```
 
-* **Menu as Ordered List**
+#### Menu as Ordered List
 
 
 ```php
@@ -1190,7 +1190,7 @@ Result:
 </ol>
 ```
 
-* **Menu as Div**
+#### Menu as Div
 
 
 ```php
@@ -1214,7 +1214,7 @@ Result:
 </div>
 ```
 
-* **Menu as Bootstrap 3 Navbar**
+#### Menu as Bootstrap 3 Navbar
 
 Laravel Menu provides a parital view out of the box which generates menu items in a bootstrap friendly style which you can **include** in your Bootstrap based navigation bars:
 
