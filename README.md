@@ -130,19 +130,19 @@ Menu::make('MyNavBar', function($menu){
 
 **Attention** `$MyNavBar` is just a hypothetical name I used in these examples; You can name your menus whatever you please.
 
-In the above example `Menu::make()` creates a menu named `MyNavBar`, Adds the menu instance to the `Menu::collection` and finally makes `$myNavBar` object available in the views.
+In the above example `Menu::make()` creates a menu named `MyNavBar`, Adds the menu instance to the `Menu::collection` and ultimately makes `$myNavBar` object available across all views.
 
-This method accepts a callable inside which you can define your items by `add` method. `add` adds a new item to the menu and returns an instance of `Item`. `add()` receives two parameters, the first one is the item title and the second one is options.
+This method accepts a callable inside which you can define your items. `add` method defines a new item. It receives two parameters, the first one is the item title and the second one is options.
 
-*options* can be a simple string representing a URL or an associative array of options and HTML attributes which we'll discuss in a bit.
+*options* can be a simple string representing a URL or an associative array of options and HTML attributes which we'll discuss shortly.
 
 
 
 **To render the menu in your view:**
 
-`Laravel-menu` provides three rendering methods out of the box. However you can create your own renderer using the right methods and attributes.
+`Laravel-menu` provides four rendering methods out of the box. However you can create your own renderer using the right methods and attributes.
 
-As noted earlier, `laravel-menu` provides three rendering formats out of the box, asUl(), asOl() and asDiv(). We'll talk about these methods in detail later.
+As noted earlier, `laravel-menu` provides four rendering formats out of the box, `asUl()`, `asOl()` and `asDiv()` and `asBootstrap()`. You can read about the details [here](#rendering-methods).
 
 ```php
 {{ $MyNavBar->asUl() }}
@@ -166,13 +166,25 @@ This will render your menu like so:
 ```
 And that's all about it!
 
+
 ## Routing
+
+#### URLs
+
+You can simply assign a URL to your menu item by passing the URL as the second argument to `add` method:
+
+```php
+<?php
+// ...
+$menu->add('About Us', 'about-us');
+// ...
+```
 
 #### Named Routs
 
-`laravel-menu` supports named routes as item URL:
+`laravel-menu` supports named routes as well:
 
-This time instead of passing a simple string to `add()`, we pass an associative array like so:
+This time instead of passing a simple string to `add()`, we pass an associative with key `route` and a named route as value:
 
 ```php
 <?php
@@ -180,12 +192,14 @@ This time instead of passing a simple string to `add()`, we pass an associative 
 // ...
 
 /* Suppose we have these routes defined in our app/routes.php file */
+
 Route::get('/',        array('as' => 'home.page',  function(){...}));
 Route::get('about',    array('as' => 'page.about', function(){...}));
 
 //...
 
 // Now we make the menu:
+
 Menu::make('MyNavBar', function($menu){
   
   $menu->add('Home',     array('route'  => 'home.page'));
@@ -195,6 +209,7 @@ Menu::make('MyNavBar', function($menu){
 });
 ?>
 ```
+
 
 #### Controller Actions
 
