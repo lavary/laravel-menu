@@ -10,7 +10,7 @@ A quick way to create menus in [Laravel 4.x](http://laravel.com/)
 ##Documentation
 
 * [Installation](#installation)
-* [Basic Usage](#basic-usage)
+* [Getting Started](#getting-started)
 * [Routing](#routing)
 	- [Named Routes](#named-routs)
 	- [Controller Actions](#controller-actions)
@@ -106,7 +106,7 @@ At the end of `config/app.php` add `'Menu'    => 'Lavary\Menu\Facade'` to the `$
 This registers the package with Laravel and creates an alias called `Menu`.
 
 
-## Basic Usage
+## Getting Started
 
 
 Menus can be defined in `app/routes.php` or `start/global.php` or any other place you wish as long as it is auto loaded when a request hits your application.
