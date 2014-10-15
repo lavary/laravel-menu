@@ -1298,9 +1298,6 @@ This is how your Bootstrap code is going to look like:
 </nav>
 ```
 
-I've prepared a tutorial about embedding several menu objects in a bootstrap navbar in case somebody is interested.
-You can read all about it [here](https://gist.github.com/lavary/c9da317446e2e3b32779).
-
 ## Advanced Usage
 
 As noted earlier you can create your own rendering formats.
