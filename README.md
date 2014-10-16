@@ -1347,7 +1347,7 @@ In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-i
 ```
 @foreach($items as $item)
   <li @if($item->hasChildren()) class="dropdown" @endif>
-      <a href="{{ $item->url }}">{{ $item->title }} </a>
+      <a href="{{ $item->url() }}">{{ $item->title }} </a>
       @if($item->hasChildren())
         <ul class="dropdown-menu">
               @include('custom-menu-items', array('items' => $item->children()))
@@ -1369,41 +1369,11 @@ In `custom-menu-items.blade.php` we ran a `foreach` loop and called the file rec
 
 To put the rendered menu in your application template, you can simply include `custom-menu` view in your master layout.
 
-## Configuration
-
-You can adjust the behavior of the menu builder in `config/settings.php` file. Currently it provide a few options out of the box:
-
-* **auto_activate** Automatically activates menu items based on the current URI
-* **activate_parents** Activates the parents of an active item
-* **restful** Activates RESTful URLS. E.g `resource/slug` will activate item with `resource` url.
-* **cascade_data** If you need descendants of an item to inherit meta data from their parents, make sure this option is enabled.
-* **rest_base** The base URL that all restful resources might be prefixed with.
-* **active_element** You can choose the HTML element to which you want to add activation classes (anchor or the wrapping element).
-
-You're also able to override the default settings for each menu. To override settings for menu, just add the lower-cased menu name as a key in the settings array and add the options you need to override:
-
-```php
-<?php
-return array(
-	'default' => array(
-		'auto_activate'    => true,
-		'activate_parents' => true,
-		'restful'          => true,
-		'active_element'   => 'item',    // item|link
-	),
-	'yourmenuname' => array(
-		'auto_activate'    => false
-	),
-);
-```
-
-
-
-## Control Structures For Blade
+#### Control Structure For Blade
 
 Laravel menu extends Blade to handle special layouts.
 
-### @lm-attrs
+##### @lm-attrs
 
 You might encounter situations when some of your HTML properties are explicitly written inside your view instead of dynamically being defined when adding the item; However you will need to merge these static attributes with your Item's attributes.
 
@@ -1454,6 +1424,35 @@ Here's the result:
 ...
 <li class="item item-1 dropdown" id="my-item" data-test="test">...</li>
 ...
+```
+
+
+## Configuration
+
+You can adjust the behavior of the menu builder in `config/settings.php` file. Currently it provide a few options out of the box:
+
+* **auto_activate** Automatically activates menu items based on the current URI
+* **activate_parents** Activates the parents of an active item
+* **restful** Activates RESTful URLS. E.g `resource/slug` will activate item with `resource` url.
+* **cascade_data** If you need descendants of an item to inherit meta data from their parents, make sure this option is enabled.
+* **rest_base** The base URL that all restful resources might be prefixed with.
+* **active_element** You can choose the HTML element to which you want to add activation classes (anchor or the wrapping element).
+
+You're also able to override the default settings for each menu. To override settings for menu, just add the lower-cased menu name as a key in the settings array and add the options you need to override:
+
+```php
+<?php
+return array(
+	'default' => array(
+		'auto_activate'    => true,
+		'activate_parents' => true,
+		'restful'          => true,
+		'active_element'   => 'item',    // item|link
+	),
+	'yourmenuname' => array(
+		'auto_activate'    => false
+	),
+);
 ```
 
 
