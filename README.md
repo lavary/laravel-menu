@@ -1335,7 +1335,7 @@ Menu::make('MyNavBar', function($menu){
 In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-items.blade.php`.
 
 **custom-menu.blade.php**
-```
+```php
 <nav class="navbar">
   <ul class="horizontal-navbar">
     @include('custom-menu-items', array('items', $MyNavBar->roots()))
@@ -1344,7 +1344,7 @@ In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-i
 ```
 
 **custom-menu-items.blade.php**
-```
+```php
 @foreach($items as $item)
   <li @if($item->hasChildren()) class="dropdown" @endif>
       <a href="{{ $item->url() }}">{{ $item->title }} </a>
@@ -1377,7 +1377,7 @@ Laravel menu extends Blade to handle special layouts.
 
 You might encounter situations when some of your HTML properties are explicitly written inside your view instead of dynamically being defined when adding the item; However you will need to merge these static attributes with your Item's attributes.
 
-```
+```php
 @foreach($items as $item)
   <li @if($item->hasChildren()) class="dropdown" @endif data-test="test">
       <a href="{{ $item->url }}">{{ $item->title }} </a>
@@ -1403,7 +1403,7 @@ $menu->add('Dropdown', array('class' => 'item item-1', 'id' => 'my-item'));
 
 The view:
 
-```
+```php
 @foreach($items as $item)
   <li@lm-attrs($item) @if($item->hasChildren()) class="dropdown" @endif data-test="test" @lm-endattrs>
       <a href="{{ $item->url }}">{{ $item->title }} </a>
