@@ -140,7 +140,7 @@ This method accepts a callable inside which you can define your items. `add` met
 
 **To render the menu in your view:**
 
-`Laravel-menu` provides three rendering methods out of the box. However you can create your own renderer using the right methods and attributes.
+`Laravel-menu` provides three rendering methods out of the box. However you can create your own rendering method using the right methods and attributes.
 
 As noted earlier, `laravel-menu` provides three rendering formats out of the box, `asUl()`, `asOl()` and `asDiv()`. You can read about the details [here](#rendering-methods).
 
@@ -148,7 +148,7 @@ As noted earlier, `laravel-menu` provides three rendering formats out of the box
 {{ $MyNavBar->asUl() }}
 ```
 
-You can also access the menu via the menu collection:
+You can also access the menu object via the menu collection:
 
 ```php
 {{ Menu::get('MyNavBar')->asUl() }}
