@@ -46,6 +46,7 @@ A quick way to create menus in [Laravel 4.x](http://laravel.com/)
 	- [Menu as Div](#menu-as-div)
 	- [Menu as Bootstrap 3 Navbar](#menu-as-bootstrap-3-navbar)
 * [Advanced Usage](#advanced-usage)
+	+ [A Basic Example](#a-basic-example)
 	+ [Control Structure for Blade](#control-structure-for-blade)
 		- [@lm-attrs](#lm-attrs)
 * [Configuration](#configuration)
@@ -1301,6 +1302,8 @@ This is how your Bootstrap code is going to look like:
 ## Advanced Usage
 
 As noted earlier you can create your own rendering formats.
+
+#### A Basic Example
 
 If you'd like to render your menu(s) according to your own design, you should create two views.
 
