@@ -190,13 +190,11 @@ This time instead of passing a simple string to `add()`, we pass an associative 
 ```php
 <?php
 
-// ...
+// Suppose we have these routes defined in our app/routes.php file 
 
-/* Suppose we have these routes defined in our app/routes.php file */
-
+//...
 Route::get('/',        array('as' => 'home.page',  function(){...}));
 Route::get('about',    array('as' => 'page.about', function(){...}));
-
 //...
 
 // Now we make the menu:
@@ -218,12 +216,11 @@ Laravel Menu supports controller actions as well.
 
 You will just need to set `action` key of your options array to a controller action:
 
-// ...
-
 ```php
 <?php
 
-/* Suppose we have these routes defined in our app/routes.php file */
+// Suppose we have these routes defined in our app/routes.php file
+
 // ...
 Route::get('services', 'ServiceController@index');
 //...
