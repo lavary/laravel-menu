@@ -739,7 +739,7 @@ You can also choose the element to be activated (item or the link) in `options.p
 
 #### RESTful URLs
 
-RESTful URLs are also supported as long as `resful` option is set as `true` in `config/settings.php` file, E.g. item with url `resource` will be activated by `resource/slug` or `resource/slug/edit`.  
+RESTful URLs are also supported as long as `restful` option is set as `true` in `config/settings.php` file, E.g. item with url `resource` will be activated by `resource/slug` or `resource/slug/edit`.  
 
 You might encounter situations where your app is in a directory instead of the root directory or your resources have a common prefix; In such case you need to set `rest_base` option to a proper prefix for a better restful activation support. `rest_base` can take a simple string, array of string or a function call as value.
 
