@@ -1449,8 +1449,8 @@ return array(
 		'auto_activate'    => true,
 		'activate_parents' => true,
 		'active_class'     => 'active',
-		'restful'          => true,
 		'active_element'   => 'item',    // item|link
+		'restful'          => true,
 	),
 	'yourmenuname' => array(
 		'auto_activate'    => false
