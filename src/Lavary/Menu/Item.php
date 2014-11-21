@@ -312,7 +312,6 @@ class Item {
 	
 		$item = is_null($item) ? $this : $item;
 		
-		
 		// Check to see which element should have class 'active' set.
 		if( $this->builder->conf('active_element') == 'item' ) {
 			
@@ -351,7 +350,7 @@ class Item {
 			return $this;
 		}
 
-		$this->attributes['class'] = Builder::formatGroupClass(array('class' => 'active'), $this->attributes);
+		$this->attributes['class'] = Builder::formatGroupClass(array('class' => $this->builder->conf('active_class')), $this->attributes);
 		
 		return $this;
 	}
