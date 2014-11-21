@@ -389,6 +389,18 @@ As an example, let's insert a divider after `About us` item after we've defined 
 ?>
 ```
 
+If you're not comfortable with the above method you can store the item's object reference in a variable for further reference:
+
+```php
+<?php
+// ...
+$about = $menu->add('About', 'about');
+$about->add('Who We Are', 'who-we-are');
+$about->add('What We Do', 'what-we-do');
+// ...
+```
+
+
 #### Get Item By Id
 
 You can also get an item by Id if needed:
