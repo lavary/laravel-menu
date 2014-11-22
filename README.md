@@ -720,7 +720,7 @@ You can mark an item as activated using `active()` on that item:
 ?>
 ```
 
-You can also add class 'active' to the anchor element instead of the wrapping element:
+You can also add class `active` to the anchor element instead of the wrapping element:
 
 ```php
 <?php
@@ -757,12 +757,12 @@ You might encounter situations where your app is in a directory instead of the r
 
 #### URL Wildcards
 
-You're also able to define a pattern for a certain item, if the automatic activation can't help:
+You can also able to define a pattern for a certain item, if the automatic activation can't help:
 
 ```php
 <?php
 // ...
-$menu->add('Articles', 'articles')->active('this-is-another-url/*')
+$menu->add('Articles', 'articles')->active('this-is-another-url/*');
 // ...
 ```
 
