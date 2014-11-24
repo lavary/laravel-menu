@@ -27,7 +27,7 @@ A quick way to create menus in [Laravel 4.x](http://laravel.com/)
 	- [Magic Where Methods](#magic-where-methods)
 * [Referring to Menu Objects](#referring-to-menu-instances)
 * [HTML Attributes](#html-attributes)
-* [Maniuplating Links](#maniuplating-links)
+* [Manipulating Links](#manipulating-links)
 	- [Link's Href Property](#links-href-property)
 * [Active Item](#active-item)
 	- [RESTful URLs](#restful-urls)
@@ -665,7 +665,7 @@ You can use `attr` on a collection, if you need to target a group of items:
   // ...
 ```
 
-## Maniuplating Links
+## Manipulating Links
 
 All the HTML attributes will go to the wrapping tags(li, div, etc); You might encounter situations when you need to add some HTML attributes to `<a>` tags as well.
 
