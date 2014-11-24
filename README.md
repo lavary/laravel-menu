@@ -737,7 +737,7 @@ You can also add class `active` to the anchor element instead of the wrapping el
 ?>
 ```
 
-Laravel Menu does this for you automatically according to the current **URI** the time you reigster the item.
+Laravel Menu does this for you automatically according to the current **URI** the time you register the item.
 
 You can also choose the element to be activated (item or the link) in `options.php` which resides in package's config directory:
 
