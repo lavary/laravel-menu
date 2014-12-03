@@ -273,6 +273,16 @@ class Item {
 	}
 
 	/**
+	 * Returns depth of $item
+	 * 
+	 * @return Integer
+	 */
+	public function depth()
+	{
+		return static::$depth;
+	}
+
+	/**
 	 * Returns all childeren of the item
 	 *
 	 * @return Lavary\Menu\Collection
