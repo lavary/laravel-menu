@@ -948,12 +948,12 @@ Menu::make('MyNavBar', function($menu){
   
   $menu->add('About', array('url'  => 'about', 'class' => 'navbar navbar-about dropdown'));  // URL: /about 
   
-  $menu->group(array('prefix' => 'about') function($m){
+  $menu->group(array('prefix' => 'about'), function($m){
   
   	$about->add('Who we are?', 'who-we-are');   // URL: about/who-we-are
   	$about->add('What we do?', 'what-we-do');   // URL: about/what-we-do
   	
-  }
+  });
   
   $menu->add('Contact',  'contact');
 
