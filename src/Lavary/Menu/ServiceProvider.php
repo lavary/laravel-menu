@@ -18,7 +18,16 @@ class ServiceProvider extends BaseServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('lavary/laravel-menu');
+		if (method_exists($this->app['config'], 'package')) {
+			$this->app['config']->package('lavary/laravel-menu', __DIR__ . '/../../config');
+		} else {       
+			$settings   = $this->app['files']->getRequire(__DIR__ .'/../../config/settings.php');
+			$views      = $this->app['files']->getRequire(__DIR__ .'/../../config/views.php');
+
+			$config     = array_merge($settings, $views);
+
+            $this->app['config']->set('lavary/laravel-menu::config', $config);
+        }
 
 		// Extending Blade engine
 		require_once('Extensions/BladeExtension.php');
