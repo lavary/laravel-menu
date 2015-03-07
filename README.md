@@ -5,7 +5,7 @@
 [![License](https://poser.pugx.org/lavary/laravel-menu/license.svg)](https://packagist.org/packages/lavary/laravel-menu)
 
 
-A quick way to create menus in [Laravel 4.x](http://laravel.com/)
+A quick way to create menus in [Laravel 5.x](http://laravel.com/)
 
 ##Documentation
 
@@ -27,7 +27,7 @@ A quick way to create menus in [Laravel 4.x](http://laravel.com/)
 	- [Magic Where Methods](#magic-where-methods)
 * [Referring to Menu Objects](#referring-to-menu-instances)
 * [HTML Attributes](#html-attributes)
-* [Maniuplating Links](#maniuplating-links)
+* [Manipulating Links](#manipulating-links)
 	- [Link's Href Property](#links-href-property)
 * [Active Item](#active-item)
 	- [RESTful URLs](#restful-urls)
@@ -50,6 +50,7 @@ A quick way to create menus in [Laravel 4.x](http://laravel.com/)
 	+ [A Basic Example](#a-basic-example)
 	+ [Control Structure for Blade](#control-structure-for-blade)
 		- [@lm-attrs](#lm-attrs)
+* [Publish the config](#publish-the-config)
 * [Configuration](#configuration)
 * [If You Need Help](#if-you-need-help)
 * [License](#license)
@@ -62,7 +63,7 @@ In the `require` key of `composer.json` file add `lavary/laravel-menu": "dev-mas
 ```
 ...
 "require": {
-	"laravel/framework": "4.2.*",
+	"laravel/framework": "5.0.*",
 	"lavary/laravel-menu": "dev-master"
   }  
 ```
@@ -73,7 +74,7 @@ Run the composer update command:
 composer update
 ```
 
-Now append Laravel Menu service provider to  `providers` array in `app/config/app.php`.
+Now append Laravel Menu service provider to  `providers` array in `config/app.php`.
 
 ```php
 <?php
@@ -82,6 +83,8 @@ Now append Laravel Menu service provider to  `providers` array in `app/config/ap
 
     'Illuminate\Foundation\Providers\ArtisanServiceProvider',
     'Illuminate\Auth\AuthServiceProvider',
+    ...
+    'Illuminate\Html\HtmlServiceProvider'
     ...
     'Lavary\Menu\ServiceProvider',
 
@@ -99,6 +102,8 @@ At the end of `config/app.php` add `'Menu'    => 'Lavary\Menu\Facade'` to the `$
     'App'        => 'Illuminate\Support\Facades\App',
     'Artisan'    => 'Illuminate\Support\Facades\Artisan',
     ...
+    'Html'      => 'Illuminate\Html\HtmlFacade',
+    ...
     'Menu'       => 'Lavary\Menu\Facade',
 
 ),
@@ -111,7 +116,7 @@ This registers the package with Laravel and creates an alias called `Menu`.
 ## Getting Started
 
 
-Menus can be defined in `app/routes.php` or `start/global.php` or any other place you wish as long as it is auto loaded when a request hits your application.
+Menus can be defined in `app/Http/routes.php` or any other place you wish as long as it is auto loaded when a request hits your application.
 
 
 Here is a basic usage:
@@ -147,13 +152,13 @@ This method accepts a callable inside which you can define your items. `add` met
 As noted earlier, `laravel-menu` provides three rendering formats out of the box, `asUl()`, `asOl()` and `asDiv()`. You can read about the details [here](#rendering-methods).
 
 ```php
-{{ $MyNavBar->asUl() }}
+{!! $MyNavBar->asUl() !!}
 ```
 
 You can also access the menu object via the menu collection:
 
 ```php
-{{ Menu::get('MyNavBar')->asUl() }}
+{!! Menu::get('MyNavBar')->asUl() !!}
 ```
 
 This will render your menu like so:
@@ -665,7 +670,7 @@ You can use `attr` on a collection, if you need to target a group of items:
   // ...
 ```
 
-## Maniuplating Links
+## Manipulating Links
 
 All the HTML attributes will go to the wrapping tags(li, div, etc); You might encounter situations when you need to add some HTML attributes to `<a>` tags as well.
 
@@ -737,7 +742,7 @@ You can also add class `active` to the anchor element instead of the wrapping el
 ?>
 ```
 
-Laravel Menu does this for you automatically according to the current **URI** the time you reigster the item.
+Laravel Menu does this for you automatically according to the current **URI** the time you register the item.
 
 You can also choose the element to be activated (item or the link) in `options.php` which resides in package's config directory:
 
@@ -751,7 +756,7 @@ You can also choose the element to be activated (item or the link) in `options.p
 
 #### RESTful URLs
 
-RESTful URLs are also supported as long as `restful` option is set as `true` in `config/settings.php` file, E.g. item with url `resource` will be activated by `resource/slug` or `resource/slug/edit`.  
+RESTful URLs are also supported as long as `restful` option is set as `true` in `config/laravel-menu/settings.php` file, E.g. item with url `resource` will be activated by `resource/slug` or `resource/slug/edit`.  
 
 You might encounter situations where your app is in a directory instead of the root directory or your resources have a common prefix; In such case you need to set `rest_base` option to a proper prefix for a better restful activation support. `rest_base` can take a simple string, array of string or a function call as value.
 
@@ -1185,13 +1190,13 @@ Several rendering formats are available out of the box:
 #### Menu as Unordered List
 
 ```html
-  {{ $MenuName->asUl() }}
+  {!! $MenuName->asUl() !!}
 ```
 
 `asUl()` will render your menu in an unordered list. it also takes an optional parameter to define attributes for the `<ul>` tag itself:
 
 ```php
-{{ $MenuName->asUl( array('class' => 'awesome-ul') ) }}
+{!! $MenuName->asUl( array('class' => 'awesome-ul') ) !!}
 ```
 
 Result:
@@ -1209,13 +1214,13 @@ Result:
 
 
 ```php
-  {{ $MenuName->asOl() }}
+  {!! $MenuName->asOl() !!}
 ```
 
 `asOl()` method will render your menu in an ordered list. it also takes an optional parameter to define attributes for the `<ol>` tag itself:
 
 ```php
-{{ $MenuName->asOl( array('class' => 'awesome-ol') ) }}
+{!! $MenuName->asOl( array('class' => 'awesome-ol') ) !!}
 ```
 
 Result:
@@ -1233,13 +1238,13 @@ Result:
 
 
 ```php
-  {{ $MenuName->asDiv() }}
+  {!! $MenuName->asDiv() !!}
 ```
 
 `asDiv()` method will render your menu as nested HTML divs. it also takes an optional parameter to define attributes for the parent `<div>` tag itself:
 
 ```php
-{{ $MenuName->asDiv( array('class' => 'awesome-div') ) }}
+{!! $MenuName->asDiv( array('class' => 'awesome-div') ) !!}
 ```
 
 Result:
@@ -1257,14 +1262,14 @@ Result:
 
 Laravel Menu provides a parital view out of the box which generates menu items in a bootstrap friendly style which you can **include** in your Bootstrap based navigation bars:
 
-You can access the partial view via `Config::get('laravel-menu::views.bootstrap-items')`.
+You can access the partial view via `Config::get('laravel-menu.views.bootstrap-items')`.
 
 All you need to do is to include the partial view and pass the root level items to it:
 
 ```
 {{{...}}}
 
-@include(Config::get('laravel-menu::views.bootstrap-items'), array('items' => $mainNav->roots()))
+@include(Config::get('laravel-menu.views.bootstrap-items'), array('items' => $mainNav->roots()))
 
 {{{...}}}
 
@@ -1290,7 +1295,7 @@ This is how your Bootstrap code is going to look like:
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
 
-       @include(Config::get('laravel-menu::views.bootstrap-items'), array('items' => $mainNav->roots()))
+       @include(Config::get('laravel-menu.views.bootstrap-items'), array('items' => $mainNav->roots()))
 
       </ul>
       <form class="navbar-form navbar-right" role="search">
@@ -1301,7 +1306,7 @@ This is how your Bootstrap code is going to look like:
       </form>
       <ul class="nav navbar-nav navbar-right">
 
-        @include(Config::get('laravel-menu::views.bootstrap-items'), array('items' => $loginNav->roots()))
+        @include(Config::get('laravel-menu.views.bootstrap-items'), array('items' => $loginNav->roots()))
 
       </ul>
     </div><!-- /.navbar-collapse -->
@@ -1351,7 +1356,7 @@ In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-i
 ```php
 <nav class="navbar">
   <ul class="horizontal-navbar">
-    @include('custom-menu-items', array('items', $MyNavBar->roots()))
+    @include('custom-menu-items', array(items' => $MyNavBar->roots()))
   </ul>
 </nav><!--/nav-->
 ```
@@ -1360,10 +1365,10 @@ In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-i
 ```php
 @foreach($items as $item)
   <li @if($item->hasChildren()) class="dropdown" @endif>
-      <a href="{{ $item->url() }}">{{ $item->title }} </a>
+      <a href="{!! $item->url() !!}">{!! $item->title !!} </a>
       @if($item->hasChildren())
         <ul class="dropdown-menu">
-              @include('custom-menu-items', array('items' => $item->children()))
+              @include('custom-menu-items', array(items' => $item->children()))
         </ul> 
       @endif
   </li>
@@ -1393,7 +1398,7 @@ You might encounter situations when some of your HTML properties are explicitly 
 ```php
 @foreach($items as $item)
   <li @if($item->hasChildren()) class="dropdown" @endif data-test="test">
-      <a href="{{ $item->url }}">{{ $item->title }} </a>
+      <a href="{!! $item->url !!}">{!! $item->title !!} </a>
       @if($item->hasChildren())
         <ul class="dropdown-menu">
               @include('custom-menu-items', array('items' => $item->children()))
@@ -1419,7 +1424,7 @@ The view:
 ```php
 @foreach($items as $item)
   <li@lm-attrs($item) @if($item->hasChildren()) class="dropdown" @endif data-test="test" @lm-endattrs>
-      <a href="{{ $item->url }}">{{ $item->title }} </a>
+      <a href="{!! $item->url !!}">{!! $item->title !!} </a>
       @if($item->hasChildren())
         <ul class="dropdown-menu">
               @include('custom-menu-items', array('items' => $item->children()))
@@ -1439,10 +1444,18 @@ Here's the result:
 ...
 ```
 
+## Publish the config
+
+Run this on the command line from the root of your project:
+
+    php artisan vendor:publish
+
+This will publish Laravel Menu config to ``config/laravel-menu/`` and views to the ``resources/views/laravel-menu/``
+
 
 ## Configuration
 
-You can adjust the behavior of the menu builder in `config/settings.php` file. Currently it provide a few options out of the box:
+You can adjust the behavior of the menu builder in `config/laravel-menu/settings.php` file. Currently it provide a few options out of the box:
 
 * **auto_activate** Automatically activates menu items based on the current URI
 * **activate_parents** Activates the parents of an active item
