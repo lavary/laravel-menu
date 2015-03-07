@@ -586,7 +586,7 @@ class Builder {
 	 */
 	public function attributes($attributes = array()) {
 
-		return \HTML::attributes($attributes);
+		return \Html::attributes($attributes);
 	}
 
 	/**
@@ -618,7 +618,7 @@ class Builder {
 		$attrs['class']  = self::formatGroupClass($attrs, $old);
 
 		// Merging new and old array and parse it as a string
-		return \HTML::attributes(array_merge(array_except($old, array('class')), $attrs));
+		return \Html::attributes(array_merge(array_except($old, array('class')), $attrs));
 	}
 
 	/**
