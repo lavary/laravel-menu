@@ -84,7 +84,7 @@ Now append Laravel Menu service provider to  `providers` array in `config/app.ph
     'Illuminate\Foundation\Providers\ArtisanServiceProvider',
     'Illuminate\Auth\AuthServiceProvider',
     ...
-    'Illuminate\Html\HtmlServiceProvider'
+    'Illuminate\Html\HtmlServiceProvider',
     ...
     'Lavary\Menu\ServiceProvider',
 
