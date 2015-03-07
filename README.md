@@ -1450,7 +1450,7 @@ Run this on the command line from the root of your project:
 
     php artisan vendor:publish
 
-This will publish Laravel Menu config to ``config/laravel-menu/`` and views to the ``resources/views/laravel-menu/``
+This will publish Laravel Menu config to ``config/laravel-menu/`` and views to the ``resources/views/vendor/laravel-menu/``
 
 
 ## Configuration
