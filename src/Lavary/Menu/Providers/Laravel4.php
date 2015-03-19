@@ -1,8 +1,8 @@
-<?php namespace Lavary\Menu;
+<?php namespace Lavary\Menu\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
-class Laravel4 extends ServiceProvider {
+class Laravel4 extends IlluminateServiceProvider {
 
 	/**
 	 * Indicates if loading of the provider is deferred.

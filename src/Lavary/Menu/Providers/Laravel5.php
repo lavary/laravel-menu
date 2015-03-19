@@ -1,8 +1,15 @@
-<?php namespace Lavary\Menu;
+<?php namespace Lavary\Menu\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
-class Laravel5 extends ServiceProvider {
+class Laravel5 extends IlluminateServiceProvider {
+
+	/**
+	 * Indicates if loading of the provider is deferred.
+	 *
+	 * @var bool
+	 */
+	protected $defer = true;
 
 	/**
 	 * Bootstrap the application events.

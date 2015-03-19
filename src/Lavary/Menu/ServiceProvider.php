@@ -1,9 +1,9 @@
 <?php namespace Lavary\Menu;
 
 use Illuminate\Foundation\Application;
-use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
-class ServiceProvider extends BaseServiceProvider
+class ServiceProvider extends IlluminateServiceProvider
 {
 	/**
 	 * Indicates if loading of the provider is deferred.
