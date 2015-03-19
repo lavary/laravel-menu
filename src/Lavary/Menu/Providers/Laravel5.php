@@ -1,5 +1,6 @@
 <?php namespace Lavary\Menu\Providers;
 
+use Lavary\Menu\Menu;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
 class Laravel5 extends IlluminateServiceProvider {
