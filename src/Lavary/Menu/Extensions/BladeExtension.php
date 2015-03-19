@@ -10,13 +10,15 @@
 | where it is merged with item's attributes
 |
 */
+Blade::extend(function($view, $compiler)
+{
 
-Blade::extend( function($view, $compiler){
+	$pattern = '/(\s*)@lm-attrs\s*\((\$[^)]+)\)/';
 
-    $pattern = '/(\s*)@lm-attrs\s*\((\$[^)]+)\)/';
-    return preg_replace($pattern, 
-                       '$1<?php $lm_attrs = $2->attr(); ob_start(); ?>',
-                        $view);
+	return preg_replace($pattern, 
+		'$1<?php $lm_attrs = $2->attr(); ob_start(); ?>',
+		$view);
+
 });
 
 /*
@@ -30,11 +32,13 @@ Blade::extend( function($view, $compiler){
 | converts it into a normal array and merges it with others.
 | 
 */
+Blade::extend(function($view, $compiler)
+{
 
-Blade::extend( function($view, $compiler){
+	$pattern = $compiler->CreatePlainMatcher('lm-endattrs');
 
-    $pattern = $compiler->CreatePlainMatcher('lm-endattrs');
-    return preg_replace($pattern, 
-			           '$1<?php echo \Lavary\Menu\Builder::mergeStatic(ob_get_clean(), $lm_attrs); ?>$2', 
-			            $view);
+	return preg_replace($pattern, 
+		'$1<?php echo \Lavary\Menu\Builder::mergeStatic(ob_get_clean(), $lm_attrs); ?>$2', 
+		$view);
+
 });
