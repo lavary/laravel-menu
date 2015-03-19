@@ -10,12 +10,21 @@ class Menu {
 	protected $collection;
 
 	/**
+	* Configuration data
+	*
+	* @var array $config
+	*/
+	protected $config;
+
+	/**
 	 * Initializing the menu builder
 	 */
-	public function __construct()
+	public function __construct(array $config = array())
 	{
 		// creating a collection for storing menus
 		$this->collection = new Collection();
+
+		$this->config = $config;
 	}
 
 
@@ -28,7 +37,7 @@ class Menu {
 	 */
 	public function make($name, $callback)
 	{
-		if(is_callable($callback))
+		if (is_callable($callback))
 		{
 			$menu = new Builder($name, $this->loadConf($name));
 			
@@ -52,15 +61,15 @@ class Menu {
 	 * @return array
 	 */
 	public function loadConf($name) {
+
+		$name = strtolower($name);
 		
-		$options = \Config::get('laravel-menu::settings');
-		$name    = strtolower($name);
-		
-		if( isset($options[$name]) && is_array($options[$name]) ) {
-			return array_merge($options['default'], $options[$name] );
+		if (isset($this->config[$name]) && is_array($this->config[$name]))
+		{
+			return array_merge($this->config['default'], $this->config[$name] );
 		}
 
-		return $options['default'];
+		return $this->config['default'];
 	}
 
 	/**
