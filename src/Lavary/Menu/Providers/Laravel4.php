@@ -34,7 +34,7 @@ class Laravel4 extends ServiceProvider {
 		$app = $this->app;
 
 		$app['menu'] = $app->share(function($app){
-			return new Menu;
+			return new Menu($app['config']->get('laravel-menu::settings'));
 		});
 	}
 

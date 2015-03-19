@@ -30,9 +30,9 @@ class Laravel5 extends ServiceProvider {
 
 		// merge default configs
     $this->mergeConfigFrom(__DIR__.'/../../../config/settings.php', 'laravel-menu');
-    
+
 		$app['menu'] = $app->share(function ($app) {
-			return new Menu;
+			return new Menu($app['config']->get('laravel-menu'));
 		});
 	}
 }
