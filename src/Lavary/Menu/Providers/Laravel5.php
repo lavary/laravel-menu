@@ -23,6 +23,8 @@ class Laravel5 extends IlluminateServiceProvider {
       __DIR__.'/../../../config/settings.php' => config_path('laravel-menu.php'),
 		));
 
+		$this->loadViewsFrom(__DIR__.'/../../../views', 'laravel-menu');
+
     // Extending Blade engine
     require_once(__DIR__.'/../Extensions/BladeExtension.php');
 	}
@@ -37,6 +39,7 @@ class Laravel5 extends IlluminateServiceProvider {
 		$app = $this->app;
 
 		// merge default configs
+    $this->mergeConfigFrom(__DIR__.'/../../../config/views.php', 'laravel-menu');
     $this->mergeConfigFrom(__DIR__.'/../../../config/settings.php', 'laravel-menu');
 
 		$app['menu'] = $app->share(function ($app) {
