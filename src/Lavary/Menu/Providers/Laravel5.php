@@ -39,7 +39,7 @@ class Laravel5 extends IlluminateServiceProvider {
 		$app = $this->app;
 
 		// merge default configs
-    $this->mergeConfigFrom(__DIR__.'/../../../config/views.php', 'laravel-menu');
+    $this->mergeConfigFrom(__DIR__.'/../../../config/views.php', 'laravel-menu.views');
     $this->mergeConfigFrom(__DIR__.'/../../../config/settings.php', 'laravel-menu');
 
 		$app['menu'] = $app->share(function ($app) {
