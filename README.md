@@ -5,7 +5,7 @@
 [![License](https://poser.pugx.org/lavary/laravel-menu/license.svg)](https://packagist.org/packages/lavary/laravel-menu)
 
 
-A quick way to create menus in [Laravel 4.x](http://laravel.com/)
+A quick way to create menus in [Laravel 4.x or 5.x](http://laravel.com/)
 
 ##Documentation
 
@@ -62,10 +62,11 @@ In the `require` key of `composer.json` file add `lavary/laravel-menu": "dev-mas
 ```
 ...
 "require": {
-	"laravel/framework": "4.2.*",
 	"lavary/laravel-menu": "dev-master"
   }  
 ```
+
+Note that you will also need to add `"illuminate/html": ">=4.2"` to your composer file in order to use any of the rendering methods such as `asUl()`. Don't forget to add the relevant service provider and facade to your app configuration.
   
 Run the composer update command:
 
@@ -1257,7 +1258,14 @@ Result:
 
 Laravel Menu provides a parital view out of the box which generates menu items in a bootstrap friendly style which you can **include** in your Bootstrap based navigation bars:
 
-You can access the partial view via `Config::get('laravel-menu::views.bootstrap-items')`.
+You can access the partial view via
+
+```
+
+Config::get('laravel-menu::views.bootstrap-items') // Laravel 4
+config('laravel-menu.views.bootstrap-items') // Laravel 5
+
+```
 
 All you need to do is to include the partial view and pass the root level items to it:
 
