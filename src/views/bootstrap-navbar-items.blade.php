@@ -9,9 +9,9 @@
     @endif
     @if($item->hasChildren())
       <ul class="dropdown-menu">
-        @include('laravel-menu::bootstrap-navbar-items', 
+        @include('laravel-menu::bootstrap-navbar-items',
           array('items' => $item->children()))
-      </ul> 
+      </ul>
     @endif
   </li>
   @if($item->divider)
