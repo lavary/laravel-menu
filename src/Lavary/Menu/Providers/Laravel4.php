@@ -19,7 +19,13 @@ class Laravel4 extends IlluminateServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('lavary/laravel-menu');
+		// As guessPackagePath() in Illuminate\Support\ServiceProvider
+		// has a fixed number of directories to traverse up and this
+		// provider exists in a Providers directory, we need to manually
+		// pass the path to the package() method instead.
+		$path = realpath(dirname(__FILE__).'/../../../');
+
+		$this->package('lavary/laravel-menu', null, $path);
 
 		// Extending Blade engine
 		require_once(__DIR__.'/../Extensions/BladeExtension.php');
@@ -34,7 +40,8 @@ class Laravel4 extends IlluminateServiceProvider {
 	{
 		$app = $this->app;
 
-		$app['menu'] = $app->share(function($app){
+		$app['menu'] = $app->share(function($app)
+		{
 			return new Menu($app['config']->get('laravel-menu::settings'));
 		});
 	}
