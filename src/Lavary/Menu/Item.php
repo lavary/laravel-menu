@@ -1,5 +1,7 @@
 <?php namespace Lavary\Menu;
 
+use Str;
+
 class Item {
 	
 	/**
@@ -73,7 +75,7 @@ class Item {
 		$this->builder     = $builder;
 		$this->id          = $id;
 		$this->title       = $title;
-		$this->nickname    = camel_case($title);
+		$this->nickname    = camel_case(Str::ascii($title));
 		$this->attributes  = $this->builder->extractAttributes($options); 
 		$this->parent      = (is_array($options) && isset($options['parent'])) ? $options['parent'] : null;
 		
