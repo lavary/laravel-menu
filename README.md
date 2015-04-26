@@ -1356,7 +1356,7 @@ In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-i
 ```php
 <nav class="navbar">
   <ul class="horizontal-navbar">
-    @include('custom-menu-items', array(items' => $MyNavBar->roots()))
+    @include('custom-menu-items', array('items' => $MyNavBar->roots()))
   </ul>
 </nav><!--/nav-->
 ```
@@ -1368,7 +1368,7 @@ In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-i
       <a href="{!! $item->url() !!}">{!! $item->title !!} </a>
       @if($item->hasChildren())
         <ul class="dropdown-menu">
-              @include('custom-menu-items', array(items' => $item->children()))
+              @include('custom-menu-items', array('items' => $item->children()))
         </ul> 
       @endif
   </li>
