@@ -182,7 +182,7 @@ $menu->add('About Us', 'about-us');
 // ...
 ```
 
-#### Named Routs
+#### Named Routes
 
 `laravel-menu` supports named routes as well:
 
