@@ -11,7 +11,7 @@
 |
 */
 
-Blade::extend( function($view, $compiler){
+Blade::extend( function($view) {
 
     $pattern = '/(\s*)@lm-attrs\s*\((\$[^)]+)\)/';
     return preg_replace($pattern, 
@@ -31,9 +31,9 @@ Blade::extend( function($view, $compiler){
 | 
 */
 
-Blade::extend( function($view, $compiler){
+Blade::extend( function($view) {
 
-    $pattern = $compiler->CreatePlainMatcher('lm-endattrs');
+    $pattern = '/(?<!\w)(\s*)@lm-endattrs(\s*)/';
     return preg_replace($pattern, 
 			           '$1<?php echo \Lavary\Menu\Builder::mergeStatic(ob_get_clean(), $lm_attrs); ?>$2', 
 			            $view);
