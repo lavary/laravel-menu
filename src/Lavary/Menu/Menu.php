@@ -53,7 +53,7 @@ class Menu {
 	 */
 	public function loadConf($name) {
 		
-		$options = \Config::get('laravel-menu::settings');
+		$options = \Config::get('laravel-menu.settings');
 		$name    = strtolower($name);
 		
 		if( isset($options[$name]) && is_array($options[$name]) ) {

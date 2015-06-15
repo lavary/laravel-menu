@@ -18,7 +18,18 @@ class ServiceProvider extends BaseServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('lavary/laravel-menu');
+		$this->loadViewsFrom(
+			__DIR__.'/../../views', 'laravel-menu'
+		);
+
+		$this->publishes([
+			__DIR__ .'/../../config/settings.php' =>
+				config_path('laravel-menu/settings.php'),
+			__DIR__ .'/../../config/views.php' =>
+				config_path('laravel-menu/views.php'),
+			__DIR__ .'/../../views/bootstrap-navbar-items.blade.php' =>
+				base_path('resources/views/vendor/laravel-menu/bootstrap-navbar-items.blade.php'),
+		]);
 
 		// Extending Blade engine
 		require_once('Extensions/BladeExtension.php');
@@ -31,11 +42,19 @@ class ServiceProvider extends BaseServiceProvider {
 	 */
 	public function register()
 	{
-		 $this->app['menu'] = $this->app->share(function($app){
+		$this->mergeConfigFrom(
+			__DIR__ .'/../../config/settings.php', "laravel-menu.settings"
+		);
 
-		 		return new Menu();
-		 });
-           
+		$this->mergeConfigFrom(
+			__DIR__ .'/../../config/views.php', 'laravel-menu.views'
+		);
+
+		$this->app['menu'] = $this->app->share(function($app){
+
+			return new Menu();
+		});
+
 	}
 
 	/**
