@@ -18,7 +18,10 @@ class ServiceProvider extends BaseServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('lavary/laravel-menu');
+		$this->publishes([
+            __DIR__.'/../../config/settings.php' => config_path('lavary-menu.php'),
+            __DIR__.'/../../config/views.php' => config_path('lavary-menu-views.php'),
+        ]);
 
 		// Extending Blade engine
 		require_once('Extensions/BladeExtension.php');
@@ -35,7 +38,15 @@ class ServiceProvider extends BaseServiceProvider {
 
 		 		return new Menu();
 		 });
-           
+         
+
+		$this->mergeConfigFrom(
+			__DIR__.'/../../config/settings.php', 'lavary-menu'
+		);
+
+		$this->mergeConfigFrom(
+			__DIR__.'/../../config/views.php', 'lavary-menu-views'
+		);
 	}
 
 	/**
