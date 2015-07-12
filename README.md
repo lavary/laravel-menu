@@ -850,8 +850,8 @@ Menu::make('MyNavBar', function($menu){
   $about = $menu->add('About',    array('route'  => 'page.about', 'class' => 'navbar navbar-about dropdown'));
   
   $menu->about->attr(array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'))
-              ->append(' <b classs="caret"></b>')
-              ->prepend('<span classs="glyphicon glyphicon-user"></span> ');
+              ->append(' <b class="caret"></b>')
+              ->prepend('<span class="glyphicon glyphicon-user"></span> ');
               
   // ...            
 
@@ -867,7 +867,7 @@ The above code will result:
   
   <li class="navbar navbar-about dropdown">
    <a href="about" class="dropdown-toggle" data-toggle="dropdown">
-     <span class="glyphicon glyphicon-user"></span> About <b classs="caret"></b>
+     <span class="glyphicon glyphicon-user"></span> About <b class="caret"></b>
    </a>
   </li>
 </ul>
