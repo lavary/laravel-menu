@@ -12,30 +12,37 @@ class ServiceProvider extends BaseServiceProvider {
 	protected $defer = true;
 
 	/**
-	 * Bootstrap the application events.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-		$this->package('lavary/laravel-menu');
-
-		// Extending Blade engine
-		require_once('Extensions/BladeExtension.php');
-	}
-
-	/**
 	 * Register the service provider.
 	 *
 	 * @return void
 	 */
 	public function register()
 	{
-		 $this->app['menu'] = $this->app->share(function($app){
+		 $this->mergeConfigFrom(__DIR__ . '/../../config/settings.php', 'laravel-menu.settings');
+		 $this->mergeConfigFrom(__DIR__ . '/../../config/views.php'   , 'laravel-menu.views');
+		 
+		 $this->app->singleton('menu', function($app) {
+		 	return new Menu;
+		 });            
+	}
 
-		 		return new Menu();
-		 });
-           
+	/**
+	 * Bootstrap the application events.
+	 *
+	 * @return void
+	 */
+	public function boot()
+	{
+		// Extending Blade engine
+		require_once('blade/lm-attrs.php');
+
+		$this->loadViewsFrom(__DIR__.'/resources/views', 'laravel-menu');
+
+		$this->publishes([
+        	__DIR__ . '/resources/views'           => base_path('resources/views/vendor/laravel-menu'),
+        	__DIR__ . '/../../config/settings.php' => config_path('laravel-menu/settings.php'),
+        	__DIR__ . '/../../config/views.php'    => config_path('laravel-menu/views.php'),
+		]);
 	}
 
 	/**

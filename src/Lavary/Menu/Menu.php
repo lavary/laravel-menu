@@ -30,6 +30,7 @@ class Menu {
 	{
 		if(is_callable($callback))
 		{
+			
 			$menu = new Builder($name, $this->loadConf($name));
 			
 			// Registering the items
@@ -53,7 +54,7 @@ class Menu {
 	 */
 	public function loadConf($name) {
 		
-		$options = \Config::get('laravel-menu::settings');
+		$options = config('laravel-menu.settings');
 		$name    = strtolower($name);
 		
 		if( isset($options[$name]) && is_array($options[$name]) ) {

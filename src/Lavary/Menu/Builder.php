@@ -523,10 +523,10 @@ class Builder {
 		
 		foreach ($this->whereParent($parent) as $item)
 		{
-			$items  .= "<{$item_tag}{$this->attributes($item->attr())}>";
+			$items  .= "<{$item_tag}{self::attributes($item->attr())}>";
 
 			if($item->link) {
-				$items .= "<a{$this->attributes($item->link->attr())} href=\"{$item->url()}\">{$item->title}</a>";
+				$items .= "<a{self::attributes($item->link->attr())} href=\"{$item->url()}\">{$item->title}</a>";
 			} else {
 				$items .= $item->title;
 			}
@@ -540,7 +540,7 @@ class Builder {
 			$items .= "</{$item_tag}>";
 
 			if($item->divider) {
-				$items .= "<{$item_tag}{$this->attributes($item->divider)}></{$item_tag}>";
+				$items .= "<{$item_tag}{self::attributes($item->divider)}></{$item_tag}>";
 			}
 		}
 
@@ -554,7 +554,7 @@ class Builder {
 	 */
 	public function asUl($attributes = array())
 	{
-		return "<ul{$this->attributes($attributes)}>{$this->render('ul')}</ul>";
+		return "<ul{self::attributes($attributes)}>{$this->render('ul')}</ul>";
 	}
 
 	/**
@@ -564,7 +564,7 @@ class Builder {
 	 */
 	public function asOl($attributes = array())
 	{
-		return "<ol{$this->attributes($attributes)}>{$this->render('ol')}</ol>";
+		return "<ol{self::attributes($attributes)}>{$this->render('ol')}</ol>";
 	}
 
 	/**
@@ -574,19 +574,38 @@ class Builder {
 	 */
 	public function asDiv($attributes = array())
 	{
-		return "<div{$this->attributes($attributes)}>{$this->render('div')}</div>";
+		return "<div{self::attributes($attributes)}>{$this->render('div')}</div>";
 	}
 
 	/**
-	 * Convert HTML attributes into "property = value" pairs
+	 * Build an HTML attribute string from an array.
 	 *
-	 * @param array $attributes
-	 *
+	 * @param  array  $attributes
 	 * @return string
 	 */
-	public function attributes($attributes = array()) {
-
-		return \HTML::attributes($attributes);
+	public static function attributes($attributes)
+	{
+		$html = array();
+		
+		foreach ((array) $attributes as $key => $value)
+		{
+			$element = self::attributeElement($key, $value);
+			if ( ! is_null($element)) $html[] = $element;
+		}
+		return count($html) > 0 ? ' ' . implode(' ', $html) : '';
+	}
+	
+	/**
+	 * Build a single attribute element.
+	 *
+	 * @param  string  $key
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function attributeElement($key, $value)
+	{
+		if (is_numeric($key)) $key = $value;
+		if ( ! is_null($value)) return $key . '="' . e($value). '"';
 	}
 
 	/**
@@ -618,7 +637,7 @@ class Builder {
 		$attrs['class']  = self::formatGroupClass($attrs, $old);
 
 		// Merging new and old array and parse it as a string
-		return \HTML::attributes(array_merge(array_except($old, array('class')), $attrs));
+		return self::attributes(array_merge(array_except($old, array('class')), $attrs));
 	}
 
 	/**
