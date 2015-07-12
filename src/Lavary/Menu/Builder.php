@@ -523,10 +523,10 @@ class Builder {
 		
 		foreach ($this->whereParent($parent) as $item)
 		{
-			$items  .= "<{$item_tag}{self::attributes($item->attr())}>";
+			$items  .= '<' . $item_tag . self::attributes($item->attr()) . '>';
 
 			if($item->link) {
-				$items .= "<a{self::attributes($item->link->attr())} href=\"{$item->url()}\">{$item->title}</a>";
+				$items .= '<a' . self::attributes($item->link->attr()) . ' href="' . $item->url() . '">' . $item->title . '</a>';
 			} else {
 				$items .= $item->title;
 			}
@@ -540,7 +540,7 @@ class Builder {
 			$items .= "</{$item_tag}>";
 
 			if($item->divider) {
-				$items .= "<{$item_tag}{self::attributes($item->divider)}></{$item_tag}>";
+				$items .= '<' . $item_tag . self::attributes($item->divider) . '></' . $item_tag . '>';
 			}
 		}
 
@@ -554,7 +554,7 @@ class Builder {
 	 */
 	public function asUl($attributes = array())
 	{
-		return "<ul{self::attributes($attributes)}>{$this->render('ul')}</ul>";
+		return '<ul' . self::attributes($attributes) .'>' . $this->render('ul') . '</ul>';
 	}
 
 	/**
@@ -564,7 +564,7 @@ class Builder {
 	 */
 	public function asOl($attributes = array())
 	{
-		return "<ol{self::attributes($attributes)}>{$this->render('ol')}</ol>";
+		return '<ol' . self::attributes($attributes) .'>' . $this->render('ol') . '</ol>';
 	}
 
 	/**
@@ -574,7 +574,7 @@ class Builder {
 	 */
 	public function asDiv($attributes = array())
 	{
-		return "<div{self::attributes($attributes)}>{$this->render('div')}</div>";
+		return '<div' . self::attributes($attributes) .'>' . $this->render('div') . '</div>';
 	}
 
 	/**
