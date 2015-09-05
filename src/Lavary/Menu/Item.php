@@ -317,8 +317,8 @@ class Item {
 	 * Activate the item
 	 *
 	 */
-	public function activate( \Lavary\Menu\Item $item = null, $recursion = false ){
-	
+	public function activate( \Lavary\Menu\Item $item = null, $recursion = false){
+
 		$item = is_null($item) ? $this : $item;
 		
 		// Check to see which element should have class 'active' set.
@@ -334,7 +334,7 @@ class Item {
 		if($recursion === false){
 			$item->active = true;
 		}
-		
+
 		// If parent activation is enabled:
 		if( true === $this->builder->conf('activate_parents') ){
 			// Moving up through the parent nodes, activating them as well.
