@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 
 class Item {
-	
+
 	/**
 	 * Reference to the menu builder
 	 *
@@ -19,7 +19,7 @@ class Item {
 	protected $id;
 
 	/**
-	 * Item's title 
+	 * Item's title
 	 *
 	 * @var string
 	 */
@@ -45,7 +45,7 @@ class Item {
 	 * @var int
 	 */
 	protected $parent;
-	
+
 	/**
 	 * Extra information attached to the menu item
 	 *
@@ -59,7 +59,7 @@ class Item {
 	 * @var bool
 	 */
 	protected $active = false;
-	
+
 	/**
 	 * Attributes of menu item
 	 *
@@ -83,37 +83,37 @@ class Item {
 		$this->id          = $id;
 		$this->title       = $title;
 		$this->nickname    = camel_case(Str::ascii($title));
-		$this->attributes  = $this->builder->extractAttributes($options); 
+		$this->attributes  = $this->builder->extractAttributes($options);
 		$this->parent      = (is_array($options) && isset($options['parent'])) ? $options['parent'] : null;
-		
-		
+
+
 		// Storing path options with each link instance.
 		if(!is_array($options)) {
-			
+
 			$path = array('url' => $options);
 		}
 		elseif( isset($options['raw']) && $options['raw'] == true ) {
-			
+
 			$path = null;
 		}
-		else {	
-			
-			$path = array_only($options, 
+		else {
+
+			$path = array_only($options,
 									 array('url', 'route', 'action', 'secure'));
-		} 
+		}
 
 		if(!is_null($path)) {
-			
+
 			$path['prefix'] = $this->builder->getLastGroupPrefix();
 		}
 
-		
+
 		$this->link = $path ? new Link($path) : null;
-		
+
 		// Activate the item if items's url matches the request uri
 		if( true === $this->builder->conf('auto_activate') ) {
 			$this->checkActivationStatus();
-		} 
+		}
 	}
 
 	/**
@@ -130,9 +130,9 @@ class Item {
 			$options = array();
 			$options['url'] = $url;
 		}
-		
+
 		$options['parent'] = $this->id;
-				
+
 		return $this->builder->add( $title, $options );
 	}
 
@@ -144,7 +144,7 @@ class Item {
 	public function raw($title, array $options = array())
 	{
 		$options['parent'] = $this->id;
-		
+
 		return $this->builder->raw($title, $options);
 	}
 
@@ -155,9 +155,9 @@ class Item {
 	 * @return void
 	 */
 	public function divide($attributes = array()){
-		
+
 		$attributes['class'] = Builder::formatGroupClass($attributes, array('class' => 'divider'));
-		
+
 		$this->divider = $attributes;
 
 		return $this;
@@ -194,7 +194,7 @@ class Item {
 		elseif(isset($args[0]) && isset($args[1])) {
 			$this->attributes[$args[0]] = $args[1];
 			return $this;
-		} 
+		}
 
 		elseif(isset($args[0])) {
 			return isset($this->attributes[$args[0]]) ? $this->attributes[$args[0]] : null;
@@ -209,17 +209,17 @@ class Item {
 	 * @return string
 	 */
 	public function url(){
-			
+
 			// If the item has a link proceed:
 			if( !is_null( $this->link ) ) {
-				
+
 				// If item's link has `href` property explcitly defined
 				// return it
 				if( $this->link->href ) {
-					
-					return $this->link->href;			
+
+					return $this->link->href;
 				}
-				
+
 				// Otherwise dispatch to the proper address
 				return $this->builder->dispatch($this->link->path);
 			}
@@ -234,7 +234,7 @@ class Item {
 	public function prepend($html)
 	{
 		$this->title = $html . $this->title;
-	
+
 		return $this;
 	}
 
@@ -246,7 +246,7 @@ class Item {
 	public function append($html)
 	{
 		$this->title .= $html;
-		
+
 		return $this;
 	}
 
@@ -261,7 +261,7 @@ class Item {
 	}
 
 	/**
-	 * Returns childeren of the item
+	 * Returns children of the item
 	 *
 	 * @return Lavary\Menu\Collection
 	 */
@@ -269,6 +269,28 @@ class Item {
 	{
 		return $this->builder->whereParent($this->id);
 	}
+
+
+    /**
+     * Checks if this item has a parent
+     *
+     * @return bool
+     */
+    public function hasParent()
+	{
+        return isset($this->parent);
+	}
+
+    /**
+     * Returns the parent item
+     *
+     * @return Lavary\Menu\Item
+     */
+    public function parent()
+    {
+        return $this->builder->whereId($this->parent)->first();
+    }
+
 
 	/**
 	 * Returns all childeren of the item
@@ -285,28 +307,28 @@ class Item {
 	 *
 	 */
 	public function checkActivationStatus(){
-		
+
 		if( $this->builder->conf['restful'] == true ) {
 
 			$path  = ltrim(parse_url($this->url(), PHP_URL_PATH), '/');
 			$rpath = \Request::path();
-			
+
 
 			if($this->builder->conf['rest_base'] ) {
-				
+
 				$base = ( is_array($this->builder->conf['rest_base']) ) ? implode('|', $this->builder->conf['rest_base']) : $this->builder->conf['rest_base'];
 
 				list($path, $rpath) = preg_replace('@^('. $base . ')/@', '' , [$path, $rpath], 1);
 			}
 
 			if( preg_match("@^{$path}(/.+)?\z@", $rpath) ) {
-				
+
 				$this->activate();
 			}
 		} else {
-			
+
 			if( $this->url() == \Request::url() ) {
-				
+
 				$this->activate();
 			}
 
@@ -320,14 +342,14 @@ class Item {
 	public function activate( \Lavary\Menu\Item $item = null, $recursion = false){
 
 		$item = is_null($item) ? $this : $item;
-		
+
 		// Check to see which element should have class 'active' set.
 		if( $this->builder->conf('active_element') == 'item' ) {
-			
+
 			$item->active();
 
 		} else {
-			
+
 			$item->link->active();
 		}
 
@@ -339,7 +361,7 @@ class Item {
 		if( true === $this->builder->conf('activate_parents') ){
 			// Moving up through the parent nodes, activating them as well.
 			if( $item->parent ) {
-				
+
 				$this->activate( $this->builder->whereId( $item->parent )->first(), true );
 
 			}
@@ -352,19 +374,19 @@ class Item {
 	 * @return Lavary\Menu\Item
 	 */
 	public function active($pattern = null){
-	
+
 		if(!is_null($pattern)) {
 
 			$pattern = ltrim(preg_replace('/\/\*/', '(/.*)?', $pattern), '/');
 			if( preg_match("@^{$pattern}\z@", \Request::path()) ){
 				$this->activate();
-			}	
+			}
 
 			return $this;
 		}
 
 		$this->attributes['class'] = Builder::formatGroupClass(array('class' => $this->builder->conf('active_class')), $this->attributes);
-		
+
 		return $this;
 	}
 
@@ -379,9 +401,9 @@ class Item {
 		$args = func_get_args();
 
 		if(isset($args[0]) && is_array($args[0])) {
-		
+
 			$this->data = array_merge($this->data, array_change_key_case($args[0]));
-			
+
 			// Cascade data to item's children if cascade_data option is enabled
 			if($this->builder->conf['cascade_data']) {
 				$this->cascade_data($args);
@@ -391,19 +413,19 @@ class Item {
 		}
 
 		elseif(isset($args[0]) && isset($args[1])) {
-		
+
 			$this->data[strtolower($args[0])] = $args[1];
-			
+
 			// Cascade data to item's children if cascade_data option is enabled
 			if($this->builder->conf['cascade_data']) {
 				$this->cascade_data($args);
 			}
 
 			return $this;
-		} 
+		}
 
 		elseif(isset($args[0])) {
-			
+
 			return isset($this->data[$args[0]]) ? $this->data[$args[0]] : null;
 
 		}
@@ -417,7 +439,7 @@ class Item {
 	 * @param  array $args
 	 */
 	public function cascade_data($args = array()) {
-		
+
 		if( !$this->hasChildren() ) {
 			return false;
 		}
@@ -440,7 +462,7 @@ class Item {
 		if(property_exists($this, $prop)) {
 			return $this->$prop;
 		}
-		
+
 		return $this->data($prop);
 	}
 
