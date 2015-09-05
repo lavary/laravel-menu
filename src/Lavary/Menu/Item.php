@@ -52,6 +52,13 @@ class Item {
 	 * @var array
 	 */
 	protected $data = array();
+
+	/**
+	 * If this is the currently active item, doesn't include parents
+	 *
+	 * @var bool
+	 */
+	protected $active = false;
 	
 	/**
 	 * Attributes of menu item
@@ -307,10 +314,10 @@ class Item {
 	}
 
 	/**
-	 * Activat the item
+	 * Activate the item
 	 *
 	 */
-	public function activate( \Lavary\Menu\Item $item = null ){
+	public function activate( \Lavary\Menu\Item $item = null, $recursion = false ){
 	
 		$item = is_null($item) ? $this : $item;
 		
@@ -322,14 +329,18 @@ class Item {
 		} else {
 			
 			$item->link->active();
-		}	
+		}
+
+		if($recursion === false){
+			$item->active = true;
+		}
 		
 		// If parent activation is enabled:
 		if( true === $this->builder->conf('activate_parents') ){
 			// Moving up through the parent nodes, activating them as well.
 			if( $item->parent ) {
 				
-				$this->activate( $this->builder->whereId( $item->parent )->first() );
+				$this->activate( $this->builder->whereId( $item->parent )->first(), true );
 
 			}
 		}
