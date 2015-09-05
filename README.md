@@ -1394,22 +1394,21 @@ This generates a `Builder` of the immediate children of the active item.
 {!! Menu::get('primary')->topMenu()->asUl() !!}
 ```
 
- #### Sibling Menu
+#### Sibling Menu
 
- This generates a `Builder` of the siblings of the active item.
+This generates a `Builder` of the siblings of the active item.
 
- ```php
- {!! Menu::get('primary')->SiblingMenu()->asUl() !!}
- ```
+```php
+{!! Menu::get('primary')->SiblingMenu()->asUl() !!}
+```
 
- #### Crumb Menu
+#### Crumb Menu
 
- This generates a `Builder` by recursively getting all of the parent items for the active item (including the active item).
+This generates a `Builder` by recursively getting all of the parent items for the active item (including the active item).
 
- ```php
- {!! Menu::get('primary')->crumbMenu()->asUl() !!}
- ```
-
+```php
+{!! Menu::get('primary')->crumbMenu()->asUl() !!}
+```
 
 ## Advanced Usage
 
