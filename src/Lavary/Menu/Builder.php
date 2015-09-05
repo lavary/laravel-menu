@@ -524,7 +524,7 @@ class Builder {
      * @param Collection $collection
      * @return Builder
      */
-    protected function spawn($name, Collection $collection)
+    public function spawn($name, Collection $collection)
     {
         $nb = new Builder($name, $this->conf);
         $nb->takeCollection($collection);

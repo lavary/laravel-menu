@@ -23,7 +23,9 @@ A quick way to create menus in [Laravel 5](http://laravel.com/)
 	- [Get All Items](#get-all-items)
 	- [Get the First Item](#get-the-first-item)
 	- [Get the Last Item](#get-the-last-item)
+	- [Get the Active Item](#get-the-active-item)
 	- [Get Sub-items of the Item](#get-sub-items-of-the-item)
+	- [Get the Parent of the Item](#get-the-parent-of-the-item)
 	- [Magic Where Methods](#magic-where-methods)
 * [Referring to Menu Objects](#referring-to-menu-instances)
 * [HTML Attributes](#html-attributes)
@@ -46,6 +48,11 @@ A quick way to create menus in [Laravel 5](http://laravel.com/)
 	- [Menu as Ordered List](#menu-as-ordered-list)
 	- [Menu as Div](#menu-as-div)
 	- [Menu as Bootstrap 3 Navbar](#menu-as-bootstrap-3-navbar)
+* [Subset Menus](#subset-menus)
+	- [Top Menu](#top-menu)
+	- [Sub Menu](#sub-menu)
+	- [Sibling Menu](#sibling-menu)
+	- [Crumb Menu](#crumb-menu)
 * [Advanced Usage](#advanced-usage)
 	+ [A Basic Example](#a-basic-example)
 	+ [Control Structure for Blade](#control-structure-for-blade)
@@ -461,6 +468,19 @@ You can also get an item by Id if needed:
 ?>
 ```
 
+#### Get the Active Item
+
+```php
+<?php
+	// ...
+	$menu->active()
+
+	// or outside of the builder content
+	Menu::get('MyNavBar')->active();
+	// ...
+?>
+```
+
 #### Get Sub-Items of the Item
 
 First of all you need to get the item using the methods described above then call `children()` on it.
@@ -508,6 +528,44 @@ To get all descendants of an item you may use `all`:
 $aboutSubs = $menu->about->all();
 // ...
 
+```
+
+#### Get the Parent of the Item
+
+First get the item using one of the methods above then call `parent()` on it.
+
+To get the parent of `About` item
+
+```php
+<?php
+	// ...
+	$aboutParent = $menu->about->parent();
+
+	// or outside of the builder context
+	$aboutParent = Menu::get('MyNavBar')->about->parent();
+
+	// Or
+	$aboutParent = Menu::get('MyNavBar')->item('about')->parent();
+	// ...
+?>
+```
+
+To check if an item has a parent or not, you can use `hasParent()`
+
+```php
+<?php
+	// ...
+	if( $menu->about->hasParent() ) {
+		// Do something
+	}
+
+	// or outside of the builder context
+	Menu::get('MyNavBar')->about->hasParent();
+
+	// Or
+	Menu::get('MyNavBar')->item('about')->hasParent();
+	// ...
+?>
 ```
 
 
@@ -1185,7 +1243,6 @@ Menu::make('main', function($m){
 
 The closure takes the items collection as argument.
 
-
 ## Rendering Methods
 
 Several rendering formats are available out of the box:
@@ -1316,6 +1373,43 @@ This is how your Bootstrap code is going to look like:
   </div><!-- /.container-fluid -->
 </nav>
 ```
+
+## Subset Menus
+
+With your menu constructed you can call any of our subset menu functions to get a new `Builder` to quick generate additional menus.
+
+#### Top Menu
+
+This generates a `Builder` of the top level items, items without a parent.
+
+```php
+{!! Menu::get('primary')->topMenu()->asUl() !!}
+```
+
+#### Sub Menu
+
+This generates a `Builder` of the immediate children of the active item.
+
+```php
+{!! Menu::get('primary')->topMenu()->asUl() !!}
+```
+
+ #### Sibling Menu
+
+ This generates a `Builder` of the siblings of the active item.
+
+ ```php
+ {!! Menu::get('primary')->SiblingMenu()->asUl() !!}
+ ```
+
+ #### Crumb Menu
+
+ This generates a `Builder` by recursively getting all of the parent items for the active item (including the active item).
+
+ ```php
+ {!! Menu::get('primary')->crumbMenu()->asUl() !!}
+ ```
+
 
 ## Advanced Usage
 
