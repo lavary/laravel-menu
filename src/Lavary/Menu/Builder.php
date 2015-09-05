@@ -172,6 +172,15 @@ class Builder {
 	}
 
 	/**
+	 * Returns the first item marked as active
+	 *
+	 * @return Lavary\Menu\Item
+	 */
+	public function active() {
+		return $this->whereActive(true)->first();
+	}
+
+	/**
 	 * Insert a separator after the item
 	 *
 	 * @param  array $attributes

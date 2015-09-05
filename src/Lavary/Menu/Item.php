@@ -1,6 +1,6 @@
 <?php namespace Lavary\Menu;
 
-use Str;
+use Illuminate\Support\Str;
 
 class Item {
 	
