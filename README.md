@@ -1399,7 +1399,7 @@ This generates a `Builder` of the immediate children of the active item.
 This generates a `Builder` of the siblings of the active item.
 
 ```php
-{!! Menu::get('primary')->SiblingMenu()->asUl() !!}
+{!! Menu::get('primary')->siblingMenu()->asUl() !!}
 ```
 
 #### Crumb Menu
