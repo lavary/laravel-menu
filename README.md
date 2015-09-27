@@ -118,8 +118,7 @@ This registers the package with Laravel and creates an alias called `Menu`.
 
 ## Getting Started
 
-
-Menus can be defined in `app/Http/routes.php` or any other place you wish as long as it is auto loaded when a request hits your application.
+You can define the menu definitions inside a [laravel middleware](http://laravel.com/docs/master/middleware). As a result anythime a request hits your application, the menu objects will be available to all your views.
 
 
 Here is a basic usage:
