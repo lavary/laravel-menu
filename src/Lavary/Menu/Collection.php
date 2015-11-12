@@ -7,11 +7,11 @@ class Collection extends BaseCollection {
 	/**
 	 * Add attributes to a collection of items
 	 *
-	 * @param  mixed  
+	 * @param  mixed
 	 * @return Lavary\Menu\Collection
 	 */
 	public function attr() {
-		
+
 		$args = func_get_args();
 
 		$this->each(function($item) use ($args) {
@@ -28,11 +28,11 @@ class Collection extends BaseCollection {
 	/**
 	 * Add meta data to a collection of items
 	 *
-	 * @param  mixed  
+	 * @param  mixed
 	 * @return Lavary\Menu\Collection
 	 */
 	public function data() {
-		
+
 		$args = func_get_args();
 
 		$this->each(function($item) use ($args){
@@ -49,7 +49,7 @@ class Collection extends BaseCollection {
 	/**
 	 * Appends text or HTML to a collection of items
 	 *
-	 * @param  string  
+	 * @param  string
 	 * @return Lavary\Menu\Collection
 	 */
 	public function append($html) {
@@ -57,22 +57,22 @@ class Collection extends BaseCollection {
 		$this->each(function($item) use ($html) {
 			$item->title .= $html;
 		});
-		
-		return $this;	
+
+		return $this;
 	}
 
 	/**
 	 * Prepends text or HTML to a collection of items
 	 *
-	 * @param  string  
+	 * @param  string
 	 * @return Lavary\Menu\Collection
 	 */
-	public function prepend($html) {
-		
+	public function prepend($html, $key = null) {
+
 		$this->each(function($item) use ($html){
 			$item->title = $html . $item->title;
 		});
-		
+
 		return $this;
 	}
 
