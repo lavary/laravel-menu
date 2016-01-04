@@ -75,7 +75,7 @@ Run the composer update command:
 composer update
 ```
 
-Now append Laravel Menu service provider to  `providers` array in `config/app.php`.
+Now, append Laravel Menu service provider to  `providers` array in `config/app.php`.
 
 ```php
 <?php
