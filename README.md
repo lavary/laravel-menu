@@ -69,13 +69,13 @@ In the `require` key of `composer.json` file, add `lavary/laravel-menu": "dev-ma
   }  
 ```
   
-Run the composer update command:
+Run the `composer update` command:
 
 ```bash
 composer update
 ```
 
-Now, append Laravel Menu service provider to  `providers` array in `config/app.php`.
+Now, append Laravel Menu service provider to `providers` array in `config/app.php`.
 
 ```php
 <?php
