@@ -9,6 +9,6 @@ class Facade extends BaseFacade {
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'menu'; }
+    protected static function getFacadeAccessor() { return Menu::class; }
 
 }
