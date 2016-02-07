@@ -120,7 +120,7 @@ This registers the package with Laravel and creates an alias called `Menu`.
 
 ## Getting Started
 
-You can define the menu definitions inside a [laravel middleware](http://laravel.com/docs/master/middleware). As a result anythime a request hits your application, the menu objects will be available to all your views.
+You can define the menu definitions inside a [laravel middleware](http://laravel.com/docs/master/middleware). As a result anytime a request hits your application, the menu objects will be available to all your views.
 
 
 Here is a basic usage:
