@@ -486,7 +486,7 @@ class Builder {
 		}
 		
 		// running the sort proccess on the sortable items
-		$this->items->sort(function ($f, $s) use ($sort_by, $sort_type) {
+		$this->items	= $this->items->sort(function ($f, $s) use ($sort_by, $sort_type) {
 			
 			$f = $f->$sort_by;
 			$s = $s->$sort_by;
