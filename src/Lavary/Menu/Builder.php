@@ -36,13 +36,6 @@ class Builder {
 	* @var array
 	*/
 	protected $reserved = array('route', 'action', 'url', 'prefix', 'parent', 'secure', 'raw');
-
-	/**
-	* The last inserted item's id
-	*
-	* @var int
-	*/
-	protected $last_id;
 	
 	/**
 	 * Initializing the menu manager
@@ -70,12 +63,11 @@ class Builder {
 	public function add($title, $options = '')
 	{
 	
-		$item = new Item($this, $this->id(), $title, $options);
+		$id = isset($options['id']) ? $options['id'] : $this->id();
+
+		$item = new Item($this, $id, $title, $options);
                       
 		$this->items->push($item);
-
-		// stroing the last inserted item's id
-		$this->last_id = $item->id;
 		
 		return $item;
 	}
@@ -87,7 +79,7 @@ class Builder {
 	 */
 	protected function id()
 	{
-		return $this->last_id + 1;
+		return uniqid();
 	}
 
 	/**
@@ -315,20 +307,20 @@ class Builder {
 	 * Get the valid attributes from the options.
 	 *
 	 * @param  array   $options
-	 * @return string
+	 * @return array
 	 */
 	public function extractAttributes($options = array())
 	{
-		if(is_array($options)) {
+		if(!is_array($options)) {
+			$options = array();
+		}
 			
-			if( count($this->groupStack) > 0 ) {
-				$options = $this->mergeWithLastGroup($options);
-			}
-
-			return array_except($options, $this->reserved);
+		if( count($this->groupStack) > 0 ) {
+			$options = $this->mergeWithLastGroup($options);
 		}
 
-		return array();
+		return array_except($options, $this->reserved);
+		
 	}
 
 	/**
@@ -655,10 +647,10 @@ class Builder {
 		// Iterate over all the items in the main collection
 		$this->items->each( function ($item) use ($attribute, $value, &$collection) {
 			
-			if ( !property_exists($item, $attribute) )
-			{
+			if (!$this->hasProperty($attribute)) {
 				return false;
 			}
+			
 			if( $item->$attribute == $value ) {
 				
 				$collection->push($item);
@@ -702,17 +694,16 @@ class Builder {
 
 		return $this->items->filter(function($item) use ($attribute, $value) {
 
-			if ( !property_exists($item, $attribute) )
-			{
+			if (!$item->hasProperty($attribute)) {
 				return false;
 			}
 			
-			if( $item->$attribute == $value )
-			{
+			if($item->$attribute == $value) {
 				return true;
 			} 
 			
-				return false;
+			return false;
+
 		})->values();
 
 	}

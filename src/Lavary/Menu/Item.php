@@ -75,7 +75,7 @@ class Item {
 		$this->builder     = $builder;
 		$this->id          = $id;
 		$this->title       = $title;
-		$this->nickname    = camel_case(Str::ascii($title));
+		$this->nickname    = isset($options['nickname']) ? $options['nickname'] : camel_case(Str::ascii($title));
 		$this->attributes  = $this->builder->extractAttributes($options); 
 		$this->parent      = (is_array($options) && isset($options['parent'])) ? $options['parent'] : null;
 		
@@ -84,15 +84,14 @@ class Item {
 		if(!is_array($options)) {
 			
 			$path = array('url' => $options);
-		}
-		elseif( isset($options['raw']) && $options['raw'] == true ) {
+		
+		} elseif(isset($options['raw']) && $options['raw'] == true) {
 			
 			$path = null;
-		}
-		else {	
+
+		} else {	
 			
-			$path = array_only($options, 
-									 array('url', 'route', 'action', 'secure'));
+			$path = array_only($options, array('url', 'route', 'action', 'secure'));
 		} 
 
 		if(!is_null($path)) {
@@ -307,8 +306,43 @@ class Item {
 	}
 
 	/**
+	* Set nickname for the item manually
+	*
+	* @param string $nickname
+	* @return /Lavary/Menu/Item
+	*/
+	public function nickname($nickname = null) {
+		
+		if (is_null($nickname)) {
+			return $this->nickname;
+		}
+
+		$this->nickname = $nickname;
+
+		return $this;
+	}
+
+	/**
+	* Set id for the item manually
+	*
+	* @param  mixed $id
+	* @return /Lavary/Menu/Item
+	*/
+	public function id($id = null) {
+		
+		if (is_null($id)) {
+			return $this->id;
+		}
+
+		$this->id = $id;
+
+		return $this;
+	}
+
+	/**
 	 * Activat the item
 	 *
+	 * @param \Lavary\Menu\Item $item
 	 */
 	public function activate( \Lavary\Menu\Item $item = null ){
 	
@@ -417,6 +451,22 @@ class Item {
 			$this->children()->data($args[0]);
 		}
 	}
+
+	/**
+	 * Check if propery exists either in the class or the meta collection
+	 *
+	 * @param  String  $property
+	 * @return Boolean
+	 */
+	public function hasProperty($property) {
+
+        if (property_exists($this, $property) || !is_null($this->data($property))) {
+            return true;
+        }
+
+        return false;
+    }
+
 
 	/**
 	 * Search in meta data if a property doesn't exist otherwise return the property
