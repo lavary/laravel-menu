@@ -79,7 +79,7 @@ class Builder {
 	 */
 	protected function id()
 	{
-		return uniqid();
+		return uniqid(rand());
 	}
 
 	/**
