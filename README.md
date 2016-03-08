@@ -61,7 +61,7 @@ __For Laravel 4.x, check [version 1.5.0](https://github.com/lavary/laravel-menu/
 
 ## Installation
 
-In the `require` key of `composer.json` file, add `lavary/laravel-menu": "dev-master`:
+In `require` key of `composer.json` file, add `lavary/laravel-menu": "dev-master`:
 
 ```
 ...
