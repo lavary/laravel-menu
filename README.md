@@ -9,7 +9,7 @@ A quick way to create menus in [Laravel 5](http://laravel.com/)
 
 __For Laravel 4.x, check [version 1.5.0](https://github.com/lavary/laravel-menu/tree/v1.5.0)__
 
-##Documentation
+## Documentation
 
 * [Installation](#installation)
 * [Getting Started](#getting-started)
