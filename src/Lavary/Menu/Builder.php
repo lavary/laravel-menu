@@ -31,6 +31,13 @@ class Builder {
 	protected $groupStack = array();
 	
 	/**
+	* The check AdminLTE or other style.
+	*
+	* @var string
+	*/
+	protected $style;
+	
+	/**
 	* The reserved attributes.
 	*
 	* @var array
@@ -49,6 +56,7 @@ class Builder {
 		// creating a laravel collection ofr storing enu items
 		$this->items = new Collection;
 
+		$this->style = false;
 		$this->conf = $conf;
 
 	}
@@ -524,7 +532,7 @@ class Builder {
 			}
 					
 			if( $item->hasChildren() ) {
-				$items .= "<{$type}>";
+				$items .= ($this->style == 'adminLTE') ?  "<{$type} class='treeview-menu'>" : "<{$type}>";
 				$items .= $this->render($type, $item->id);
 				$items .= "</{$type}>";
 			}
@@ -546,6 +554,10 @@ class Builder {
 	 */
 	public function asUl($attributes = array())
 	{
+            if(!empty($attributes['style']) && (($attributes['style'] == 'adminlte') || $attributes['style'] == 'adminLTE')){
+                $this->style = 'adminLTE';
+                unset($attributes['style']);
+            }
 		return '<ul' . self::attributes($attributes) .'>' . $this->render('ul') . '</ul>';
 	}
 
@@ -556,6 +568,10 @@ class Builder {
 	 */
 	public function asOl($attributes = array())
 	{
+                if(!empty($attributes['style']) && (($attributes['style'] == 'adminlte') || $attributes['style'] == 'adminLTE')){
+                    $this->style = 'adminLTE';
+                    unset($attributes['style']);
+                }
 		return '<ol' . self::attributes($attributes) .'>' . $this->render('ol') . '</ol>';
 	}
 
