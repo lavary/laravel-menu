@@ -15,7 +15,7 @@ __For Laravel 4.x, check [version 1.5.0](https://github.com/lavary/laravel-menu/
 * [Getting Started](#getting-started)
 * [Routing](#routing)
 	- [URLs](#urls)	
-	- [Named Routes](#named-routs)
+	- [Named Routes](#named-routes)
 	- [Controller Actions](#controller-actions)
 	- [HTTPS](#https)
 * [Sub-items](#sub-items)
