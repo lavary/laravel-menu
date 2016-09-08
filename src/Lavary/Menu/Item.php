@@ -296,9 +296,9 @@ class Item {
 				$this->activate();
 			}
 		} else {
-			
+
 			if( ($this->active_in == 'children' && strpos(\Request::url(), $this->url()) === 0)
-				|| ($this->active_in && preg_match($this->active_in, \Request::url()) === 1)
+				|| (preg_match("/^\/.+\/[a-z]*$/i", $this->active_in) === 1 && preg_match($this->active_in, \Request::url()) === 1)
 				|| \Request::url() === $this->url()
 			) {
 
