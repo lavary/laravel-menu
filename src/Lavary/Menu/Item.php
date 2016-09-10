@@ -59,7 +59,14 @@ class Item {
 	 * @var array
 	 */
 	public $attributes = array();
-
+	
+	/**
+	 * Flag for active state
+	 *
+	 * @var bool
+	 */
+	public $isActive = false;
+	
 	/**
 	 * Creates a new Lavary\Menu\MenuItem instance.
 	 *
@@ -387,6 +394,7 @@ class Item {
 		}
 
 		$this->attributes['class'] = Builder::formatGroupClass(array('class' => $this->builder->conf('active_class')), $this->attributes);
+		$this->isActive = true;
 		
 		return $this;
 	}
