@@ -507,7 +507,7 @@ class Builder {
 	 * @param int $parent
 	 * @return string
 	 */
-	public function render($type = 'ul', $parent = null)
+	public function render($type = 'ul', $parent = null, $childrenAttributes = array())
 	{
 		$items = '';
 		
@@ -524,7 +524,7 @@ class Builder {
 			}
 					
 			if( $item->hasChildren() ) {
-				$items .= "<{$type}>";
+				$items .= '<' . $type . self::attributes($childrenAttributes) . '>';
 				$items .= $this->render($type, $item->id);
 				$items .= "</{$type}>";
 			}
@@ -544,9 +544,9 @@ class Builder {
 	 *
 	 * @return string
 	 */
-	public function asUl($attributes = array())
+	public function asUl($attributes = array(), $childrenAttributes = array())
 	{
-		return '<ul' . self::attributes($attributes) .'>' . $this->render('ul') . '</ul>';
+		return '<ul' . self::attributes($attributes) . '>' . $this->render('ul', null, $childrenAttributes) . '</ul>';
 	}
 
 	/**
@@ -554,9 +554,9 @@ class Builder {
 	 *
 	 * @return string
 	 */
-	public function asOl($attributes = array())
+	public function asOl($attributes = array(), $childrenAttributes = array())
 	{
-		return '<ol' . self::attributes($attributes) .'>' . $this->render('ol') . '</ol>';
+		return '<ol' . self::attributes($attributes) . '>' . $this->render('ol', null, $childrenAttributes) . '</ol>';
 	}
 
 	/**
@@ -564,9 +564,9 @@ class Builder {
 	 *
 	 * @return string
 	 */
-	public function asDiv($attributes = array())
+	public function asDiv($attributes = array(), $childrenAttributes = array())
 	{
-		return '<div' . self::attributes($attributes) .'>' . $this->render('div') . '</div>';
+		return '<div' . self::attributes($attributes) . '>' . $this->render('div', null, $childrenAttributes) . '</div>';
 	}
 
 	/**
