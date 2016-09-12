@@ -8,6 +8,13 @@ class Menu {
 	* @var Illuminate\Support\Collection
 	*/
 	protected $collection;
+	
+	/**
+	 * List of menu items
+	 * 
+	 * @var Lavary\Menu\Menu
+	 */
+	protected $menu = [];
 
 	/**
 	 * Initializing the menu builder
@@ -30,19 +37,20 @@ class Menu {
 	{
 		if(is_callable($callback))
 		{
-			
-			$menu = new Builder($name, $this->loadConf($name));
+			if (!array_key_exists($name, $this->menu)) {
+				$this->menu[$name] = new Builder($name, $this->loadConf($name));	
+			}
 			
 			// Registering the items
-			call_user_func($callback, $menu);
+			call_user_func($callback, $this->menu[$name]);
 			
 			// Storing each menu instance in the collection
-			$this->collection->put($name, $menu);
+			$this->collection->put($name, $this->menu[$name]);
 			
 			// Make the instance available in all views
-			\View::share($name, $menu);
+			\View::share($name, $this->menu[$name]);
 
-			return $menu;
+			return $this->menu[$name];
 		}
 	}
 
