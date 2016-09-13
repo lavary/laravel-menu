@@ -22,6 +22,13 @@ class Link {
 	 * @var array
 	 */
 	public $attributes = array();
+
+	/**
+	 * Flag for active state
+	 *
+	 * @var bool
+	 */
+	public $isActive = false;
 	
 	/**
 	 * Creates a hyper link instance
@@ -42,6 +49,7 @@ class Link {
 	public function active(){
 	
 		$this->attributes['class'] = Builder::formatGroupClass(array('class' => 'active'), $this->attributes);
+		$this->isActive = true;
 		return $this;
 	}
 
