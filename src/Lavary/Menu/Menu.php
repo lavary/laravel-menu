@@ -31,9 +31,10 @@ class Menu {
 	 *
 	 * @param  string  $name
 	 * @param  callable  $callback
+	 * @param  string  $prm
 	 * @return \Lavary\Menu\Menu
 	 */
-	public function make($name, $callback)
+	public function make($name, $callback, $prm=0)
 	{
 		if(is_callable($callback))
 		{
@@ -42,7 +43,7 @@ class Menu {
 			}
 			
 			// Registering the items
-			call_user_func($callback, $this->menu[$name]);
+			call_user_func($callback, $this->menu[$name], $prm); //send parameter
 			
 			// Storing each menu instance in the collection
 			$this->collection->put($name, $this->menu[$name]);
