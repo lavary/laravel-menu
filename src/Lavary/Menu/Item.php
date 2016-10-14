@@ -288,7 +288,7 @@ class Item {
 		if( $this->builder->conf['restful'] == true ) {
 
 			$path  = ltrim(parse_url($this->url(), PHP_URL_PATH), '/');
-			$rpath = \Request::path();
+			$rpath = ltrim(parse_url(\Request::path(), PHP_URL_PATH), '/');
 			
 
 			if($this->builder->conf['rest_base'] ) {
