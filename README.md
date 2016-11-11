@@ -61,20 +61,10 @@ __For Laravel 4.x, check [version 1.5.0](https://github.com/lavary/laravel-menu/
 
 ## Installation
 
-In `require` key of `composer.json` file, add `lavary/laravel-menu": "dev-master`:
-
-```
-...
-"require": {
-	"laravel/framework": "5.1.*",
-	"lavary/laravel-menu": "dev-master"
-  }  
-```
-  
-Run the `composer update` command:
+To install, use composer:
 
 ```bash
-composer update
+composer require lavary/laravel-menu
 ```
 
 Now, append Laravel Menu service provider to `providers` array in `config/app.php`.
