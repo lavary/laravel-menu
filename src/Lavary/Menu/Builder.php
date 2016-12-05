@@ -39,8 +39,8 @@ class Builder {
 	
 	/**
 	 * Initializing the menu manager
-	 *
-	 * @return void
+     *
+     * @return void
 	 */
 	public function __construct($name, $conf)
 	{
@@ -57,8 +57,8 @@ class Builder {
 	 * Adds an item to the menu
 	 *
 	 * @param  string  $title
-	 * @param  string|array  $acion
-	 * @return Lavary\Menu\Item $item
+	 * @param  string|array  $options
+	 * @return Item $item
 	 */
 	public function add($title, $options = '')
 	{
@@ -75,18 +75,20 @@ class Builder {
 	/**
 	 * Generate an integer identifier for each new item
 	 *
-	 * @return int
+	 * @return string
 	 */
 	protected function id()
 	{
 		return uniqid(rand());
 	}
 
-	/**
-	 * Add raw content
-	 *
-	 * @return Lavary\Menu\Item
-	 */
+    /**
+     * Add raw content
+     *
+     * @param $title
+     * @param array $options
+     * @return Item
+     */
 	public function raw($title, array $options = array())
 	{
 		$options['raw'] = true;
@@ -97,28 +99,27 @@ class Builder {
 	/**
 	 * Returns menu item by name
 	 *
-	 * @return Lavary\Menu\Item
+	 * @return Item
 	 */
 	public function get($title){
-		
+
 		return $this->whereNickname($title)
-		
-					->first();		
+
+					->first();
 	}
 
 	/**
 	 * Returns menu item by Id
 	 *
-	 * @return Lavary\Menu\Item
+	 * @return Item
 	 */
 	public function find($id){
-		
+
 		return $this->whereId($id)
-		
-					->first();		
+
+					->first();
 	}
 
-	
 	/**
 	 * Return all items in the collection
 	 *
@@ -133,7 +134,7 @@ class Builder {
 	/**
 	 * Return the first item in the collection
 	 *
-	 * @return Lavary\Menu\Item
+	 * @return Item
 	 */
 	public function first(){
 		
@@ -144,7 +145,7 @@ class Builder {
 	/**
 	 * Return the last item in the collection
 	 *
-	 * @return Lavary\Menu\Item
+	 * @return Item
 	 */
 	public function last(){
 		
@@ -154,7 +155,8 @@ class Builder {
 	/**
 	 * Returns menu item by name
 	 *
-	 * @return Lavary\Menu\Item
+     * @param string  $title
+	 * @return Item
 	 */
 	public function item($title){
 		
@@ -288,7 +290,8 @@ class Builder {
 	/**
 	 * Get the valid attributes from the options.
 	 *
-	 * @param  array   $options
+	 * @param  array  $new
+     * @param  array  $old
 	 * @return string
 	 */
 	public static function formatGroupClass($new, $old) {
@@ -306,7 +309,7 @@ class Builder {
 	/**
 	 * Get the valid attributes from the options.
 	 *
-	 * @param  array   $options
+	 * @param  array  $options
 	 * @return array
 	 */
 	public function extractAttributes($options = array())
@@ -445,7 +448,7 @@ class Builder {
 	 *
 	 * @param  callable $callback
 	 *
-	 * @return Lavary\Menu\Builder
+	 * @return Builder
 	 */
 	public function filter($callback)
 	{
@@ -461,7 +464,7 @@ class Builder {
 	 * Sorts the menu based on user's callable
 	 *
 	 * @param string|callable $sort_type
-	 * @return Lavary\Menu\Builder
+	 * @return Builder
 	 */
 	public function sortBy($sort_by, $sort_type = 'asc'){
 
@@ -602,8 +605,8 @@ class Builder {
 
 	/**
 	 * Return configuration value by key
+     *
 	 * @param string $key
-	 *
 	 * @return string
 	 */
 	public function conf($key) {
@@ -611,15 +614,14 @@ class Builder {
 		return $this->conf[$key];
 	}
 
-	
 
-	/**
-	 * Merge item's attributes with a static string of attributes
-	 *
-	 * @param string $attributes
-	 *
-	 * @return string
-	 */
+    /**
+     * Merge item's attributes with a static string of attributes
+     *
+     * @param null $new
+     * @param array $old
+     * @return string
+     */
 	public static function mergeStatic($new = null, array $old = array()) {
 		
 		// Parses the string into an associative array
@@ -637,8 +639,7 @@ class Builder {
 	 *
 	 * @param string $attribute
 	 * @param mixed  $value
-	 *
-	 * @return Lavary\Menu\Collection
+	 * @return Collection
 	 */
 	public function filterRecursive($attribute, $value){
 
@@ -667,14 +668,13 @@ class Builder {
 		return $collection;
 	}
 
-	/**
-	 * Search the menu based on an attribute
-	 *
-	 * @param string $method
-	 * @param array  $args
-	 *
-	 * @return Lavary\Menu\Item
-	 */
+    /**
+     * Search the menu based on an attribute
+     *
+     * @param string $method
+     * @param array $args
+     * @return bool|Builder|Collection
+     */
 	public function __call($method, $args)
 	{
 		preg_match('/^[W|w]here([a-zA-Z0-9_]+)$/', $method, $matches);
@@ -711,7 +711,7 @@ class Builder {
 	/**
 	 * Returns menu item by name
 	 *
-	 * @return Lavary\Menu\Item
+	 * @return Item
 	 */
 	public function __get($prop){
 		
