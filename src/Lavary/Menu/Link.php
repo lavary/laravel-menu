@@ -48,7 +48,7 @@ class Link {
 	 */
 	public function active(){
 	
-		$this->attributes['class'] = Builder::formatGroupClass(array('class' => 'active'), $this->attributes);
+		$this->attributes['class'] = Builder::formatGroupClass(array('class' => $this->builder->conf('active_class')), $this->attributes);
 		$this->isActive = true;
 		return $this;
 	}
