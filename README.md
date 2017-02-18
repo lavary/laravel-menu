@@ -61,7 +61,6 @@ __For Laravel 4.x, check [version 1.5.0](https://github.com/lavary/laravel-menu/
 
 ## Installation
 
-To install, use composer:
 
 ```bash
 composer require lavary/laravel-menu
