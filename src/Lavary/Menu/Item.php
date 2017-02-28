@@ -68,6 +68,13 @@ class Item {
 	public $isActive = false;
 	
 	/**
+	 * Depth of children
+	 *
+	 * @var integer
+	 */
+	public static $depth;
+
+	/**
 	 * Creates a new Lavary\Menu\MenuItem instance.
 	 *
 	 * @param  string  $title
@@ -85,6 +92,7 @@ class Item {
 		$this->nickname    = isset($options['nickname']) ? $options['nickname'] : camel_case(Str::ascii($title));
 		$this->attributes  = $this->builder->extractAttributes($options); 
 		$this->parent      = (is_array($options) && isset($options['parent'])) ? $options['parent'] : null;
+		static::$depth	   = 2;
 		
 		
 		// Storing path options with each link instance.
@@ -266,7 +274,20 @@ class Item {
 	 */
 	public function children()
 	{
+		// increase the depth
+		static::$depth++;
+		
 		return $this->builder->whereParent($this->id);
+	}
+
+	/**
+	 * Returns depth of $item
+	 * 
+	 * @return Integer
+	 */
+	public function depth()
+	{
+		return static::$depth;
 	}
 
 	/**
