@@ -59,14 +59,21 @@ class Item {
 	 * @var array
 	 */
 	public $attributes = array();
-	
+
 	/**
 	 * Flag for active state
 	 *
 	 * @var bool
 	 */
 	public $isActive = false;
-	
+
+	/**
+	 * HTML code for displaying icon
+	 *
+	 * @var html
+	 */
+	public $icon     = null;
+
 	/**
 	 * Creates a new Lavary\Menu\MenuItem instance.
 	 *
@@ -86,6 +93,7 @@ class Item {
 		$this->attributes = $this->builder->extractAttributes($options);
 		$this->parent     = (is_array($options) && isset($options['parent'])) ? $options['parent'] : null;
 		$this->active_in  = isset($options['active_in']) ? $options['active_in'] : FALSE;
+		$this->icon       = isset($options['icon']) ? $options['icon'] : FALSE;
 
 		// Storing path options with each link instance.
 		if(!is_array($options)) {
