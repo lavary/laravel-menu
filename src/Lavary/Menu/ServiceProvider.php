@@ -52,7 +52,7 @@ class ServiceProvider extends BaseServiceProvider {
 	 */
 	public function provides()
 	{
-		return array('menu');
+		return array(Menu::class);
 	}
 
 }
