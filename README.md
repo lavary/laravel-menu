@@ -1491,7 +1491,7 @@ Here's the result:
 
 ## Configuration
 
-You can adjust the behavior of the menu builder in `config/settings.php` file. Currently it provide a few options out of the box:
+You can adjust the behavior of the menu builder in `config/laravel-menu.php` file. Currently it provide a few options out of the box:
 
 * **auto_activate** Automatically activates menu items based on the current URI
 * **activate_parents** Activates the parents of an active item
@@ -1505,18 +1505,20 @@ You're also able to override the default settings for each menu. To override set
 
 ```php
 <?php
-return array(
-	'default' => array(
-		'auto_activate'    => true,
-		'activate_parents' => true,
-		'active_class'     => 'active',
-		'active_element'   => 'item',    // item|link
-		'restful'          => true,
-	),
-	'yourmenuname' => array(
-		'auto_activate'    => false
-	),
-);
+return [
+    'settings' => [
+        'default' => array(
+            'auto_activate'    => true,
+            'activate_parents' => true,
+            'active_class'     => 'active',
+            'active_element'   => 'item',    // item|link
+            'restful'          => true,
+        ),
+        'yourmenuname' => array(
+            'auto_activate'    => false
+        ),
+    ]
+];
 ```
 
 
