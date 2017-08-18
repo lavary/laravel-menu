@@ -497,17 +497,20 @@ class Builder {
 
 		return $this;
 
-	}
-
+	}	
 	
 	/**
 	 * Generate the menu items as list items using a recursive function
 	 *
-	 * @param string $type
-	 * @param int $parent
-	 * @return string
-	 */
-	public function render($type = 'ul', $parent = null, $childrenAttributes = array())
+         * @param string $type
+         * @param int $parent
+         * @param array $children_attributes
+         * @param array $item_attributes
+         * @param callable $item_after_calback
+         * @param array $item_after_calback_params
+         * @return string
+         */
+	public function render($type = 'ul', $parent = null, $children_attributes = array(), $item_attributes = array(), $item_after_calback = null, $item_after_calback_params=[])
 	{
 		$items = '';
 		
@@ -515,16 +518,27 @@ class Builder {
 		
 		foreach ($this->whereParent($parent) as $item)
 		{
-			$items  .= '<' . $item_tag . self::attributes($item->attr()) . '>';
+                        $link_attr = $item->link->attr();
+                        if(is_callable($item_after_calback)) {
+                            call_user_func_array(
+                                $item_after_calback, 
+                                [$item, 
+                                &$children_attributes, 
+                                &$item_attributes, 
+                                &$link_attr, 
+                                &$item_after_calback_params]
+                            );
+                        }
+			$items  .= '<' . $item_tag . self::attributes($item->attr()+$item_attributes) . '>';
 
 			if($item->link) {
-				$items .= $item->beforeHTML.'<a' . self::attributes($item->link->attr()) . ' href="' . $item->url() . '">' . $item->title . '</a>'.$item->afterHTML;
+				$items .= $item->beforeHTML.'<a' . self::attributes($link_attr) . ' href="' . $item->url . '">' . $item->title . '</a>'.$item->afterHTML;
 			} else {
 				$items .= $item->title;
 			}
 					
 			if( $item->hasChildren() ) {
-				$items .= '<' . $type . self::attributes($childrenAttributes) . '>';
+				$items .= '<' . $type . self::attributes($children_attributes) . '>';
 				$items .= $this->render($type, $item->id);
 				$items .= "</{$type}>";
 			}
@@ -534,6 +548,7 @@ class Builder {
 			if($item->divider) {
 				$items .= '<' . $item_tag . self::attributes($item->divider) . '></' . $item_tag . '>';
 			}
+                        
 		}
 
 		return $items;
@@ -541,32 +556,47 @@ class Builder {
 		
 	/**
 	 * Returns the menu as an unordered list.
-	 *
+         * 
+	 * @param array $attributes
+         * @param array $children_attributes
+         * @param array $item_attributes
+         * @param callable $item_after_calback
+         * @param array $item_after_calback_params
 	 * @return string
 	 */
-	public function asUl($attributes = array(), $childrenAttributes = array())
+	public function asUl($attributes = array(), $children_attributes = array(), $item_attributes = array(), $item_after_calback = null, $item_after_calback_params=[])
 	{
-		return '<ul' . self::attributes($attributes) . '>' . $this->render('ul', null, $childrenAttributes) . '</ul>';
+		return '<ul' . self::attributes($attributes) . '>' . $this->render('ul', null, $children_attributes, $item_attributes, $item_after_calback, $item_after_calback_params) . '</ul>';
 	}
 
 	/**
 	 * Returns the menu as an ordered list.
 	 *
+	 * @param array $attributes
+         * @param array $children_attributes
+         * @param array $item_attributes
+         * @param callable $item_after_calback
+         * @param array $item_after_calback_params
 	 * @return string
 	 */
-	public function asOl($attributes = array(), $childrenAttributes = array())
+	public function asOl($attributes = array(), $children_attributes = array(), $item_attributes = array(), $item_after_calback = null, $item_after_calback_params=[])
 	{
-		return '<ol' . self::attributes($attributes) . '>' . $this->render('ol', null, $childrenAttributes) . '</ol>';
+		return '<ol' . self::attributes($attributes) . '>' . $this->render('ol', null, $children_attributes, $item_attributes, $item_after_calback, $item_after_calback_params) . '</ol>';
 	}
 
 	/**
 	 * Returns the menu as div containers
 	 *
+	 * @param array $attributes
+         * @param array $children_attributes
+         * @param array $item_attributes
+         * @param callable $item_after_calback
+         * @param array $item_after_calback_params
 	 * @return string
 	 */
-	public function asDiv($attributes = array(), $childrenAttributes = array())
+	public function asDiv($attributes = array(), $children_attributes = array(), $item_attributes = array(), $item_after_calback = null, $item_after_calback_params=[])
 	{
-		return '<div' . self::attributes($attributes) . '>' . $this->render('div', null, $childrenAttributes) . '</div>';
+		return '<div' . self::attributes($attributes) . '>' . $this->render('div', null, $children_attributes, $item_attributes, $item_after_calback, $item_after_calback_params) . '</div>';
 	}
 
 	/**
