@@ -518,7 +518,7 @@ class Builder {
 			$items  .= '<' . $item_tag . self::attributes($item->attr()) . '>';
 
 			if($item->link) {
-				$items .= '<a' . self::attributes($item->link->attr()) . ' href="' . $item->url() . '">' . $item->title . '</a>';
+				$items .= $item->beforeHTML.'<a' . self::attributes($item->link->attr()) . ' href="' . $item->url() . '">' . $item->title . '</a>'.$item->afterHTML;
 			} else {
 				$items .= $item->title;
 			}
