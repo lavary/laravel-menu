@@ -61,20 +61,8 @@ __For Laravel 4.x, check [version 1.5.0](https://github.com/lavary/laravel-menu/
 
 ## Installation
 
-In `require` key of `composer.json` file, add `lavary/laravel-menu": "dev-master`:
-
-```json
-...
-"require": {
-	"laravel/framework": "5.1.*",
-	"lavary/laravel-menu": "dev-master"
-  }  
-```
-  
-Run the `composer update` command:
-
 ```bash
-composer update
+composer require lavary/laravel-menu
 ```
 
 Now, append Laravel Menu service provider to `providers` array in `config/app.php`.
@@ -112,6 +100,12 @@ At the end of `config/app.php` add `'Menu'    => 'Lavary\Menu\Facade'` to the `$
 ```
 
 This registers the package with Laravel and creates an alias called `Menu`.
+
+
+To use your own settings, publish config.
+```bash
+php artisan vendor:publish --provider="Lavary\Menu\ServiceProvider"
+```
 
 
 ## Getting Started
@@ -884,7 +878,7 @@ Menu::make('MyNavBar', function($menu){
 
   $menu->add('Home',     array('route'  => 'home.page', 'class' => 'navbar navbar-home', 'id' => 'home'));
   
-  $menu->group(array('style' => 'padding: 0', 'data-role' => 'navigation') function($m){
+  $menu->group(array('style' => 'padding: 0', 'data-role' => 'navigation'), function($m){
     
         $m->add('About',    array('route'  => 'page.about', 'class' => 'navbar navbar-about dropdown'));
         $m->add('services', array('action' => 'ServicesController@index'));
