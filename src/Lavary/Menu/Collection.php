@@ -64,11 +64,11 @@ class Collection extends BaseCollection {
 	/**
 	 * Prepends text or HTML to a collection of items
 	 *
-	 * @param  string
+	 * @param mixed $html
+	 * @param mixed $key
 	 * @return Lavary\Menu\Collection
 	 */
 	public function prepend($html, $key = null) {
-
 		$this->each(function($item) use ($html){
 			$item->title = $html . $item->title;
 		});
