@@ -79,14 +79,14 @@ Now, append Laravel Menu service provider to `providers` array in `config/app.ph
 	
 	...
         
-        'Lavary\Menu\ServiceProvider',
+        Lavary\Menu\ServiceProvider::class,
         
         ...
 
 ],
 ```
 
-At the end of `config/app.php` add `'Menu'    => 'Lavary\Menu\Facade'` to the `$aliases` array:
+At the end of `config/app.php` add `'Menu'    => Lavary\Menu\Facade::class` to the `$aliases` array:
 
 ```php
 'aliases' => [
@@ -94,7 +94,7 @@ At the end of `config/app.php` add `'Menu'    => 'Lavary\Menu\Facade'` to the `$
     'App'       => Illuminate\Support\Facades\App::class,
     'Artisan'   => Illuminate\Support\Facades\Artisan::class,
     ...
-    'Menu'       => 'Lavary\Menu\Facade',
+    'Menu'      => Lavary\Menu\Facade::class,
 
 ],
 ```
@@ -111,6 +111,9 @@ php artisan vendor:publish --provider="Lavary\Menu\ServiceProvider"
 ## Getting Started
 
 You can define the menu definitions inside a [laravel middleware](http://laravel.com/docs/master/middleware). As a result anytime a request hits your application, the menu objects will be available to all your views.
+```bash
+php artisan make:middleware GenerateMenus
+```
 
 
 Here is a basic usage:
