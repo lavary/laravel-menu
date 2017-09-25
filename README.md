@@ -38,6 +38,7 @@ __For Laravel 4.x, check [version 1.5.0](https://github.com/lavary/laravel-menu/
 	- [URL Wildcards](#url-wildcards)
 * [Inserting a Separator](#inserting-a-separator)
 * [Append and Prepend](#append-and-prepend)
+* [Before and After](#before-and-after)
 * [Raw Items](#raw-items)
 * [Menu Groups](#menu-groups)
 * [URL Prefixing](#url-prefixing)
@@ -54,6 +55,7 @@ __For Laravel 4.x, check [version 1.5.0](https://github.com/lavary/laravel-menu/
 	+ [A Basic Example](#a-basic-example)
 	+ [Control Structure for Blade](#control-structure-for-blade)
 		- [@lm-attrs](#lm-attrs)
+	+ [Attributes and Callback function of item](#attributes-and-callback-function-of-item)
 * [Configuration](#configuration)
 * [If You Need Help](#if-you-need-help)
 * [License](#license)
@@ -917,6 +919,78 @@ The above code will result:
 
 You can call `prepend` and `append` on collections as well.
 
+
+## Before and After
+
+Allows you to add an arbitrary html block instead of a drop-down list. And many other possibilities.
+Unlike `append` and `prepend`, `before` and `after` adds an arbitrary html to the root of the tag li.
+
+```php
+<?php
+Menu::make('MyNavBar', function($menu){
+
+  // ...
+  
+  $menu->add('User', array('title'  => Auth::user()->name, 'class'=>'nav-item'))
+      ->after(view('layouts.pattern.menu.user_info'))
+      ->link()->attr([
+          'class'=>'nav-link dropdown-toggle',
+          'data-toggle' => 'dropdown',
+	  'role'=>'button', 
+          'aria-expanded' => 'false',
+      ]);
+  
+  // ...            
+
+});
+?>
+```
+
+Resource of view, pattern: layouts.pattern.menu.user_info
+
+```html
+<div class="dropdown-menu" role="menu">    
+    <div class="user-info-header">
+        <?= Auth::user()->name ?><br>
+    </div>
+    <div class="pull-left">
+        <a href="<?=url('tools/profile')?>" class="btn btn-primary btn-flat">Profile</a>
+    </div>
+    <div class="pull-right">
+        <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-primary btn-flat">
+	    <i class="fa fa-power-off"></i>&nbsp;Exit</a>
+        <form id="logout-form" action="<?= route('logout') ?>" method="POST" style="display: none;">
+            <?= csrf_field() ?>
+        </form>
+    </div>
+</div>
+```
+
+The above code will result:
+
+```html
+<li title="Username" class="nav-item">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+	User
+    </a>
+    <div class="dropdown-menu" role="menu">    
+        <div class="user-info-header">
+	    <?= Auth::user()->name ?><br>
+        </div>
+        <div class="pull-left">
+	    <a href="<?=url('tools/profile')?>" class="btn btn-primary btn-flat">Profile</a>
+        </div>
+        <div class="pull-right">
+	    <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-primary btn-flat">
+	        <i class="fa fa-power-off"></i>&nbsp;Exit</a>
+	    <form id="logout-form" action="<?= route('logout') ?>" method="POST" style="display: none;">
+	        <?= csrf_field() ?>
+	    </form>
+        </div>
+    </div>
+</li>
+```
+
 ## Raw Items
 
 To insert items as plain text instead of hyper-links you can use `raw()`:
@@ -1486,6 +1560,104 @@ Here's the result:
 ...
 <li class="item item-1 dropdown" id="my-item" data-test="test">...</li>
 ...
+```
+
+#### Attributes and Callback function of item
+
+When printing a list, you can:
+Set the attributes for the list element;
+Set the callback function, to add a prefix to each link or by condition ("?id={$id}") and much more.
+
+**Example of converting a menu into a drop-down list for mobile**
+Controller:
+```php
+<?php
+
+$items=[
+    'copy'=>[
+        'icon'=>'fa-copy',
+        'title'=>'Copy',
+        'text'=>'Copy',
+        'link_attribute'=>[
+            'class'=>'nav-link',
+            'href'=> url(Request::capture()->path()."/copy"),
+        ]
+    ],
+];
+
+$controlItem = LavaryMenu::make('controlItem', function($_menu) use ($items){
+    foreach ($items as $key => $item) if(!isset($item['visible']) || $item['visible']){
+        $_menu->add($item['text'],['title'=>$item['title']])
+            ->append('</span>')
+            ->prepend('<i class="fa '.$item['icon'].'"></i> <span>')
+            ->link->attr($item['link_attribute']);
+    }
+});
+
+return view('layouts.table.view',[
+    'controlItem' => $controlItem
+]);
+
+?>
+```
+View: layouts.table.view
+```php
+<ul class="control-items-min">
+    <li title="Menu">
+        <a data-toggle="dropdown" aria-expanded="true"><i class="fa fa-bars"></i> <span></span></a>
+	<!-- The first array is the attributes for the list: for example, `ul`;
+	     The second is the attributes for the child lists, for example, `ul>li>ul`;
+	     The third array is attributes that are added to the attributes of the `li` element. -->
+        <?=$controlItem->asUl(['class'=>'dropdown-menu', 'role'=>'menu'],[],['class'=>'dropdown-item']);?>
+    </li>
+</ul>
+<?=$controlItem->asUl(['class'=>'control-items'],[],['class'=>'nav-item']);?>
+```
+
+**Example of printing the recording management menu**
+Controller:
+```php
+<?php
+
+$items=[
+    'copy'=>[
+        'icon'=>'fa-copy',
+        'title'=>'Copy',
+        'text'=>'Copy',
+        'link_attribute'=>[
+            'class'=>'nav-link',
+            'href'=> url(Request::capture()->path()."/copy"),
+        ]
+    ],
+];
+
+$controlItem = LavaryMenu::make('controlItem', function($_menu) use ($items){
+    foreach ($items as $key => $item) if(!isset($item['visible']) || $item['visible']){
+        $_menu->add($item['text'],['title'=>$item['title']])
+            ->append('</span>')
+            ->prepend('<i class="fa '.$item['icon'].'"></i> <span>')
+            ->link->attr($item['link_attribute']);
+    }
+});
+
+return view('layouts.table.view',[
+    'controlItem' => $controlItem
+]);
+
+?>
+```
+View: layouts.table.view (use in a cycle with different IDs)
+```php
+
+<?=(isset($controlItem))?$controlItem->asUl(
+    ['class'=>'dropdown-menu control-item'],
+    [],
+    ['class'=>'nav-item'],
+    function($item, &$children_attributes, &$item_attributes, &$link_attr, &$id){
+        $link_attr['href'] .= "/".(int)$id;
+    },
+    $id):'';
+?>
 ```
 
 
