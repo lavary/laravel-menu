@@ -115,6 +115,16 @@ You can define the menu definitions inside a [laravel middleware](http://laravel
 php artisan make:middleware GenerateMenus
 ```
 
+Be sure to also add the middleware to the `app\Http\Kernel.php` 
+```php
+    protected $middlewareGroups = [
+        'web' => [
+            //...
+            \App\Http\Middleware\GenerateMenus::class,
+        ],
+        //...
+    ];
+```
 
 Here is a basic usage:
 
