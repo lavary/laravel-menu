@@ -1568,7 +1568,8 @@ When printing a list, you can:
 Set the attributes for the list element;
 Set the callback function, to add a prefix to each link or by condition ("?id={$id}") and much more.
 
-**Example of converting a menu into a drop-down list for mobile**
+* **Example of converting a menu into a drop-down list for mobile**
+
 Controller:
 ```php
 <?php
@@ -1614,7 +1615,8 @@ View: layouts.table.view
 <?=$controlItem->asUl(['class'=>'control-items'],[],['class'=>'nav-item']);?>
 ```
 
-**Example of printing the recording management menu**
+* **Example of printing the recording management menu**
+
 Controller:
 ```php
 <?php
