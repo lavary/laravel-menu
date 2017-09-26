@@ -46,7 +46,7 @@ class Builder {
 	{
 		$this->name = $name;
 
-		// creating a laravel collection ofr storing enu items
+		// creating a laravel collection for storing menu items
 		$this->items = new Collection;
 
 		$this->conf = $conf;
@@ -163,6 +163,16 @@ class Builder {
 		return $this->whereNickname($title)
 		
 					->first();
+	}
+
+	/**
+	 * Returns the first item marked as active
+	 *
+	 * @return Item
+	 */
+	public function active()
+	{
+		return $this->whereActive(true)->first();
 	}
 
 	/**
@@ -500,7 +510,108 @@ class Builder {
 
 		return $this;
 
-	}	
+	}
+
+    /**
+     * Creates a new Builder instance with the given name and collection
+     *
+     * @param $name
+     * @param Collection $collection
+     * @return Builder
+     */
+    public function spawn($name, Collection $collection)
+    {
+        $nb = new Builder($name, $this->conf);
+        $nb->takeCollection($collection);
+
+        return $nb;
+    }
+
+    /**
+     * Takes an entire collection and stores it as the items
+     *
+     * @param Collection $collection
+     */
+    public function takeCollection(Collection $collection)
+    {
+        $this->items = $collection;
+    }
+
+    /**
+     * Returns a new builder of just the top level menu items
+     *
+     * @return Builder
+     */
+    public function topMenu()
+    {
+        return $this->spawn('topLevel', $this->roots());
+    }
+
+    /**
+     * Returns a new builder with the active items children
+     *
+     * @return Builder
+     */
+    public function subMenu()
+    {
+        $nb = $this->spawn('subMenu', new Collection());
+
+        $subs = $this->active()->children();
+        foreach($subs as $s){
+            $nb->add($s->title, $s->url());
+        }
+
+        return $nb;
+    }
+
+    /**
+     * Returns a new builder with siblings of the active item
+     *
+     * @return Builder
+     */
+    public function siblingMenu()
+    {
+        $nb = $this->spawn('siblingMenu', new Collection());
+
+        $parent = $this->active()->parent();
+        if($parent){
+            $siblings = $parent->children();
+        } else {
+            $siblings = $this->roots();
+        }
+
+        if($siblings->count() > 1){
+            foreach($siblings as $s){
+                $nb->add($s->title, $s->url());
+            }
+        }
+
+        return $nb;
+    }
+
+    /**
+     * Returns a new builder with all of the parents of the active item
+     *
+     * @return Builder
+     */
+    public function crumbMenu()
+    {
+        $nb = $this->spawn('crumbMenu', new Collection());
+
+        $item = $this->active();
+        $items = [$item];
+        while($item->hasParent()){
+            $item = $item->parent();
+            array_unshift($items, $item);
+        }
+
+        foreach ($items as $item) {
+            $nb->add($item->title, $item->url());
+        }
+
+        return $nb;
+    }
+
 	
 	/**
 	 * Generate the menu items as list items using a recursive function
