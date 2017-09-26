@@ -471,6 +471,14 @@ class Item {
 	}
 
 	/**
+	 * Check the item is active
+	 * @return bool
+	 */
+	public function isActive() {
+		return $this->url() == \Request::url();
+	}
+
+	/**
 	 * Set or get items's meta data
 	 *
 	 * @param  mixed
@@ -561,5 +569,4 @@ class Item {
 
 		return $this->data($prop);
 	}
-
 }
