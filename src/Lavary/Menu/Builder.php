@@ -652,7 +652,8 @@ class Builder {
 			
 			if( $item->hasChildren() ) {
 				$items .= '<' . $type . self::attributes($children_attributes) . '>';
-				$items .= $this->render($type, $item->id);
+				// Recursive call to children.
+				$items .= $this->render($type, $item->id, $children_attributes, $item_attributes, $item_after_calback, $item_after_calback_params);
 				$items .= "</{$type}>";
 			}
 			
