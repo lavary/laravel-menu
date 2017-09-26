@@ -695,11 +695,9 @@ Menu::make('MyNavBar', function($menu){
 If you don't want to use the routing feature of `laravel-menu` or you don't want the builder to prefix your URL with anything (your host address for example), you can explicitly set your link's href property:
 
 ```
-<?php
 // ...
 $menu->add('About')->link->href('#');
 // ...
-?>
 ```
 
 ## Active Item
@@ -809,7 +807,7 @@ $menu->add('Separated Item', 'item-url')->divide( array('class' => 'my-divider')
  *		<li class="my-divider divider"></li>
  *
  *		...
- *	</ul>
+ *    </ul>
  *
  */
 ```
@@ -860,24 +858,22 @@ Allows you to add an arbitrary html block instead of a drop-down list. And many 
 Unlike `append` and `prepend`, `before` and `after` adds an arbitrary html to the root of the tag li.
 
 ```php
-<?php
 Menu::make('MyNavBar', function($menu){
 
   // ...
   
-  $menu->add('User', array('title'  => Auth::user()->name, 'class'=>'nav-item'))
+  $menu->add('User', array('title' => Auth::user()->name, 'class' => 'nav-item'))
       ->after(view('layouts.pattern.menu.user_info'))
       ->link()->attr([
-          'class'=>'nav-link dropdown-toggle',
-          'data-toggle' => 'dropdown',
-	  'role'=>'button', 
+          'class'         => 'nav-link dropdown-toggle',
+          'data-toggle'   => 'dropdown',
+          'role'          => 'button', 
           'aria-expanded' => 'false',
       ]);
   
   // ...            
 
 });
-?>
 ```
 
 Resource of view, pattern: layouts.pattern.menu.user_info
@@ -885,16 +881,17 @@ Resource of view, pattern: layouts.pattern.menu.user_info
 ```html
 <div class="dropdown-menu" role="menu">    
     <div class="user-info-header">
-        <?= Auth::user()->name ?><br>
+        <?php echo Auth::user()->name; ?><br>
     </div>
     <div class="pull-left">
-        <a href="<?=url('tools/profile')?>" class="btn btn-primary btn-flat">Profile</a>
+        <a href="<?php echo url('tools/profile'); ?>" class="btn btn-primary btn-flat">Profile</a>
     </div>
     <div class="pull-right">
         <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-primary btn-flat">
-	    <i class="fa fa-power-off"></i>&nbsp;Exit</a>
-        <form id="logout-form" action="<?= route('logout') ?>" method="POST" style="display: none;">
-            <?= csrf_field() ?>
+            <i class="fa fa-power-off"></i>&nbsp;Exit
+        </a>
+        <form id="logout-form" action="<?php echo route('logout'); ?>" method="POST" style="display: none;">
+            <?php echo csrf_field(); ?>
         </form>
     </div>
 </div>
@@ -905,21 +902,22 @@ The above code will result:
 ```html
 <li title="Username" class="nav-item">
     <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-	User
+        User
     </a>
     <div class="dropdown-menu" role="menu">    
         <div class="user-info-header">
-	    <?= Auth::user()->name ?><br>
+            <?php echo Auth::user()->name; ?>
         </div>
         <div class="pull-left">
-	    <a href="<?=url('tools/profile')?>" class="btn btn-primary btn-flat">Profile</a>
+            <a href="<?php echo url('tools/profile'); ?>" class="btn btn-primary btn-flat">Profile</a>
         </div>
         <div class="pull-right">
-	    <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-primary btn-flat">
-	        <i class="fa fa-power-off"></i>&nbsp;Exit</a>
-	    <form id="logout-form" action="<?= route('logout') ?>" method="POST" style="display: none;">
-	        <?= csrf_field() ?>
-	    </form>
+            <a onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-primary btn-flat">
+                <i class="fa fa-power-off"></i>&nbsp;Exit
+            </a>
+            <form id="logout-form" action="<?php echo route('logout'); ?>" method="POST" style="display: none;">
+                <?php echo csrf_field(); ?>
+            </form>
         </div>
     </div>
 </li>
@@ -942,10 +940,10 @@ $menu->About->raw('Another Plain Text Item')
  *   ...
  *   <li class="some-class">Item's Title</li>
  *   <li>
- *	About
- *	<ul>
- *	    <li>Another Plain Text Item</li>
- *	</ul>
+ *     About
+ *     <ul>
+ *       <li>Another Plain Text Item</li>
+ *     </ul>
  *   </li>
  *   ...
  * </ul>
@@ -1002,9 +1000,9 @@ Menu::make('MyNavBar', function($menu){
   
   $menu->group(array('prefix' => 'about'), function($m){
   
-  	$about->add('Who we are?', 'who-we-are');   // URL: about/who-we-are
-  	$about->add('What we do?', 'what-we-do');   // URL: about/what-we-do
-  	
+    $about->add('Who we are?', 'who-we-are');   // URL: about/who-we-are
+    $about->add('What we do?', 'what-we-do');   // URL: about/what-we-do
+    
   });
   
   $menu->add('Contact',  'contact');
@@ -1016,13 +1014,13 @@ This will generate:
 
 ```html
 <ul>
-    <li  class="navbar navbar-home" id="home"><a href="/">Home</a></li>
+    <li class="navbar navbar-home" id="home"><a href="/">Home</a></li>
     
-    <li  data-role="navigation" class="navbar navbar-about dropdown"><a href="http://yourdomain.com/about/summary"About</a>
-    	<ul>
-    	   <li><a href="http://yourdomain.com/about/who-we-are">Who we are?</a></li>
-    	   <li><a href="http://yourdomain.com/about/who-we-are">What we do?</a></li>
-    	</ul>
+    <li data-role="navigation" class="navbar navbar-about dropdown"><a href="http://yourdomain.com/about/summary"About</a>
+        <ul>
+           <li><a href="http://yourdomain.com/about/who-we-are">Who we are?</a></li>
+           <li><a href="http://yourdomain.com/about/who-we-are">What we do?</a></li>
+        </ul>
     </li>
     
     <li><a href="services">Services</a></li>
@@ -1037,20 +1035,20 @@ Laravel Menu supports nested grouping feature as well. A menu group merges its o
 ```php
 Menu::make('MyNavBar', function($menu){
 
-	// ...
-	
-	$menu->group(array('prefix' => 'pages', 'data-info' => 'test'), function($m){
-		
-		$m->add('About', 'about');
-		
-		$m->group(array('prefix' => 'about', 'data-role' => 'navigation'), function($a){
-		
-			$a->add('Who we are', 'who-we-are?');
-			$a->add('What we do?', 'what-we-do');
-			$a->add('Our Goals', 'our-goals');
-		});
-	});
-	
+    // ...
+    
+    $menu->group(array('prefix' => 'pages', 'data-info' => 'test'), function($m){
+        
+        $m->add('About', 'about');
+        
+        $m->group(array('prefix' => 'about', 'data-role' => 'navigation'), function($a){
+        
+            $a->add('Who we are', 'who-we-are?');
+            $a->add('What we do?', 'what-we-do');
+            $a->add('Our Goals', 'our-goals');
+        });
+    });
+    
 });
 ```
 
@@ -1058,15 +1056,15 @@ If we render it as a ul:
 
 ```html
 <ul>
-	...
-	<li data-info="test">
-		<a href="http://yourdomain.com/pages/about">About</a>
-		<ul>
-			<li data-info="test" data-role="navigation"><a href="http://yourdomain.com/pages/about/who-we-are"></a></li>
-			<li data-info="test" data-role="navigation"><a href="http://yourdomain.com/pages/about/what-we-do"></a></li>
-			<li data-info="test" data-role="navigation"><a href="http://yourdomain.com/pages/about/our-goals"></a></li>
-		</ul>
-	</li>
+    ...
+    <li data-info="test">
+        <a href="http://yourdomain.com/pages/about">About</a>
+        <ul>
+            <li data-info="test" data-role="navigation"><a href="http://yourdomain.com/pages/about/who-we-are"></a></li>
+            <li data-info="test" data-role="navigation"><a href="http://yourdomain.com/pages/about/what-we-do"></a></li>
+            <li data-info="test" data-role="navigation"><a href="http://yourdomain.com/pages/about/our-goals"></a></li>
+        </ul>
+    </li>
 </ul>
 ```
 
@@ -1165,13 +1163,13 @@ To sort the items based on a property and or meta data:
 ```php
 Menu::make('main', function($m){
 
-	$m->add('About', '#')     ->data('order', 2);
-	$m->add('Home', '#')      ->data('order', 1);
-	$m->add('Services', '#')  ->data('order', 3);
-	$m->add('Contact', '#')   ->data('order', 5);
-	$m->add('Portfolio', '#') ->data('order', 4);
+    $m->add('About', '#')     ->data('order', 2);
+    $m->add('Home', '#')      ->data('order', 1);
+    $m->add('Services', '#')  ->data('order', 3);
+    $m->add('Contact', '#')   ->data('order', 5);
+    $m->add('Portfolio', '#') ->data('order', 4);
 
-})->sortBy('order');		
+})->sortBy('order');
 ```
 
 `sortBy()` also receives a second parameter which specifies the ordering direction: Ascending order(`asc`) and Descending Order(`dsc`). 
@@ -1184,13 +1182,13 @@ To sort the items based on `Id` in descending order:
 ```php
 Menu::make('main', function($m){
 
-	$m->add('About');
-	$m->add('Home');
-	$m->add('Services');
-	$m->add('Contact');
-	$m->add('Portfolio');
+    $m->add('About');
+    $m->add('Home');
+    $m->add('Services');
+    $m->add('Contact');
+    $m->add('Portfolio');
 
-})->sortBy('id', 'desc');		
+})->sortBy('id', 'desc');
 ```
 
 
@@ -1199,16 +1197,15 @@ Sorting the items by passing a closure:
 ```php
 Menu::make('main', function($m){
 
-	$m->add('About')     ->data('order', 2);
-	$m->add('Home')      ->data('order', 1);
-	$m->add('Services')  ->data('order', 3);
-	$m->add('Contact')   ->data('order', 5);
-	$m->add('Portfolio') ->data('order', 4);
+    $m->add('About')     ->data('order', 2);
+    $m->add('Home')      ->data('order', 1);
+    $m->add('Services')  ->data('order', 3);
+    $m->add('Contact')   ->data('order', 5);
+    $m->add('Portfolio') ->data('order', 4);
 
 })->sortBy(function($items) {
-	// Your sorting algorithm here...
-	
-});		
+    // Your sorting algorithm here...
+});
 ```
 
 The closure takes the items collection as argument.
@@ -1442,7 +1439,6 @@ In the above snippet the `li` tag has class `dropdown` and `data-test` property 
 Suppose the item has also several attributes dynamically defined when being added:
 
 ```php
-<?php
 // ...
 $menu->add('Dropdown', array('class' => 'item item-1', 'id' => 'my-item'));
 // ...
@@ -1483,8 +1479,6 @@ Set the callback function, to add a prefix to each link or by condition ("?id={$
 
 Controller:
 ```php
-<?php
-
 $items=[
     'copy'=>[
         'icon'=>'fa-copy',
@@ -1497,9 +1491,9 @@ $items=[
     ],
 ];
 
-$controlItem = LavaryMenu::make('controlItem', function($_menu) use ($items){
+$controlItem = Menu::make('controlItem', function($menu) use ($items){
     foreach ($items as $key => $item) if(!isset($item['visible']) || $item['visible']){
-        $_menu->add($item['text'],['title'=>$item['title']])
+        $menu->add($item['text'],['title'=>$item['title']])
             ->append('</span>')
             ->prepend('<i class="fa '.$item['icon'].'"></i> <span>')
             ->link->attr($item['link_attribute']);
@@ -1509,8 +1503,6 @@ $controlItem = LavaryMenu::make('controlItem', function($_menu) use ($items){
 return view('layouts.table.view',[
     'controlItem' => $controlItem
 ]);
-
-?>
 ```
 View: layouts.table.view
 ```php
@@ -1520,18 +1512,16 @@ View: layouts.table.view
 	<!-- The first array is the attributes for the list: for example, `ul`;
 	     The second is the attributes for the child lists, for example, `ul>li>ul`;
 	     The third array is attributes that are added to the attributes of the `li` element. -->
-        <?=$controlItem->asUl(['class'=>'dropdown-menu', 'role'=>'menu'],[],['class'=>'dropdown-item']);?>
+        <?php echo $controlItem->asUl(['class'=>'dropdown-menu', 'role'=>'menu'],[],['class'=>'dropdown-item']); ?>
     </li>
 </ul>
-<?=$controlItem->asUl(['class'=>'control-items'],[],['class'=>'nav-item']);?>
+<?php echo $controlItem->asUl(['class'=>'control-items'],[],['class'=>'nav-item']); ?>
 ```
 
 * **Example of printing the recording management menu**
 
 Controller:
 ```php
-<?php
-
 $items=[
     'copy'=>[
         'icon'=>'fa-copy',
@@ -1544,9 +1534,9 @@ $items=[
     ],
 ];
 
-$controlItem = LavaryMenu::make('controlItem', function($_menu) use ($items){
+$controlItem = Menu::make('controlItem', function($menu) use ($items){
     foreach ($items as $key => $item) if(!isset($item['visible']) || $item['visible']){
-        $_menu->add($item['text'],['title'=>$item['title']])
+        $menu->add($item['text'],['title'=>$item['title']])
             ->append('</span>')
             ->prepend('<i class="fa '.$item['icon'].'"></i> <span>')
             ->link->attr($item['link_attribute']);
@@ -1556,13 +1546,10 @@ $controlItem = LavaryMenu::make('controlItem', function($_menu) use ($items){
 return view('layouts.table.view',[
     'controlItem' => $controlItem
 ]);
-
-?>
 ```
 View: layouts.table.view (use in a cycle with different IDs)
 ```php
-
-<?=(isset($controlItem))?$controlItem->asUl(
+echo (isset($controlItem)) ? $controlItem->asUl(
     ['class'=>'dropdown-menu control-item'],
     [],
     ['class'=>'nav-item'],
@@ -1570,7 +1557,6 @@ View: layouts.table.view (use in a cycle with different IDs)
         $link_attr['href'] .= "/".(int)$id;
     },
     $id):'';
-?>
 ```
 
 
