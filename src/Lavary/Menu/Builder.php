@@ -79,7 +79,8 @@ class Builder {
 	 */
 	protected function id()
 	{
-		return uniqid(rand());
+		// Issue #170: Use more_entropy otherwise usleep(1) is called.
+		return uniqid('id-', true);
 	}
 
 	/**
