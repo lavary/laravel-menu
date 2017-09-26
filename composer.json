@@ -1,18 +1,14 @@
 {
-    "name": "nmkr/laravel-menu",
+    "name": "lavary/laravel-menu",
     "description": "A quick way to create menus in Laravel 5",
     "keywords": [
         "laravel"
     ],
-    "homepage": "https://github.com/nmkr/laravel-menu",
+    "homepage": "https://github.com/lavary/laravel-menu",
     "authors": [
         {
             "name": "Lavary",
             "email": "mrl.8081@gmail.com"
-        },
-        {
-            "name": "NMKR",
-            "email": "office@nmkr.at"
         }
     ],
     "license": "MIT",
