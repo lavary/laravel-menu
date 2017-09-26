@@ -380,7 +380,11 @@ class Builder {
 			$$key = $value;
 		}
 		
-		$secure = (isset($options['secure']) && $options['secure'] === true) ? true : false;
+                $secure = null;
+                if ( isset($options['secure']) ){
+                    $secure = $options['secure'] === true ? true : false;
+                }
+
 
 		if (is_array($url))
 		{
