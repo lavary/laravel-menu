@@ -21,7 +21,7 @@ class ServiceProvider extends BaseServiceProvider {
 		 $this->mergeConfigFrom(__DIR__ . '/../../config/settings.php', 'laravel-menu.settings');
 		 $this->mergeConfigFrom(__DIR__ . '/../../config/views.php'   , 'laravel-menu.views');
 		 
-		 $this->app->singleton('menu', function($app) {
+		 $this->app->singleton(Menu::class, function($app) {
 		 	return new Menu;
 		 });            
 	}
@@ -52,7 +52,7 @@ class ServiceProvider extends BaseServiceProvider {
 	 */
 	public function provides()
 	{
-		return array('menu');
+		return array(Menu::class);
 	}
 
 }

@@ -12,7 +12,7 @@ class Menu {
 	/**
 	 * List of menu items
 	 * 
-	 * @var Lavary\Menu\Menu
+	 * @var []\Lavary\Menu\Menu
 	 */
 	protected $menu = [];
 
@@ -24,8 +24,32 @@ class Menu {
 		// creating a collection for storing menus
 		$this->collection = new Collection();
 	}
-
-
+	
+	/**
+	 * Check if a menu exists.
+	 * @param string $name
+	 * @return boolean
+	 */
+	public function exists($name)
+	{
+		return array_key_exists($name, $this->menu);
+	}
+	
+	/**
+	 * Create a new menu instance
+	 *
+	 * @param  string  $name
+	 * @param  callable  $callback
+	 * @return \Lavary\Menu\Menu
+	 */
+	public function makeOnce($name, $callback)
+	{
+		if (!$this->exists($name))
+		{
+			return $this->make($name, $callback);
+		}
+	}
+	
 	/**
 	 * Create a new menu instance
 	 *
@@ -38,7 +62,7 @@ class Menu {
 		if(is_callable($callback))
 		{
 			if (!array_key_exists($name, $this->menu)) {
-				$this->menu[$name] = new Builder($name, $this->loadConf($name));	
+				$this->menu[$name] = new Builder($name, $this->loadConf($name));
 			}
 			
 			// Registering the items

@@ -46,7 +46,7 @@ class Builder {
 	{
 		$this->name = $name;
 
-		// creating a laravel collection ofr storing enu items
+		// creating a laravel collection for storing menu items
 		$this->items = new Collection;
 
 		$this->conf = $conf;
@@ -57,8 +57,8 @@ class Builder {
 	 * Adds an item to the menu
 	 *
 	 * @param  string  $title
-	 * @param  string|array  $acion
-	 * @return Lavary\Menu\Item $item
+	 * @param  string|array  $options
+	 * @return Item $item
 	 */
 	public function add($title, $options = '')
 	{
@@ -66,7 +66,7 @@ class Builder {
 		$id = isset($options['id']) ? $options['id'] : $this->id();
 
 		$item = new Item($this, $id, $title, $options);
-                      
+		
 		$this->items->push($item);
 		
 		return $item;
@@ -75,17 +75,20 @@ class Builder {
 	/**
 	 * Generate an integer identifier for each new item
 	 *
-	 * @return int
+	 * @return string
 	 */
 	protected function id()
 	{
-		return uniqid(rand());
+		// Issue #170: Use more_entropy otherwise usleep(1) is called.
+		return uniqid('id-', true);
 	}
 
 	/**
 	 * Add raw content
 	 *
-	 * @return Lavary\Menu\Item
+	 * @param $title
+	 * @param array $options
+	 * @return Item
 	 */
 	public function raw($title, array $options = array())
 	{
@@ -97,28 +100,27 @@ class Builder {
 	/**
 	 * Returns menu item by name
 	 *
-	 * @return Lavary\Menu\Item
+	 * @return Item
 	 */
 	public function get($title){
-		
+
 		return $this->whereNickname($title)
-		
-					->first();		
+
+					->first();
 	}
 
 	/**
 	 * Returns menu item by Id
 	 *
-	 * @return Lavary\Menu\Item
+	 * @return Item
 	 */
 	public function find($id){
-		
+
 		return $this->whereId($id)
-		
-					->first();		
+
+					->first();
 	}
 
-	
 	/**
 	 * Return all items in the collection
 	 *
@@ -133,7 +135,7 @@ class Builder {
 	/**
 	 * Return the first item in the collection
 	 *
-	 * @return Lavary\Menu\Item
+	 * @return Item
 	 */
 	public function first(){
 		
@@ -144,23 +146,34 @@ class Builder {
 	/**
 	 * Return the last item in the collection
 	 *
-	 * @return Lavary\Menu\Item
+	 * @return Item
 	 */
 	public function last(){
 		
-		return $this->items->last();	
+		return $this->items->last();
 	}
 
 	/**
 	 * Returns menu item by name
 	 *
-	 * @return Lavary\Menu\Item
+	 * @param string  $title
+	 * @return Item
 	 */
 	public function item($title){
 		
 		return $this->whereNickname($title)
 		
-					->first();		
+					->first();
+	}
+
+	/**
+	 * Returns the first item marked as active
+	 *
+	 * @return Item
+	 */
+	public function active()
+	{
+		return $this->whereActive(true)->first();
 	}
 
 	/**
@@ -226,7 +239,7 @@ class Builder {
 	}
 
 	/**
-	 * Merge the given group attributes.	
+	 * Merge the given group attributes.
 	 *
 	 * @param  array  $new
 	 * @param  array  $old
@@ -288,7 +301,8 @@ class Builder {
 	/**
 	 * Get the valid attributes from the options.
 	 *
-	 * @param  array   $options
+	 * @param  array  $new
+	 * @param  array  $old
 	 * @return string
 	 */
 	public static function formatGroupClass($new, $old) {
@@ -306,7 +320,7 @@ class Builder {
 	/**
 	 * Get the valid attributes from the options.
 	 *
-	 * @param  array   $options
+	 * @param  array  $options
 	 * @return array
 	 */
 	public function extractAttributes($options = array())
@@ -445,7 +459,7 @@ class Builder {
 	 *
 	 * @param  callable $callback
 	 *
-	 * @return Lavary\Menu\Builder
+	 * @return Builder
 	 */
 	public function filter($callback)
 	{
@@ -461,7 +475,7 @@ class Builder {
 	 * Sorts the menu based on user's callable
 	 *
 	 * @param string|callable $sort_type
-	 * @return Lavary\Menu\Builder
+	 * @return Builder
 	 */
 	public function sortBy($sort_by, $sort_type = 'asc'){
 
@@ -491,7 +505,7 @@ class Builder {
 				return $f > $s ? 1 : -1;
 			}
 			
-			return $f < $s ? 1 : -1;	
+			return $f < $s ? 1 : -1;
 
 		});
 
@@ -499,15 +513,119 @@ class Builder {
 
 	}
 
+    /**
+     * Creates a new Builder instance with the given name and collection
+     *
+     * @param $name
+     * @param Collection $collection
+     * @return Builder
+     */
+    public function spawn($name, Collection $collection)
+    {
+        $nb = new Builder($name, $this->conf);
+        $nb->takeCollection($collection);
+
+        return $nb;
+    }
+
+    /**
+     * Takes an entire collection and stores it as the items
+     *
+     * @param Collection $collection
+     */
+    public function takeCollection(Collection $collection)
+    {
+        $this->items = $collection;
+    }
+
+    /**
+     * Returns a new builder of just the top level menu items
+     *
+     * @return Builder
+     */
+    public function topMenu()
+    {
+        return $this->spawn('topLevel', $this->roots());
+    }
+
+    /**
+     * Returns a new builder with the active items children
+     *
+     * @return Builder
+     */
+    public function subMenu()
+    {
+        $nb = $this->spawn('subMenu', new Collection());
+
+        $subs = $this->active()->children();
+        foreach($subs as $s){
+            $nb->add($s->title, $s->url());
+        }
+
+        return $nb;
+    }
+
+    /**
+     * Returns a new builder with siblings of the active item
+     *
+     * @return Builder
+     */
+    public function siblingMenu()
+    {
+        $nb = $this->spawn('siblingMenu', new Collection());
+
+        $parent = $this->active()->parent();
+        if($parent){
+            $siblings = $parent->children();
+        } else {
+            $siblings = $this->roots();
+        }
+
+        if($siblings->count() > 1){
+            foreach($siblings as $s){
+                $nb->add($s->title, $s->url());
+            }
+        }
+
+        return $nb;
+    }
+
+    /**
+     * Returns a new builder with all of the parents of the active item
+     *
+     * @return Builder
+     */
+    public function crumbMenu()
+    {
+        $nb = $this->spawn('crumbMenu', new Collection());
+
+        $item = $this->active();
+        $items = [$item];
+        while($item->hasParent()){
+            $item = $item->parent();
+            array_unshift($items, $item);
+        }
+
+        foreach ($items as $item) {
+            $nb->add($item->title, $item->url());
+        }
+
+        return $nb;
+    }
+
 	
 	/**
 	 * Generate the menu items as list items using a recursive function
 	 *
 	 * @param string $type
 	 * @param int $parent
+	 * @param array $children_attributes
+	 * @param array $item_attributes
+	 * @param callable $item_after_calback
+	 * @param array $item_after_calback_params
 	 * @return string
 	 */
-	public function render($type = 'ul', $parent = null, $childrenAttributes = array())
+	public function render($type = 'ul', $parent = null, $children_attributes = array(), $item_attributes = array(), $item_after_calback = null, $item_after_calback_params=[])
 	{
 		$items = '';
 		
@@ -515,17 +633,28 @@ class Builder {
 		
 		foreach ($this->whereParent($parent) as $item)
 		{
-			$items  .= '<' . $item_tag . self::attributes($item->attr()) . '>';
-
+			$link_attr = $item->link->attr();
+			if(is_callable($item_after_calback)) {
+				call_user_func_array($item_after_calback, [
+					$item, 
+					&$children_attributes, 
+					&$item_attributes, 
+					&$link_attr, 
+					&$item_after_calback_params
+				]);
+			}
+			$items  .= '<' . $item_tag . self::attributes($item->attr()+$item_attributes) . '>';
+			
 			if($item->link) {
-				$items .= '<a' . self::attributes($item->link->attr()) . ($item->link->nohref ? '' : ' href="' . $item->url() . '"') . '>' . $item->title . '</a>';
+				$items .= $item->beforeHTML.'<a' . self::attributes($link_attr) . ($item->link->nohref ? '' : ' href="' . $item->url() . '"') . '>' . $item->title . '</a>'.$item->afterHTML;
 			} else {
 				$items .= $item->title;
 			}
-					
+			
 			if( $item->hasChildren() ) {
-				$items .= '<' . $type . self::attributes($childrenAttributes) . '>';
-				$items .= $this->render($type, $item->id);
+				$items .= '<' . $type . self::attributes($children_attributes) . '>';
+				// Recursive call to children.
+				$items .= $this->render($type, $item->id, $children_attributes, $item_attributes, $item_after_calback, $item_after_calback_params);
 				$items .= "</{$type}>";
 			}
 			
@@ -534,6 +663,7 @@ class Builder {
 			if($item->divider) {
 				$items .= '<' . $item_tag . self::attributes($item->divider) . '></' . $item_tag . '>';
 			}
+			
 		}
 
 		return $items;
@@ -541,32 +671,47 @@ class Builder {
 		
 	/**
 	 * Returns the menu as an unordered list.
-	 *
+	 * 
+	 * @param array $attributes
+	 * @param array $children_attributes
+	 * @param array $item_attributes
+	 * @param callable $item_after_calback
+	 * @param array $item_after_calback_params
 	 * @return string
 	 */
-	public function asUl($attributes = array(), $childrenAttributes = array())
+	public function asUl($attributes = array(), $children_attributes = array(), $item_attributes = array(), $item_after_calback = null, $item_after_calback_params=[])
 	{
-		return '<ul' . self::attributes($attributes) . '>' . $this->render('ul', null, $childrenAttributes) . '</ul>';
+		return '<ul' . self::attributes($attributes) . '>' . $this->render('ul', null, $children_attributes, $item_attributes, $item_after_calback, $item_after_calback_params) . '</ul>';
 	}
 
 	/**
 	 * Returns the menu as an ordered list.
 	 *
+	 * @param array $attributes
+	 * @param array $children_attributes
+	 * @param array $item_attributes
+	 * @param callable $item_after_calback
+	 * @param array $item_after_calback_params
 	 * @return string
 	 */
-	public function asOl($attributes = array(), $childrenAttributes = array())
+	public function asOl($attributes = array(), $children_attributes = array(), $item_attributes = array(), $item_after_calback = null, $item_after_calback_params=[])
 	{
-		return '<ol' . self::attributes($attributes) . '>' . $this->render('ol', null, $childrenAttributes) . '</ol>';
+		return '<ol' . self::attributes($attributes) . '>' . $this->render('ol', null, $children_attributes, $item_attributes, $item_after_calback, $item_after_calback_params) . '</ol>';
 	}
 
 	/**
 	 * Returns the menu as div containers
 	 *
+	 * @param array $attributes
+	 * @param array $children_attributes
+	 * @param array $item_attributes
+	 * @param callable $item_after_calback
+	 * @param array $item_after_calback_params
 	 * @return string
 	 */
-	public function asDiv($attributes = array(), $childrenAttributes = array())
+	public function asDiv($attributes = array(), $children_attributes = array(), $item_attributes = array(), $item_after_calback = null, $item_after_calback_params=[])
 	{
-		return '<div' . self::attributes($attributes) . '>' . $this->render('div', null, $childrenAttributes) . '</div>';
+		return '<div' . self::attributes($attributes) . '>' . $this->render('div', null, $children_attributes, $item_attributes, $item_after_calback, $item_after_calback_params) . '</div>';
 	}
 
 	/**
@@ -582,7 +727,7 @@ class Builder {
 		foreach ((array) $attributes as $key => $value)
 		{
 			$element = self::attributeElement($key, $value);
-			if ( ! is_null($element)) $html[] = $element;
+			if (!is_null($element)) $html[] = $element;
 		}
 		return count($html) > 0 ? ' ' . implode(' ', $html) : '';
 	}
@@ -597,13 +742,15 @@ class Builder {
 	protected static function attributeElement($key, $value)
 	{
 		if (is_numeric($key)) $key = $value;
-		if ( ! is_null($value)) return $key . '="' . e($value). '"';
+		if (!is_null($value))
+			return $key . '="' . e($value). '"';
+		return null;
 	}
 
 	/**
 	 * Return configuration value by key
-	 * @param string $key
 	 *
+	 * @param string $key
 	 * @return string
 	 */
 	public function conf($key) {
@@ -611,13 +758,12 @@ class Builder {
 		return $this->conf[$key];
 	}
 
-	
 
 	/**
 	 * Merge item's attributes with a static string of attributes
 	 *
-	 * @param string $attributes
-	 *
+	 * @param null $new
+	 * @param array $old
 	 * @return string
 	 */
 	public static function mergeStatic($new = null, array $old = array()) {
@@ -625,7 +771,7 @@ class Builder {
 		// Parses the string into an associative array
 		parse_str(preg_replace('/\s*([\w-]+)\s*=\s*"([^"]+)"/', '$1=$2&',  $new), $attrs);
 
-        // Merge classes
+		// Merge classes
 		$attrs['class']  = self::formatGroupClass($attrs, $old);
 
 		// Merging new and old array and parse it as a string
@@ -637,8 +783,7 @@ class Builder {
 	 *
 	 * @param string $attribute
 	 * @param mixed  $value
-	 *
-	 * @return Lavary\Menu\Collection
+	 * @return Collection
 	 */
 	public function filterRecursive($attribute, $value){
 
@@ -671,9 +816,8 @@ class Builder {
 	 * Search the menu based on an attribute
 	 *
 	 * @param string $method
-	 * @param array  $args
-	 *
-	 * @return Lavary\Menu\Item
+	 * @param array $args
+	 * @return bool|Builder|Collection
 	 */
 	public function __call($method, $args)
 	{
@@ -685,7 +829,7 @@ class Builder {
 			return false;
 		}
 
-		$value     = $args ? $args[0] : null;
+		$value	 = $args ? $args[0] : null;
 		$recursive = isset($args[1]) ? $args[1] : false;
 		
 		if( $recursive ) {
@@ -711,7 +855,7 @@ class Builder {
 	/**
 	 * Returns menu item by name
 	 *
-	 * @return Lavary\Menu\Item
+	 * @return Item
 	 */
 	public function __get($prop){
 		
@@ -721,8 +865,7 @@ class Builder {
 		}
 		
 		return $this->whereNickname($prop)
-		
-					->first();		
+					->first();
 	}
 
 }
