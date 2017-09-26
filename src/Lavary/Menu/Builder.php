@@ -39,8 +39,8 @@ class Builder {
 	
 	/**
 	 * Initializing the menu manager
-     *
-     * @return void
+	 *
+	 * @return void
 	 */
 	public function __construct($name, $conf)
 	{
@@ -66,7 +66,7 @@ class Builder {
 		$id = isset($options['id']) ? $options['id'] : $this->id();
 
 		$item = new Item($this, $id, $title, $options);
-                      
+		
 		$this->items->push($item);
 		
 		return $item;
@@ -82,13 +82,13 @@ class Builder {
 		return uniqid(rand());
 	}
 
-    /**
-     * Add raw content
-     *
-     * @param $title
-     * @param array $options
-     * @return Item
-     */
+	/**
+	 * Add raw content
+	 *
+	 * @param $title
+	 * @param array $options
+	 * @return Item
+	 */
 	public function raw($title, array $options = array())
 	{
 		$options['raw'] = true;
@@ -149,20 +149,20 @@ class Builder {
 	 */
 	public function last(){
 		
-		return $this->items->last();	
+		return $this->items->last();
 	}
 
 	/**
 	 * Returns menu item by name
 	 *
-     * @param string  $title
+	 * @param string  $title
 	 * @return Item
 	 */
 	public function item($title){
 		
 		return $this->whereNickname($title)
 		
-					->first();		
+					->first();
 	}
 
 	/**
@@ -228,7 +228,7 @@ class Builder {
 	}
 
 	/**
-	 * Merge the given group attributes.	
+	 * Merge the given group attributes.
 	 *
 	 * @param  array  $new
 	 * @param  array  $old
@@ -291,7 +291,7 @@ class Builder {
 	 * Get the valid attributes from the options.
 	 *
 	 * @param  array  $new
-     * @param  array  $old
+	 * @param  array  $old
 	 * @return string
 	 */
 	public static function formatGroupClass($new, $old) {
@@ -494,7 +494,7 @@ class Builder {
 				return $f > $s ? 1 : -1;
 			}
 			
-			return $f < $s ? 1 : -1;	
+			return $f < $s ? 1 : -1;
 
 		});
 
@@ -505,14 +505,14 @@ class Builder {
 	/**
 	 * Generate the menu items as list items using a recursive function
 	 *
-         * @param string $type
-         * @param int $parent
-         * @param array $children_attributes
-         * @param array $item_attributes
-         * @param callable $item_after_calback
-         * @param array $item_after_calback_params
-         * @return string
-         */
+	 * @param string $type
+	 * @param int $parent
+	 * @param array $children_attributes
+	 * @param array $item_attributes
+	 * @param callable $item_after_calback
+	 * @param array $item_after_calback_params
+	 * @return string
+	 */
 	public function render($type = 'ul', $parent = null, $children_attributes = array(), $item_attributes = array(), $item_after_calback = null, $item_after_calback_params=[])
 	{
 		$items = '';
@@ -521,17 +521,16 @@ class Builder {
 		
 		foreach ($this->whereParent($parent) as $item)
 		{
-                        $link_attr = $item->link->attr();
-                        if(is_callable($item_after_calback)) {
-                            call_user_func_array(
-                                $item_after_calback, 
-                                [$item, 
-                                &$children_attributes, 
-                                &$item_attributes, 
-                                &$link_attr, 
-                                &$item_after_calback_params]
-                            );
-                        }
+			$link_attr = $item->link->attr();
+			if(is_callable($item_after_calback)) {
+				call_user_func_array($item_after_calback, [
+					$item, 
+					&$children_attributes, 
+					&$item_attributes, 
+					&$link_attr, 
+					&$item_after_calback_params
+				]);
+			}
 			$items  .= '<' . $item_tag . self::attributes($item->attr()+$item_attributes) . '>';
 
 			if($item->link) {
@@ -551,7 +550,7 @@ class Builder {
 			if($item->divider) {
 				$items .= '<' . $item_tag . self::attributes($item->divider) . '></' . $item_tag . '>';
 			}
-                        
+			
 		}
 
 		return $items;
@@ -559,12 +558,12 @@ class Builder {
 		
 	/**
 	 * Returns the menu as an unordered list.
-         * 
+	 * 
 	 * @param array $attributes
-         * @param array $children_attributes
-         * @param array $item_attributes
-         * @param callable $item_after_calback
-         * @param array $item_after_calback_params
+	 * @param array $children_attributes
+	 * @param array $item_attributes
+	 * @param callable $item_after_calback
+	 * @param array $item_after_calback_params
 	 * @return string
 	 */
 	public function asUl($attributes = array(), $children_attributes = array(), $item_attributes = array(), $item_after_calback = null, $item_after_calback_params=[])
@@ -576,10 +575,10 @@ class Builder {
 	 * Returns the menu as an ordered list.
 	 *
 	 * @param array $attributes
-         * @param array $children_attributes
-         * @param array $item_attributes
-         * @param callable $item_after_calback
-         * @param array $item_after_calback_params
+	 * @param array $children_attributes
+	 * @param array $item_attributes
+	 * @param callable $item_after_calback
+	 * @param array $item_after_calback_params
 	 * @return string
 	 */
 	public function asOl($attributes = array(), $children_attributes = array(), $item_attributes = array(), $item_after_calback = null, $item_after_calback_params=[])
@@ -591,10 +590,10 @@ class Builder {
 	 * Returns the menu as div containers
 	 *
 	 * @param array $attributes
-         * @param array $children_attributes
-         * @param array $item_attributes
-         * @param callable $item_after_calback
-         * @param array $item_after_calback_params
+	 * @param array $children_attributes
+	 * @param array $item_attributes
+	 * @param callable $item_after_calback
+	 * @param array $item_after_calback_params
 	 * @return string
 	 */
 	public function asDiv($attributes = array(), $children_attributes = array(), $item_attributes = array(), $item_after_calback = null, $item_after_calback_params=[])
@@ -615,7 +614,7 @@ class Builder {
 		foreach ((array) $attributes as $key => $value)
 		{
 			$element = self::attributeElement($key, $value);
-			if ( ! is_null($element)) $html[] = $element;
+			if (!is_null($element)) $html[] = $element;
 		}
 		return count($html) > 0 ? ' ' . implode(' ', $html) : '';
 	}
@@ -630,12 +629,14 @@ class Builder {
 	protected static function attributeElement($key, $value)
 	{
 		if (is_numeric($key)) $key = $value;
-		if ( ! is_null($value)) return $key . '="' . e($value). '"';
+		if (!is_null($value))
+			return $key . '="' . e($value). '"';
+		return null;
 	}
 
 	/**
 	 * Return configuration value by key
-     *
+	 *
 	 * @param string $key
 	 * @return string
 	 */
@@ -645,19 +646,19 @@ class Builder {
 	}
 
 
-    /**
-     * Merge item's attributes with a static string of attributes
-     *
-     * @param null $new
-     * @param array $old
-     * @return string
-     */
+	/**
+	 * Merge item's attributes with a static string of attributes
+	 *
+	 * @param null $new
+	 * @param array $old
+	 * @return string
+	 */
 	public static function mergeStatic($new = null, array $old = array()) {
 		
 		// Parses the string into an associative array
 		parse_str(preg_replace('/\s*([\w-]+)\s*=\s*"([^"]+)"/', '$1=$2&',  $new), $attrs);
 
-        // Merge classes
+		// Merge classes
 		$attrs['class']  = self::formatGroupClass($attrs, $old);
 
 		// Merging new and old array and parse it as a string
@@ -698,13 +699,13 @@ class Builder {
 		return $collection;
 	}
 
-    /**
-     * Search the menu based on an attribute
-     *
-     * @param string $method
-     * @param array $args
-     * @return bool|Builder|Collection
-     */
+	/**
+	 * Search the menu based on an attribute
+	 *
+	 * @param string $method
+	 * @param array $args
+	 * @return bool|Builder|Collection
+	 */
 	public function __call($method, $args)
 	{
 		preg_match('/^[W|w]here([a-zA-Z0-9_]+)$/', $method, $matches);
@@ -715,7 +716,7 @@ class Builder {
 			return false;
 		}
 
-		$value     = $args ? $args[0] : null;
+		$value	 = $args ? $args[0] : null;
 		$recursive = isset($args[1]) ? $args[1] : false;
 		
 		if( $recursive ) {
@@ -751,8 +752,7 @@ class Builder {
 		}
 		
 		return $this->whereNickname($prop)
-		
-					->first();		
+					->first();
 	}
 
 }
