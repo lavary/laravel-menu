@@ -26,6 +26,20 @@ class Item {
 	public $title;
 
 	/**
+	 * Item's html before 
+	 *
+	 * @var string
+	 */
+	public $beforeHTML;
+
+	/**
+	 * Item's html after 
+	 *
+	 * @var string
+	 */
+	public $afterHTML;
+
+	/**
 	 * Item's title in camelCase
 	 *
 	 * @var string
@@ -245,6 +259,30 @@ class Item {
 	public function append($html)
 	{
 		$this->title .= $html;
+		
+		return $this;
+	}
+        
+        /**
+	 * Before text or html to the item
+	 *
+	 * @return Lavary\Menu\Item
+	 */
+	public function before($html)
+	{
+		$this->beforeHTML = $html.$this->beforeHTML;
+		
+		return $this;
+	}
+        
+        /**
+	 * After text or html to the item
+	 *
+	 * @return Lavary\Menu\Item
+	 */
+	public function after($html)
+	{
+		$this->afterHTML .= $html;
 		
 		return $this;
 	}
