@@ -31,6 +31,13 @@ class Link {
 	public $isActive = false;
 	
 	/**
+	 * Flag for hide/show href
+	 *
+	 * @var bool
+	 */
+	public $nohref = false;
+	
+	/**
 	 * Creates a hyper link instance
 	 *
 	 * @param  array  $path
@@ -39,6 +46,9 @@ class Link {
 	public function __construct($path = array())
 	{
 		$this->path = $path;
+		if (isset($path['nohref'])) {
+			$this->nohref = $path['nohref'];
+		}
 	}
 
 	/**

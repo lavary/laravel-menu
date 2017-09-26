@@ -35,7 +35,7 @@ class Builder {
 	*
 	* @var array
 	*/
-	protected $reserved = array('route', 'action', 'url', 'prefix', 'parent', 'secure', 'raw');
+	protected $reserved = array('route', 'action', 'url', 'prefix', 'parent', 'secure', 'raw', 'nohref');
 	
 	/**
 	 * Initializing the menu manager
@@ -650,7 +650,7 @@ class Builder {
 			$items  .= '<' . $item_tag . self::attributes($item->attr()+$item_attributes) . '>';
 			
 			if($item->link) {
-				$items .= $item->beforeHTML.'<a' . self::attributes($link_attr) . ' href="' . $item->url() . '">' . $item->title . '</a>'.$item->afterHTML;
+				$items .= $item->beforeHTML.'<a' . self::attributes($link_attr) . ($item->link->nohref ? '' : ' href="' . $item->url() . '"') . '>' . $item->title . '</a>'.$item->afterHTML;
 			} else {
 				$items .= $item->title;
 			}

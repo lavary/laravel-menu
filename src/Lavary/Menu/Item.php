@@ -120,7 +120,7 @@ class Item {
 
 		} else {	
 			
-			$path = array_only($options, array('url', 'route', 'action', 'secure'));
+			$path = array_only($options, array('url', 'route', 'action', 'secure', 'nohref'));
 		} 
 
 		if(!is_null($path)) {
