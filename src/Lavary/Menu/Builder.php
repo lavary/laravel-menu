@@ -426,7 +426,9 @@ class Builder {
 	{
 		if (is_array($options))
 		{
-			return \URL::route($options[0], array_slice($options, 1));
+			$absolute = isset($options['absolute']) ? $options['absolute'] : true;
+			unset($options['absolute']);
+			return \URL::route($options[0], array_slice($options, 1), $absolute);
 		}
 
 		return \URL::route($options);
@@ -442,7 +444,9 @@ class Builder {
 	{
 		if (is_array($options))
 		{
-			return \URL::action($options[0], array_slice($options, 1));
+			$absolute = isset($options['absolute']) ? $options['absolute'] : true;
+			unset($options['absolute']);
+			return \URL::action($options[0], array_slice($options, 1), $absolute);
 		}
 
 		return \URL::action($options);
