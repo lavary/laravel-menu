@@ -380,10 +380,10 @@ class Builder {
 			$$key = $value;
 		}
 		
-                $secure = null;
-                if ( isset($options['secure']) ){
-                    $secure = $options['secure'] === true ? true : false;
-                }
+				$secure = null;
+				if ( isset($options['secure']) ){
+					$secure = $options['secure'] === true ? true : false;
+				}
 
 
 		if (is_array($url))
@@ -517,105 +517,105 @@ class Builder {
 
 	}
 
-    /**
-     * Creates a new Builder instance with the given name and collection
-     *
-     * @param $name
-     * @param Collection $collection
-     * @return Builder
-     */
-    public function spawn($name, Collection $collection)
-    {
-        $nb = new Builder($name, $this->conf);
-        $nb->takeCollection($collection);
+	/**
+	 * Creates a new Builder instance with the given name and collection
+	 *
+	 * @param $name
+	 * @param Collection $collection
+	 * @return Builder
+	 */
+	public function spawn($name, Collection $collection)
+	{
+		$nb = new Builder($name, $this->conf);
+		$nb->takeCollection($collection);
 
-        return $nb;
-    }
+		return $nb;
+	}
 
-    /**
-     * Takes an entire collection and stores it as the items
-     *
-     * @param Collection $collection
-     */
-    public function takeCollection(Collection $collection)
-    {
-        $this->items = $collection;
-    }
+	/**
+	 * Takes an entire collection and stores it as the items
+	 *
+	 * @param Collection $collection
+	 */
+	public function takeCollection(Collection $collection)
+	{
+		$this->items = $collection;
+	}
 
-    /**
-     * Returns a new builder of just the top level menu items
-     *
-     * @return Builder
-     */
-    public function topMenu()
-    {
-        return $this->spawn('topLevel', $this->roots());
-    }
+	/**
+	 * Returns a new builder of just the top level menu items
+	 *
+	 * @return Builder
+	 */
+	public function topMenu()
+	{
+		return $this->spawn('topLevel', $this->roots());
+	}
 
-    /**
-     * Returns a new builder with the active items children
-     *
-     * @return Builder
-     */
-    public function subMenu()
-    {
-        $nb = $this->spawn('subMenu', new Collection());
+	/**
+	 * Returns a new builder with the active items children
+	 *
+	 * @return Builder
+	 */
+	public function subMenu()
+	{
+		$nb = $this->spawn('subMenu', new Collection());
 
-        $subs = $this->active()->children();
-        foreach($subs as $s){
-            $nb->add($s->title, $s->url());
-        }
+		$subs = $this->active()->children();
+		foreach($subs as $s){
+			$nb->add($s->title, $s->url());
+		}
 
-        return $nb;
-    }
+		return $nb;
+	}
 
-    /**
-     * Returns a new builder with siblings of the active item
-     *
-     * @return Builder
-     */
-    public function siblingMenu()
-    {
-        $nb = $this->spawn('siblingMenu', new Collection());
+	/**
+	 * Returns a new builder with siblings of the active item
+	 *
+	 * @return Builder
+	 */
+	public function siblingMenu()
+	{
+		$nb = $this->spawn('siblingMenu', new Collection());
 
-        $parent = $this->active()->parent();
-        if($parent){
-            $siblings = $parent->children();
-        } else {
-            $siblings = $this->roots();
-        }
+		$parent = $this->active()->parent();
+		if($parent){
+			$siblings = $parent->children();
+		} else {
+			$siblings = $this->roots();
+		}
 
-        if($siblings->count() > 1){
-            foreach($siblings as $s){
-                $nb->add($s->title, $s->url());
-            }
-        }
+		if($siblings->count() > 1){
+			foreach($siblings as $s){
+				$nb->add($s->title, $s->url());
+			}
+		}
 
-        return $nb;
-    }
+		return $nb;
+	}
 
-    /**
-     * Returns a new builder with all of the parents of the active item
-     *
-     * @return Builder
-     */
-    public function crumbMenu()
-    {
-        $nb = $this->spawn('crumbMenu', new Collection());
+	/**
+	 * Returns a new builder with all of the parents of the active item
+	 *
+	 * @return Builder
+	 */
+	public function crumbMenu()
+	{
+		$nb = $this->spawn('crumbMenu', new Collection());
 
-        $item = $this->active();
-        $items = [$item];
-        while($item->hasParent()){
-            $item = $item->parent();
-            array_unshift($items, $item);
-        }
+		$item = $this->active();
+		$items = [$item];
+		while($item->hasParent()){
+			$item = $item->parent();
+			array_unshift($items, $item);
+		}
 
-        foreach ($items as $item) {
-            $nb->add($item->title, $item->url());
-        }
+		foreach ($items as $item) {
+			$nb->add($item->title, $item->url());
+		}
 
-        return $nb;
-    }
+		return $nb;
+	}
 
 	
 	/**
@@ -637,15 +637,17 @@ class Builder {
 		
 		foreach ($this->whereParent($parent) as $item)
 		{
-			$link_attr = $item->link->attr();
-			if(is_callable($item_after_calback)) {
-				call_user_func_array($item_after_calback, [
-					$item, 
-					&$children_attributes, 
-					&$item_attributes, 
-					&$link_attr, 
-					&$item_after_calback_params
-				]);
+			if($item->link) {
+				$link_attr = $item->link->attr();
+				if (is_callable($item_after_calback)) {
+					call_user_func_array($item_after_calback, [
+						$item,
+						&$children_attributes,
+						&$item_attributes,
+						&$link_attr,
+						&$item_after_calback_params
+					]);
+				}
 			}
 			$items  .= '<' . $item_tag . self::attributes($item->attr()+$item_attributes) . '>';
 			
