@@ -3,6 +3,13 @@
 class Link {
 	
 	/**
+	 * Reference to the menu builder
+	 *
+	 * @var Lavary\Menu\Menu
+	 */
+	protected $builder;
+	
+	/**
 	 * Path Information
 	 *
 	 * @var array
@@ -36,9 +43,10 @@ class Link {
 	 * @param  array  $path
 	 * @return void
 	 */
-	public function __construct($path = array())
+	public function __construct($path = array(), $builder)
 	{
 		$this->path = $path;
+		$this->builder = $builder;
 	}
 
 	/**
@@ -48,7 +56,7 @@ class Link {
 	 */
 	public function active(){
 	
-		$this->attributes['class'] = Builder::formatGroupClass(array('class' => 'active'), $this->attributes);
+		$this->attributes['class'] = Builder::formatGroupClass(array('class' => $this->builder->conf('active_class')), $this->attributes);
 		$this->isActive = true;
 		return $this;
 	}
