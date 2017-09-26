@@ -157,7 +157,20 @@ This method accepts a callable inside which you can define your menu items. `add
 
 *options* can be a simple string representing a URL or an associative array of options and HTML attributes which we'll discuss shortly.
 
+You can use `Menu::exists()` to check if the menu already exists.
 
+```php
+Menu::exists('primary'); // returns false
+Menu::make('primary', function(){});
+Menu::exists('primary'); // returns true
+```
+
+You can use `Menu::makeOnce()` to ensure the make callback is only called if a menu by the given name does not yet exist. This can be useful if you are creating the same menu in multiple places conditionally, and are unsure whether other conditions have caused the menu to be created already.
+
+```php
+Menu::makeOnce('primary', function(){}); // Creates primary, and executes callback.
+Menu::makeOnce('primary', function(){}); // No operation.
+```
 
 **To render the menu in your view:**
 
