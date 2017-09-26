@@ -643,13 +643,13 @@ class Builder {
 				]);
 			}
 			$items  .= '<' . $item_tag . self::attributes($item->attr()+$item_attributes) . '>';
-
+			
 			if($item->link) {
-				$items .= $item->beforeHTML.'<a' . self::attributes($link_attr) . ' href="' . $item->url . '">' . $item->title . '</a>'.$item->afterHTML;
+				$items .= $item->beforeHTML.'<a' . self::attributes($link_attr) . ' href="' . $item->url() . '">' . $item->title . '</a>'.$item->afterHTML;
 			} else {
 				$items .= $item->title;
 			}
-					
+			
 			if( $item->hasChildren() ) {
 				$items .= '<' . $type . self::attributes($children_attributes) . '>';
 				$items .= $this->render($type, $item->id);
