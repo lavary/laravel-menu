@@ -7,7 +7,7 @@ class Link
     /**
      * Reference to the menu builder.
      *
-     * @var Lavary\Menu\Menu
+     * @var Builder
      */
     protected $builder;
 
@@ -42,7 +42,8 @@ class Link
     /**
      * Creates a hyper link instance.
      *
-     * @param array $path
+     * @param array   $path
+     * @param Builder $builder
      */
     public function __construct($path = array(), $builder)
     {
@@ -53,7 +54,7 @@ class Link
     /**
      * Make the anchor active.
      *
-     * @return Lavary\Menu\Link
+     * @return Link
      */
     public function active()
     {
@@ -66,7 +67,7 @@ class Link
     /**
      * Set Anchor's href property.
      *
-     * @return Lavary\Menu\Link
+     * @return Link
      */
     public function href($href)
     {
@@ -78,7 +79,7 @@ class Link
     /**
      * Make the url secure.
      *
-     * @return Lavary\Menu\Item
+     * @return Link
      */
     public function secure()
     {
@@ -87,12 +88,11 @@ class Link
         return $this;
     }
 
-    /**
+    /***
      * Add attributes to the link.
      *
-     * @param  mixed
-     *
-     * @return string|Lavary\Menu\Link
+     * @param mixed
+     * @return $this|array|mixed|null
      */
     public function attr()
     {
@@ -113,10 +113,11 @@ class Link
         return $this->attributes;
     }
 
-    /**
+    /***
      * Check for a method of the same name if the attribute doesn't exist.
      *
-     * @param  string
+     * @param $prop
+     * @return Link|string
      */
     public function __get($prop)
     {

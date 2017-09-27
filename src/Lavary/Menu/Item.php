@@ -9,7 +9,7 @@ class Item
     /**
      * Reference to the menu builder.
      *
-     * @var Lavary\Menu\Menu
+     * @var Builder
      */
     protected $builder;
 
@@ -91,13 +91,13 @@ class Item
     public $isActive = false;
 
     /**
-     * Creates a new Lavary\Menu\MenuItem instance.
+     * Creates a new Item instance.
      *
-     * @param string            $title
-     * @param string            $url
-     * @param array             $attributes
-     * @param int               $parent
-     * @param \Lavary\Menu\Menu $builder
+     * @param string  $title
+     * @param string  $url
+     * @param array   $attributes
+     * @param int     $parent
+     * @param Builder $builder
      */
     public function __construct($builder, $id, $title, $options)
     {
@@ -152,7 +152,7 @@ class Item
     /**
      * Add a plain text item.
      *
-     * @return Lavary\Menu\Item
+     * @return Item
      */
     public function raw($title, array $options = array())
     {
@@ -165,6 +165,8 @@ class Item
      * Insert a seprator after the item.
      *
      * @param array $attributes
+     *
+     * @return Item
      */
     public function divide($attributes = array())
     {
@@ -191,7 +193,7 @@ class Item
      *
      * @param  mixed
      *
-     * @return string|Lavary\Menu\Item
+     * @return string|Item|array
      */
     public function attr()
     {
@@ -235,7 +237,7 @@ class Item
     /**
      * Prepends text or html to the item.
      *
-     * @return Lavary\Menu\Item
+     * @return Item
      */
     public function prepend($html)
     {
@@ -247,7 +249,7 @@ class Item
     /**
      * Appends text or html to the item.
      *
-     * @return Lavary\Menu\Item
+     * @return Item
      */
     public function append($html)
     {
@@ -259,7 +261,7 @@ class Item
     /**
      * Before text or html to the item.
      *
-     * @return Lavary\Menu\Item
+     * @return Item
      */
     public function before($html)
     {
@@ -271,7 +273,7 @@ class Item
     /**
      * After text or html to the item.
      *
-     * @return Lavary\Menu\Item
+     * @return Item
      */
     public function after($html)
     {
@@ -293,7 +295,7 @@ class Item
     /**
      * Returns children of the item.
      *
-     * @return Lavary\Menu\Collection
+     * @return Collection
      */
     public function children()
     {
@@ -313,7 +315,7 @@ class Item
     /**
      * Returns the parent item.
      *
-     * @return Lavary\Menu\Item
+     * @return Item
      */
     public function parent()
     {
@@ -323,7 +325,7 @@ class Item
     /**
      * Returns all childeren of the item.
      *
-     * @return Lavary\Menu\Collection
+     * @return Collection
      */
     public function all()
     {
@@ -360,7 +362,7 @@ class Item
      *
      * @param string $nickname
      *
-     * @return /Lavary/Menu/Item
+     * @return Item
      */
     public function nickname($nickname = null)
     {
@@ -378,7 +380,7 @@ class Item
      *
      * @param mixed $id
      *
-     * @return /Lavary/Menu/Item
+     * @return Item|int
      */
     public function id($id = null)
     {
@@ -394,9 +396,9 @@ class Item
     /**
      * Activate the item.
      *
-     * @param \Lavary\Menu\Item $item
+     * @param Item $item
      */
-    public function activate(\Lavary\Menu\Item $item = null, $recursion = false)
+    public function activate(Item $item = null, $recursion = false)
     {
         $item = is_null($item) ? $this : $item;
 
@@ -423,7 +425,7 @@ class Item
     /**
      * Make the item active.
      *
-     * @return Lavary\Menu\Item
+     * @return Item
      */
     public function active($pattern = null)
     {
@@ -447,7 +449,7 @@ class Item
      *
      * @param  mixed
      *
-     * @return string|Lavary\Menu\Item
+     * @return string|Item|array
      */
     public function data()
     {
@@ -482,6 +484,8 @@ class Item
      * Cascade data to children.
      *
      * @param array $args
+     *
+     * @return bool
      */
     public function cascade_data($args = array())
     {
@@ -494,6 +498,8 @@ class Item
         } else {
             $this->children()->data($args[0]);
         }
+
+        return true;
     }
 
     /**

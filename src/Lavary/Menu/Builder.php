@@ -30,14 +30,14 @@ class Builder
      *
      * @var array
      */
-    protected $groupStack = array();
+    protected $groupStack = [];
 
     /**
      * The reserved attributes.
      *
      * @var array
      */
-    protected $reserved = array('route', 'action', 'url', 'prefix', 'parent', 'secure', 'raw');
+    protected $reserved = ['route', 'action', 'url', 'prefix', 'parent', 'secure', 'raw'];
 
     /**
      * Initializing the menu manager.
@@ -90,7 +90,7 @@ class Builder
      *
      * @return Item
      */
-    public function raw($title, array $options = array())
+    public function raw($title, array $options = [])
     {
         $options['raw'] = true;
 
@@ -104,9 +104,7 @@ class Builder
      */
     public function get($title)
     {
-        return $this->whereNickname($title)
-
-                    ->first();
+        return $this->whereNickname($title)->first();
     }
 
     /**
@@ -116,9 +114,7 @@ class Builder
      */
     public function find($id)
     {
-        return $this->whereId($id)
-
-                    ->first();
+        return $this->whereId($id)->first();
     }
 
     /**
@@ -160,9 +156,7 @@ class Builder
      */
     public function item($title)
     {
-        return $this->whereNickname($title)
-
-                    ->first();
+        return $this->whereNickname($title)->first();
     }
 
     /**
@@ -180,7 +174,7 @@ class Builder
      *
      * @param array $attributes
      */
-    public function divide(array $attributes = array())
+    public function divide(array $attributes = [])
     {
         $attributes['class'] = self::formatGroupClass(array('class' => 'divider'), $attributes);
 
@@ -210,7 +204,7 @@ class Builder
      *
      * @param array $attributes
      */
-    protected function updateGroupStack(array $attributes = array())
+    protected function updateGroupStack(array $attributes = [])
     {
         if (count($this->groupStack) > 0) {
             $attributes = $this->mergeWithLastGroup($attributes);
@@ -317,10 +311,10 @@ class Builder
      *
      * @return array
      */
-    public function extractAttributes($options = array())
+    public function extractAttributes($options = [])
     {
         if (!is_array($options)) {
-            $options = array();
+            $options = [];
         }
 
         if (count($this->groupStack) > 0) {
@@ -386,7 +380,7 @@ class Builder
             return $url;
         }
 
-        return \URL::to($prefix.'/'.$url, array(), $secure);
+        return \URL::to($prefix.'/'.$url, [], $secure);
     }
 
     /**
@@ -469,7 +463,7 @@ class Builder
     public function sortBy($sort_by, $sort_type = 'asc')
     {
         if (is_callable($sort_by)) {
-            $rslt = call_user_func($sort_by, $this->items->toArray());
+            $rslt = call_user_func($sort_by, $this->items->to[]);
 
             if (!is_array($rslt)) {
                 $rslt = array($rslt);
@@ -610,7 +604,7 @@ class Builder
      *
      * @return string
      */
-    public function render($type = 'ul', $parent = null, $children_attributes = array(), $item_attributes = array(), $item_after_calback = null, $item_after_calback_params = [])
+    public function render($type = 'ul', $parent = null, $children_attributes = [], $item_attributes = [], $item_after_calback = null, $item_after_calback_params = [])
     {
         $items = '';
 
@@ -665,7 +659,7 @@ class Builder
      *
      * @return string
      */
-    public function asUl($attributes = array(), $children_attributes = array(), $item_attributes = array(), $item_after_calback = null, $item_after_calback_params = [])
+    public function asUl($attributes = [], $children_attributes = [], $item_attributes = [], $item_after_calback = null, $item_after_calback_params = [])
     {
         return '<ul'.self::attributes($attributes).'>'.$this->render('ul', null, $children_attributes, $item_attributes, $item_after_calback, $item_after_calback_params).'</ul>';
     }
@@ -681,7 +675,7 @@ class Builder
      *
      * @return string
      */
-    public function asOl($attributes = array(), $children_attributes = array(), $item_attributes = array(), $item_after_calback = null, $item_after_calback_params = [])
+    public function asOl($attributes = [], $children_attributes = [], $item_attributes = [], $item_after_calback = null, $item_after_calback_params = [])
     {
         return '<ol'.self::attributes($attributes).'>'.$this->render('ol', null, $children_attributes, $item_attributes, $item_after_calback, $item_after_calback_params).'</ol>';
     }
@@ -697,7 +691,7 @@ class Builder
      *
      * @return string
      */
-    public function asDiv($attributes = array(), $children_attributes = array(), $item_attributes = array(), $item_after_calback = null, $item_after_calback_params = [])
+    public function asDiv($attributes = [], $children_attributes = [], $item_attributes = [], $item_after_calback = null, $item_after_calback_params = [])
     {
         return '<div'.self::attributes($attributes).'>'.$this->render('div', null, $children_attributes, $item_attributes, $item_after_calback, $item_after_calback_params).'</div>';
     }
@@ -711,7 +705,7 @@ class Builder
      */
     public static function attributes($attributes)
     {
-        $html = array();
+        $html = [];
 
         foreach ((array) $attributes as $key => $value) {
             $element = self::attributeElement($key, $value);
@@ -763,7 +757,7 @@ class Builder
      *
      * @return string
      */
-    public static function mergeStatic($new = null, array $old = array())
+    public static function mergeStatic($new = null, array $old = [])
     {
         // Parses the string into an associative array
         parse_str(preg_replace('/\s*([\w-]+)\s*=\s*"([^"]+)"/', '$1=$2&', $new), $attrs);
@@ -855,7 +849,6 @@ class Builder
             return $this->$prop;
         }
 
-        return $this->whereNickname($prop)
-                    ->first();
+        return $this->whereNickname($prop)->first();
     }
 }

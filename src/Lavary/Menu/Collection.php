@@ -11,7 +11,7 @@ class Collection extends BaseCollection
      *
      * @param  mixed
      *
-     * @return Lavary\Menu\Collection
+     * @return Collection
      */
     public function attr()
     {
@@ -33,7 +33,7 @@ class Collection extends BaseCollection
      *
      * @param  mixed
      *
-     * @return Lavary\Menu\Collection
+     * @return Collection
      */
     public function data()
     {
@@ -55,7 +55,7 @@ class Collection extends BaseCollection
      *
      * @param  string
      *
-     * @return Lavary\Menu\Collection
+     * @return Collection
      */
     public function append($html)
     {
@@ -72,7 +72,7 @@ class Collection extends BaseCollection
      * @param mixed $html
      * @param mixed $key
      *
-     * @return Lavary\Menu\Collection
+     * @return Collection
      */
     public function prepend($html, $key = null)
     {

@@ -7,14 +7,14 @@ class Menu
     /**
      * Menu collection.
      *
-     * @var Illuminate\Support\Collection
+     * @var \Illuminate\Support\Collection
      */
     protected $collection;
 
     /**
      * List of menu items.
      *
-     * @var []\Lavary\Menu\Menu
+     * @var []Menu
      */
     protected $menu = [];
 
@@ -45,13 +45,15 @@ class Menu
      * @param string   $name
      * @param callable $callback
      *
-     * @return \Lavary\Menu\Menu
+     * @return Menu
      */
     public function makeOnce($name, $callback)
     {
-        if (!$this->exists($name)) {
-            return $this->make($name, $callback);
+        if ($this->exists($name)) {
+            return null;
         }
+
+        return $this->make($name, $callback);
     }
 
     /**
@@ -60,26 +62,28 @@ class Menu
      * @param string   $name
      * @param callable $callback
      *
-     * @return \Lavary\Menu\Menu
+     * @return Menu
      */
     public function make($name, $callback)
     {
-        if (is_callable($callback)) {
-            if (!array_key_exists($name, $this->menu)) {
-                $this->menu[$name] = new Builder($name, $this->loadConf($name));
-            }
-
-            // Registering the items
-            call_user_func($callback, $this->menu[$name]);
-
-            // Storing each menu instance in the collection
-            $this->collection->put($name, $this->menu[$name]);
-
-            // Make the instance available in all views
-            \View::share($name, $this->menu[$name]);
-
-            return $this->menu[$name];
+        if (!is_callable($callback)) {
+            return null;
         }
+
+        if (!array_key_exists($name, $this->menu)) {
+            $this->menu[$name] = new Builder($name, $this->loadConf($name));
+        }
+
+        // Registering the items
+        call_user_func($callback, $this->menu[$name]);
+
+        // Storing each menu instance in the collection
+        $this->collection->put($name, $this->menu[$name]);
+
+        // Make the instance available in all views
+        \View::share($name, $this->menu[$name]);
+
+        return $this->menu[$name];
     }
 
     /**
@@ -106,7 +110,7 @@ class Menu
      *
      * @param string $key
      *
-     * @return \Lavary\Menu\Item
+     * @return Item
      */
     public function get($key)
     {
