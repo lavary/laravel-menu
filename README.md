@@ -14,30 +14,30 @@ __For Laravel 4.x, check [version 1.5.0](https://github.com/lavary/laravel-menu/
 * [Installation](#installation)
 * [Getting Started](#getting-started)
 * [Routing](#routing)
-	- [URLs](#urls)	
-	- [Named Routes](#named-routes)
-	- [Controller Actions](#controller-actions)
-	- [HTTPS](#https)
+    - [URLs](#urls)
+    - [Named Routes](#named-routes)
+    - [Controller Actions](#controller-actions)
+    - [HTTPS](#https)
 * [Sub-items](#sub-items)
 * [Set Item's ID Manualy](#)
 * [Set Item's Nicknames Manualy](#)
 * [Referring to Items](#referring-to-items)
-	- [Get Item by Title](#get-item-by-title)
-	- [Get Item by Id](#get-item-by-id)
-	- [Get All Items](#get-all-items)
-	- [Get the First Item](#get-the-first-item)
-	- [Get the Last Item](#get-the-last-item)
-	- [Get the Active Item](#get-the-active-item)
-	- [Get Sub-items of the Item](#get-sub-items-of-the-item)
-	- [Get the Parent of the Item](#get-the-parent-of-the-item)
-	- [Magic Where Methods](#magic-where-methods)
+    - [Get Item by Title](#get-item-by-title)
+    - [Get Item by Id](#get-item-by-id)
+    - [Get All Items](#get-all-items)
+    - [Get the First Item](#get-the-first-item)
+    - [Get the Last Item](#get-the-last-item)
+    - [Get the Active Item](#get-the-active-item)
+    - [Get Sub-items of the Item](#get-sub-items-of-the-item)
+    - [Get the Parent of the Item](#get-the-parent-of-the-item)
+    - [Magic Where Methods](#magic-where-methods)
 * [Referring to Menu Objects](#referring-to-menu-instances)
 * [HTML Attributes](#html-attributes)
 * [Manipulating Links](#manipulating-links)
-	- [Link's Href Property](#links-href-property)
+    - [Link's Href Property](#links-href-property)
 * [Active Item](#active-item)
-	- [RESTful URLs](#restful-urls)
-	- [URL Wildcards](#url-wildcards)
+    - [RESTful URLs](#restful-urls)
+    - [URL Wildcards](#url-wildcards)
 * [Inserting a Separator](#inserting-a-separator)
 * [Append and Prepend](#append-and-prepend)
 * [Before and After](#before-and-after)
@@ -49,22 +49,23 @@ __For Laravel 4.x, check [version 1.5.0](https://github.com/lavary/laravel-menu/
 * [Filtering the Items](#filtering-the-items)
 * [Sorting the Items](#sorting-the-items)
 * [Rendering Methods](#rendering-methods)
-	- [Menu as Unordered List](#menu-as-unordered-list)
-	- [Menu as Ordered List](#menu-as-ordered-list)
-	- [Menu as Div](#menu-as-div)
-	- [Menu as Bootstrap 3 Navbar](#menu-as-bootstrap-3-navbar)
+    - [Menu as Unordered List](#menu-as-unordered-list)
+    - [Menu as Ordered List](#menu-as-ordered-list)
+    - [Menu as Div](#menu-as-div)
+    - [Menu as Bootstrap 3 Navbar](#menu-as-bootstrap-3-navbar)
 * [Subset Menus](#subset-menus)
-	- [Top Menu](#top-menu)
-	- [Sub Menu](#sub-menu)
-	- [Sibling Menu](#sibling-menu)
-	- [Crumb Menu](#crumb-menu)
+    - [Top Menu](#top-menu)
+    - [Sub Menu](#sub-menu)
+    - [Sibling Menu](#sibling-menu)
+    - [Crumb Menu](#crumb-menu)
 * [Advanced Usage](#advanced-usage)
-	+ [A Basic Example](#a-basic-example)
-	+ [Control Structure for Blade](#control-structure-for-blade)
-		- [@lm-attrs](#lm-attrs)
-	+ [Attributes and Callback function of item](#attributes-and-callback-function-of-item)
+    + [A Basic Example](#a-basic-example)
+    + [Control Structure for Blade](#control-structure-for-blade)
+        - [@lm-attrs](#lm-attrs)
+    + [Attributes and Callback function of item](#attributes-and-callback-function-of-item)
 * [Configuration](#configuration)
 * [If You Need Help](#if-you-need-help)
+* [Contributing](#contributing)
 * [License](#license)
 
 
@@ -85,8 +86,8 @@ Now, append Laravel Menu service provider to `providers` array in `config/app.ph
         Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
-	
-	...
+    
+    ...
         
         Lavary\Menu\ServiceProvider::class,
         
@@ -295,9 +296,9 @@ The output as `<ul>` would be:
 
 ```html
 <ul>
-	...
-	<li><a href="https://yourdomain.com/members">Members</a></li>
-	...
+    ...
+    <li><a href="https://yourdomain.com/members">Members</a></li>
+    ...
 </ul>
 ```
 
@@ -501,14 +502,13 @@ Menu::get('MyNavBar')->last();
 #### Get the Active Item
 
 ```php
-<?php
-	// ...
-	$menu->active()
+// ...
+$menu->active()
+ 
+// or outside of the builder content
+Menu::get('MyNavBar')->active();
+// ...
 
-	// or outside of the builder content
-	Menu::get('MyNavBar')->active();
-	// ...
-?>
 ```
 
 #### Get Sub-Items of the Item
@@ -520,11 +520,11 @@ To get children of `About` item:
 ```php
 // ...
 $aboutSubs = $menu->about->children();
-
+ 
 // or outside of the builder context
 $aboutSubs = Menu::get('MyNavBar')->about->children();
-
-// Or
+ 
+// or
 $aboutSubs = Menu::get('MyNavBar')->item('about')->children();
 // ...
 ```
@@ -535,7 +535,7 @@ To check if an item has any children or not, you can use `hasChildren()`
 ```php
 // ...
 if( $menu->about->hasChildren() ) {
-	// Do something
+    // Do something
 }
 
 // or outside of the builder context
@@ -562,35 +562,31 @@ First get the item using one of the methods above then call `parent()` on it.
 To get the parent of `About` item
 
 ```php
-<?php
-	// ...
-	$aboutParent = $menu->about->parent();
+// ...
+$aboutParent = $menu->about->parent();
 
-	// or outside of the builder context
-	$aboutParent = Menu::get('MyNavBar')->about->parent();
+// or outside of the builder context
+$aboutParent = Menu::get('MyNavBar')->about->parent();
 
-	// Or
-	$aboutParent = Menu::get('MyNavBar')->item('about')->parent();
-	// ...
-?>
+// Or
+$aboutParent = Menu::get('MyNavBar')->item('about')->parent();
+// ...
 ```
 
 To check if an item has a parent or not, you can use `hasParent()`
 
 ```php
-<?php
-	// ...
-	if( $menu->about->hasParent() ) {
-		// Do something
-	}
+// ...
+if( $menu->about->hasParent() ) {
+    // Do something
+}
 
-	// or outside of the builder context
-	Menu::get('MyNavBar')->about->hasParent();
+// or outside of the builder context
+Menu::get('MyNavBar')->about->hasParent();
 
-	// Or
-	Menu::get('MyNavBar')->item('about')->hasParent();
-	// ...
-?>
+// Or
+Menu::get('MyNavBar')->item('about')->hasParent();
+// ...
 ```
 
 
@@ -698,7 +694,7 @@ If you call it with two arguments, It will consider the first and second paramet
 You can also pass an associative array of attributes if you need to add a group of HTML attributes in one step; Lastly if you call it without any arguments it will return all the attributes as an array.
 
 ```php
-	//...
+//...
 $menu->add('About', array('url' => 'about', 'class' => 'about-item'));
 
 echo $menu->about->attr('class');  // output:  about-item
@@ -716,8 +712,8 @@ print_r($menu->about->attr());
 /* Output
 Array
 (
-	[class] => about-item another-class yet-another
-	[id] => id
+    [class] => about-item another-class yet-another
+    [id] => id
 )
 */
 
@@ -782,7 +778,7 @@ $menu->add('Home', '#')->active();
 
 /* Output
  *
- * <li class="active"><a href="#">#</a></li>	
+ * <li class="active"><a href="#">#</a></li>
  * 
  */
 ```
@@ -796,7 +792,7 @@ $menu->add('Home', '#')->link->active();
 
 /* Output
  *
- * <li><a class="active" href="#">#</a></li>	
+ * <li><a class="active" href="#">#</a></li>
  *
  */
 ```
@@ -849,15 +845,15 @@ $menu->divide()
 /*
  * Output as <ul>:
  *
- *	<ul>
- *		...
- *		<li><a href="item-url">Separated Item</a></li>
- *		<li class="divider"></li>
+ *    <ul>
+ *        ...
+ *        <li><a href="item-url">Separated Item</a></li>
+ *        <li class="divider"></li>
  *
- *		<li><a href="another-item-url">Another Separated Item</a></li>
- *		<li class="divider"></li>
- *		...
- *	</ul>
+ *        <li><a href="another-item-url">Another Separated Item</a></li>
+ *        <li class="divider"></li>
+ *        ...
+ *    </ul>
  *
  */
 ```
@@ -872,12 +868,12 @@ $menu->add('Separated Item', 'item-url')->divide( array('class' => 'my-divider')
 /*
  * Output as <ul>:
  *
- *	<ul>
- *		...
- *		<li><a href="item-url">Separated Item</a></li>
- *		<li class="my-divider divider"></li>
+ *    <ul>
+ *        ...
+ *        <li><a href="item-url">Separated Item</a></li>
+ *        <li class="my-divider divider"></li>
  *
- *		...
+ *        ...
  *    </ul>
  *
  */
@@ -1615,9 +1611,9 @@ View: layouts.table.view
 <ul class="control-items-min">
     <li title="Menu">
         <a data-toggle="dropdown" aria-expanded="true"><i class="fa fa-bars"></i> <span></span></a>
-	<!-- The first array is the attributes for the list: for example, `ul`;
-	     The second is the attributes for the child lists, for example, `ul>li>ul`;
-	     The third array is attributes that are added to the attributes of the `li` element. -->
+    <!-- The first array is the attributes for the list: for example, `ul`;
+         The second is the attributes for the child lists, for example, `ul>li>ul`;
+         The third array is attributes that are added to the attributes of the `li` element. -->
         <?php echo $controlItem->asUl(['class'=>'dropdown-menu', 'role'=>'menu'],[],['class'=>'dropdown-item']); ?>
     </li>
 </ul>
@@ -1682,25 +1678,37 @@ You're also able to override the default settings for each menu. To override set
 
 ```php
 return array(
-	'default' => array(
-		'auto_activate'    => true,
-		'activate_parents' => true,
-		'active_class'     => 'active',
-		'active_element'   => 'item',    // item|link
-		'restful'          => true,
-	),
-	'yourmenuname' => array(
-		'auto_activate'    => false
-	),
+    'default' => array(
+        'auto_activate'    => true,
+        'activate_parents' => true,
+        'active_class'     => 'active',
+        'active_element'   => 'item',    // item|link
+        'restful'          => true,
+    ),
+    'yourmenuname' => array(
+        'auto_activate'    => false
+    ),
 );
 ```
-
-
 
 ## If You Need Help
 
 Please submit all issues and questions using GitHub issues and I will try to help you.
 
+
+## Contributing
+
+Please feel free to submit pull requests if you can improve or add any features.
+
+We are currently using PSR-2+Symfony formatting. This is easy to implement and check with the [PHP Coding Standards Fixer](http://cs.sensiolabs.org/).
+
+Once you have installed php-cs-fixer and added it to your path, simply run the following command in the laravel-menu folder prior to committing.
+
+```bash
+$ php-cs-fixer fix . --rules=@Symfony
+```
+
+While everyone has different opinions on formatting, this tool will help provide convenient consistency.
 
 ## License
 

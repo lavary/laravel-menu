@@ -1,79 +1,85 @@
-<?php namespace Lavary\Menu;
+<?php
+
+namespace Lavary\Menu;
 
 use Illuminate\Support\Collection as BaseCollection;
 
-class Collection extends BaseCollection {
+class Collection extends BaseCollection
+{
+    /**
+     * Add attributes to a collection of items.
+     *
+     * @param  mixed
+     *
+     * @return Lavary\Menu\Collection
+     */
+    public function attr()
+    {
+        $args = func_get_args();
 
-	/**
-	 * Add attributes to a collection of items
-	 *
-	 * @param  mixed
-	 * @return Lavary\Menu\Collection
-	 */
-	public function attr() {
+        $this->each(function ($item) use ($args) {
+            if (count($args) >= 2) {
+                $item->attr($args[0], $args[1]);
+            } else {
+                $item->attr($args[0]);
+            }
+        });
 
-		$args = func_get_args();
+        return $this;
+    }
 
-		$this->each(function($item) use ($args) {
-			if(count($args) >= 2) {
-				$item->attr( $args[0], $args[1] );
-			} else {
-				$item->attr( $args[0]);
-			}
-		});
+    /**
+     * Add meta data to a collection of items.
+     *
+     * @param  mixed
+     *
+     * @return Lavary\Menu\Collection
+     */
+    public function data()
+    {
+        $args = func_get_args();
 
-		return $this;
-	}
+        $this->each(function ($item) use ($args) {
+            if (count($args) >= 2) {
+                $item->data($args[0], $args[1]);
+            } else {
+                $item->data($args[0]);
+            }
+        });
 
-	/**
-	 * Add meta data to a collection of items
-	 *
-	 * @param  mixed
-	 * @return Lavary\Menu\Collection
-	 */
-	public function data() {
+        return $this;
+    }
 
-		$args = func_get_args();
+    /**
+     * Appends text or HTML to a collection of items.
+     *
+     * @param  string
+     *
+     * @return Lavary\Menu\Collection
+     */
+    public function append($html)
+    {
+        $this->each(function ($item) use ($html) {
+            $item->title .= $html;
+        });
 
-		$this->each(function($item) use ($args){
-			if(count($args) >= 2) {
-				$item->data( $args[0], $args[1] );
-			} else {
-				$item->data( $args[0]);
-			}
-		});
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * Prepends text or HTML to a collection of items.
+     *
+     * @param mixed $html
+     * @param mixed $key
+     *
+     * @return Lavary\Menu\Collection
+     */
+    public function prepend($html, $key = null)
+    {
+        $this->each(function ($item) use ($html) {
+            $item->title = $html.$item->title;
+        });
 
-	/**
-	 * Appends text or HTML to a collection of items
-	 *
-	 * @param  string
-	 * @return Lavary\Menu\Collection
-	 */
-	public function append($html) {
-
-		$this->each(function($item) use ($html) {
-			$item->title .= $html;
-		});
-
-		return $this;
-	}
-
-	/**
-	 * Prepends text or HTML to a collection of items
-	 *
-	 * @param mixed $html
-	 * @param mixed $key
-	 * @return Lavary\Menu\Collection
-	 */
-	public function prepend($html, $key = null) {
-		$this->each(function($item) use ($html){
-			$item->title = $html . $item->title;
-		});
-
-		return $this;
-	}
-
+        return $this;
+    }
 }

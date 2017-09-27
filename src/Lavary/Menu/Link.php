@@ -1,132 +1,129 @@
-<?php namespace Lavary\Menu;
+<?php
 
-class Link {
-	
-	/**
-	 * Reference to the menu builder
-	 *
-	 * @var Lavary\Menu\Menu
-	 */
-	protected $builder;
-	
-	/**
-	 * Path Information
-	 *
-	 * @var array
-	 */
-	protected $path = array();
+namespace Lavary\Menu;
 
-	/**
-	 * Explicit href for the link
-	 *
-	 * @var string
-	 */
-	protected $href;
+class Link
+{
+    /**
+     * Reference to the menu builder.
+     *
+     * @var Lavary\Menu\Menu
+     */
+    protected $builder;
 
-	/**
-	 * Link attributes
-	 *
-	 * @var array
-	 */
-	public $attributes = array();
+    /**
+     * Path Information.
+     *
+     * @var array
+     */
+    protected $path = array();
 
-	/**
-	 * Flag for active state
-	 *
-	 * @var bool
-	 */
-	public $isActive = false;
-	
-	/**
-	 * Creates a hyper link instance
-	 *
-	 * @param  array  $path
-	 * @return void
-	 */
-	public function __construct($path = array(), $builder)
-	{
-		$this->path = $path;
-		$this->builder = $builder;
-	}
+    /**
+     * Explicit href for the link.
+     *
+     * @var string
+     */
+    protected $href;
 
-	/**
-	 * Make the anchor active
-	 *
-	 * @return Lavary\Menu\Link
-	 */
-	public function active(){
-	
-		$this->attributes['class'] = Builder::formatGroupClass(array('class' => $this->builder->conf('active_class')), $this->attributes);
-		$this->isActive = true;
-		return $this;
-	}
+    /**
+     * Link attributes.
+     *
+     * @var array
+     */
+    public $attributes = array();
 
-	/**
-	 * Set Anchor's href property
-	 *
-	 * @return Lavary\Menu\Link
-	 */
-	public function href($href){
-	
-		$this->href = $href;
-		
-		return $this;
-	}
+    /**
+     * Flag for active state.
+     *
+     * @var bool
+     */
+    public $isActive = false;
 
-	/**
-	 * Make the url secure
-	 *
-	 * @return Lavary\Menu\Item
-	 */
-	public function secure(){
-		
-		$this->path['secure'] = true;
-		
-		return $this;
-	}
+    /**
+     * Creates a hyper link instance.
+     *
+     * @param array $path
+     */
+    public function __construct($path = array(), $builder)
+    {
+        $this->path = $path;
+        $this->builder = $builder;
+    }
 
-	/**
-	 * Add attributes to the link
-	 *
-	 * @param  mixed
-	 * @return string|Lavary\Menu\Link
-	 */
-	public function attr()
-	{
-		$args = func_get_args();
+    /**
+     * Make the anchor active.
+     *
+     * @return Lavary\Menu\Link
+     */
+    public function active()
+    {
+        $this->attributes['class'] = Builder::formatGroupClass(array('class' => $this->builder->conf('active_class')), $this->attributes);
+        $this->isActive = true;
 
-		if(isset($args[0]) && is_array($args[0])) {
-			$this->attributes = array_merge($this->attributes, $args[0]);
-			return $this;
-		}
+        return $this;
+    }
 
-		elseif(isset($args[0]) && isset($args[1])) {
-			$this->attributes[$args[0]] = $args[1];
-			return $this;
-		} 
+    /**
+     * Set Anchor's href property.
+     *
+     * @return Lavary\Menu\Link
+     */
+    public function href($href)
+    {
+        $this->href = $href;
 
-		elseif(isset($args[0])) {
-			return isset($this->attributes[$args[0]]) ? $this->attributes[$args[0]] : null;
-		}
+        return $this;
+    }
 
-		return $this->attributes;
-	}
+    /**
+     * Make the url secure.
+     *
+     * @return Lavary\Menu\Item
+     */
+    public function secure()
+    {
+        $this->path['secure'] = true;
 
-	/**
-	 * Check for a method of the same name if the attribute doesn't exist.
-	 *
-	 * @param  string
-	 * @return void
-	 */
-	public function __get($prop) {
-		
-		if( property_exists($this, $prop) ) {
-			
-			return $this->$prop;
+        return $this;
+    }
 
-		} 
+    /**
+     * Add attributes to the link.
+     *
+     * @param  mixed
+     *
+     * @return string|Lavary\Menu\Link
+     */
+    public function attr()
+    {
+        $args = func_get_args();
 
-		return $this->attr($prop);
-		
-	}	
+        if (isset($args[0]) && is_array($args[0])) {
+            $this->attributes = array_merge($this->attributes, $args[0]);
+
+            return $this;
+        } elseif (isset($args[0]) && isset($args[1])) {
+            $this->attributes[$args[0]] = $args[1];
+
+            return $this;
+        } elseif (isset($args[0])) {
+            return isset($this->attributes[$args[0]]) ? $this->attributes[$args[0]] : null;
+        }
+
+        return $this->attributes;
+    }
+
+    /**
+     * Check for a method of the same name if the attribute doesn't exist.
+     *
+     * @param  string
+     */
+    public function __get($prop)
+    {
+        if (property_exists($this, $prop)) {
+            return $this->$prop;
+        }
+
+        return $this->attr($prop);
+    }
 }
