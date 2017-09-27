@@ -136,27 +136,37 @@ Be sure to also add the middleware to the `app\Http\Kernel.php`
     ];
 ```
 
-Here is a basic usage:
+Open the middleware you just created `app\Http\Middleware\GenerateMenus.php`
 
+Then add a basic menu declaration. For example:
 
 ```php
-Menu::make('MyNavBar', function($menu){
-  
-  $menu->add('Home');
-  $menu->add('About',    'about');
-  $menu->add('services', 'services');
-  $menu->add('Contact',  'contact');
-  
-});
+public function handle($request, Closure $next)
+{
+    \Menu::make('MyNavBar', function ($menu) {
+        $menu->add('Home');
+        $menu->add('About', 'about');
+        $menu->add('Services', 'services');
+        $menu->add('Contact', 'contact');
+    });
+
+    return $next($request);
+}
 ```
 
-**Attention** `$MyNavBar` is just a hypothetical name I used in these examples; You may name your menus whatever you please.
+Finally, open a view and add:
+```php
+{!! $MyNavBar->asUl() !!}
+```
+Your menu will be created and displayed on the page.
+
+**Note:** `$MyNavBar` is just a hypothetical name used in these examples; You may name your menus whatever you please.
 
 In the above example `Menu::make()` creates a menu named `MyNavBar`, Adds the menu instance to the `Menu::collection` and ultimately makes `$myNavBar` object available across all application views.
 
 This method accepts a callable inside which you can define your menu items. `add` method defines a new item. It receives two parameters, the first one is the item title and the second one is options.
 
-*options* can be a simple string representing a URL or an associative array of options and HTML attributes which we'll discuss shortly.
+The second parameter, `options`, can be a simple string representing a URL or an associative array of options and HTML attributes which we'll discuss shortly.
 
 You can use `Menu::exists()` to check if the menu already exists.
 
@@ -209,9 +219,7 @@ And that's all about it!
 You can simply assign a URL to your menu item by passing the URL as the second argument to `add` method:
 
 ```php
-// ...
 $menu->add('About Us', 'about-us');
-// ...
 ```
 
 #### Named Routes
@@ -234,8 +242,7 @@ Menu::make('MyNavBar', function($menu){
   
   $menu->add('Home',     ['route'  => 'home.page']);
   $menu->add('About',    ['route'  => 'page.about']);
-  // ...
-
+  
 });
 ```
 
@@ -246,23 +253,20 @@ Laravel Menu supports controller actions as well.
 
 You will just need to set `action` key of your options array to a controller action:
 
+Suppose we have these routes defined in our `routes/web.php` or the older `app/Http/routes.php` file:
+
 ```php
-// Suppose we have these routes defined in our app/Http/routes.php file
-
-// ...
 Route::get('services', 'ServiceController@index');
-//...
+``` 
 
+Then to refer to this route, we can pass the action into the options array.
 
-// ...
+```php
 $menu->add('services', ['action' => 'ServicesController@index']);
-// ...
-
-?>
 ```
 
 
-**Note:** if you need to send some data to routes, URLs or controller actions as a query string, you can simply include them in an array along with the route, action or URL value:
+**Additionaly:** if you need to send some parameters to routes, URLs or controller actions as a query string, you can simply include them in an array along with the route, action or URL value:
 
 ```php
 Menu::make('MyNavBar', function($menu){
@@ -278,10 +282,11 @@ Menu::make('MyNavBar', function($menu){
 
 #### HTTPS
 
-If you need to serve the route over HTTPS, call `secure()` on the item's `link` attribute or alternatively add key `secure` to the options array and set it to `true`:
+By default, the HTTP vs HTTPS will be determined by Laravel's UrlGenerator which matches the current schema of the page.
+
+If you need to overwrite this behavior, call `secure()` on the item's `link` attribute to force https. Alternatively add key `secure` to the options array and set it to `true`:
 
 ```php
-// ...
 $menu->add('Members', 'members')->link->secure();
 
 
@@ -289,7 +294,6 @@ $menu->add('Members', 'members')->link->secure();
 
 $menu->add('Members', ['url' => 'members', 'secure' => true]);
 
-// ...
 ```
 
 The output as `<ul>` would be:
@@ -309,7 +313,7 @@ Items can have sub-items too:
 
 ```php
 Menu::make('MyNavBar', function($menu){
-
+  
   //...
   
   $menu->add('About',    ['route'  => 'page.about']);
@@ -318,7 +322,7 @@ Menu::make('MyNavBar', function($menu){
   
   // refer to about as a property of $menu object then call `add()` on it
   $menu->about->add('Who We are', 'who-we-are');
-
+  
   // or
   
   $menu->get('about')->add('What We Do', 'what-we-do');
@@ -335,23 +339,17 @@ Menu::make('MyNavBar', function($menu){
 You can also chain the item definitions and go as deep as you wish:
 
 ```php
-  // ...
-  
-  $menu->add('About',    ['route'  => 'page.about'])
+  $menu->add('About', ['route'  => 'page.about'])
        ->add('Level2', 'link address')
        ->add('level3', 'Link address')
        ->add('level4', 'Link address');
-        
-  // ...
 ```  
 
 It is possible to add sub items directly using `parent` attribute:
 
 ```php
-//...
 $menu->add('About',    ['route'  => 'page.about']);
 $menu->add('Level2', ['url' => 'Link address', 'parent' => $menu->about->id]);
-//...
 ```  
 
 ## Set Item's ID Manually
@@ -359,18 +357,14 @@ $menu->add('Level2', ['url' => 'Link address', 'parent' => $menu->about->id]);
 When you add a new item, a unique ID is automatically assigned to the item. However, there are time when you're loading the menu items from the database and you have to set the ID manually. To handle this, you can call the `id()` method against the item's object and pass your desired ID:
 
 ```php
-// ...
 $menu->add('About', ['route' => 'page.about'])
      ->id('74398247329487')
-// ...
 ```
 
 Alternatively, you can pass the ID as an element of the options array when adding the menu item:
 
 ```php
-// ...
 $menu->add('About', ['route' => 'page.about', 'id' => 74398247329487]);
-// ...
 ```
 
 ## Set Item's Nickname Manually
@@ -379,79 +373,64 @@ When you add a new item, a nickname is automatically assigned to the item for fu
 However there are times when you have to explicitly define your menu items owing to a special character set you're using. To do this, you may simply use the `nickname()` method against the item's object and pass your desired nickname to it:
 
 ```php
-// ...
 $menu->add('About', ['route' => 'page.about'])
      ->nickname('about_menu_nickname');
-
+  
 // And use it like you normally would
 $menu->item('about_menu_nickname');
-// ...
 ```
 
 Alternatively, you can pass the nickname as an element of the options array:
 
 ```php
-// ...
 $menu->add('About', ['route' => 'page.about', 'nickname' => 'about_menu_nickname']);
-
+  
 // And use it like you normally would
 $menu->item('about_menu_nickname');    
-// ...
 ```
 
 ## Referring to Items
-
 
 You can access defined items throughout your code using the methods described below.
 
 #### Get Item by Title
 
- along with item's title in *camel case*:
+Use $menu followed by the item's title in *camel case*:
 
 ```php
-// ...
-
-$menu->itemTitleInCamelCase ...
-
+$menu->itemTitleInCamelCase
+  
 // or
-
-$menu->get('itemTitleInCamelCase') ...
-
+  
+$menu->get('itemTitleInCamelCase')
+  
 // or
-
-$menu->item('itemTitleInCamelCase') ...
-
-// ...
+  
+$menu->item('itemTitleInCamelCase')
 ```
 
 As an example, let's insert a divider after `About us` item after we've defined it:
 
 ```php
-// ...
-
 $menu->add('About us', 'about-us')
-
+  
 $menu->aboutUs->divide();
-
+  
 // or
-
+  
 $menu->get('aboutUs')->divide();
-
+  
 // or
-
+  
 $menu->item('aboutUs')->divide();
-
-// ...
 ```
 
 If you're not comfortable with the above method you can store the item's object reference in a variable for further reference:
 
 ```php
-// ...
 $about = $menu->add('About', 'about');
 $about->add('Who We Are', 'who-we-are');
 $about->add('What We Do', 'what-we-do');
-// ...
 ```
 
 
@@ -460,55 +439,51 @@ $about->add('What We Do', 'what-we-do');
 You can also get an item by Id if needed:
 
 ```php
-// ...
-$menu->find(12) ...
-// ...
+$menu->add('About', ['url' => 'about', 'id' => 12]);
+ 
+$about = $menu->find(12)
 ```
 
 #### Get All Items
 
 ```php
-// ...
 $menu->all();
-
+ 
 // or outside of the builder context
+ 
 Menu::get('MyNavBar')->all();
-// ...
 ```
-`all()` returns a *Laravel Collection*.
+
+The `all()` method returns a *Laravel Collection*.
 
 #### Get the First Item
 
 ```php
-// ...
 $menu->first();
-
+ 
 // or outside of the builder context
+ 
 Menu::get('MyNavBar')->first();
-// ...
 ```
 
 #### Get the Last Item
 
 ```php
-// ...
 $menu->last();
-
+ 
 // or outside of the builder context
+ 
 Menu::get('MyNavBar')->last();
-// ...
 ```
 
 #### Get the Active Item
 
 ```php
-// ...
 $menu->active()
  
 // or outside of the builder content
+ 
 Menu::get('MyNavBar')->active();
-// ...
-
 ```
 
 #### Get Sub-Items of the Item
@@ -518,41 +493,39 @@ First of all you need to get the item using the methods described above then cal
 To get children of `About` item:
 
 ```php
-// ...
 $aboutSubs = $menu->about->children();
  
 // or outside of the builder context
+ 
 $aboutSubs = Menu::get('MyNavBar')->about->children();
  
 // or
+ 
 $aboutSubs = Menu::get('MyNavBar')->item('about')->children();
-// ...
 ```
+
 `children()` returns a *Laravel Collection*.
 
 To check if an item has any children or not, you can use `hasChildren()`
 
 ```php
-// ...
 if( $menu->about->hasChildren() ) {
     // Do something
 }
-
+ 
 // or outside of the builder context
+ 
 Menu::get('MyNavBar')->about->hasChildren();
-
+ 
 // Or
+ 
 Menu::get('MyNavBar')->item('about')->hasChildren();
-// ...
 ```
 
 To get all descendants of an item you may use `all`:
 
 ```php
-// ...
 $aboutSubs = $menu->about->all();
-// ...
-
 ```
 
 #### Get the Parent of the Item
@@ -562,31 +535,31 @@ First get the item using one of the methods above then call `parent()` on it.
 To get the parent of `About` item
 
 ```php
-// ...
 $aboutParent = $menu->about->parent();
-
+ 
 // or outside of the builder context
+ 
 $aboutParent = Menu::get('MyNavBar')->about->parent();
-
+ 
 // Or
+ 
 $aboutParent = Menu::get('MyNavBar')->item('about')->parent();
-// ...
 ```
 
 To check if an item has a parent or not, you can use `hasParent()`
 
 ```php
-// ...
 if( $menu->about->hasParent() ) {
     // Do something
 }
-
+ 
 // or outside of the builder context
+ 
 Menu::get('MyNavBar')->about->hasParent();
-
+ 
 // Or
+ 
 Menu::get('MyNavBar')->item('about')->hasParent();
-// ...
 ```
 
 
@@ -598,20 +571,16 @@ These methods are consisted of a `where` concatenated with a property (object pr
 For example to get an item with parent equal to 12, you can use it like so:
 
 ```php
-// ...
 $subs = $menu->whereParent(12);
-// ...
 ```
 
 Or to get item's with a specific meta data:
 
 ```php
-// ...
 $menu->add('Home',     '#')->data('color', 'red');
 $menu->add('About',    '#')->data('color', 'blue');
 $menu->add('Services', '#')->data('color', 'red');
 $menu->add('Contact',  '#')->data('color', 'green');
-// ...
 
 // Fetch all the items with color set to red:
 $reds = $menu->whereColor('red');
@@ -636,24 +605,18 @@ You might encounter situations when you need to refer to menu instances out of t
 To get a specific menu by name:
 
 ```php
-// ...
 $menu = Menu::get('MyNavBar');
-// ...
 ```
 
 Or to get all menus instances:
 
 ```php
-// ...
 $menus = Menu::all();
-// ...
 ```
 You can also call `getCollection()` to get the same result:
 
 ```php
-// ...
 $menus = Menu::getCollection();
-// ...
 ```
 
 Both methods return a *Laravel Collection*
@@ -723,7 +686,6 @@ Array
 You can use `attr` on a collection, if you need to target a group of items:
 
 ```php
-// ...
 $menu->add('About', 'about');
 
 $menu->about->add('Who we are', 'about/whoweare');
@@ -732,7 +694,6 @@ $menu->about->add('What we do', 'about/whatwedo');
 // add a class to children of About
 $menu->about->children()->attr('class', 'about-item');
 
-// ...
 ```
 
 ## Manipulating Links
@@ -745,14 +706,10 @@ Just like each item, `Link` also has an `attr()` method which functions exactly 
 
 ```php
 Menu::make('MyNavBar', function($menu){
-
- //  ...
   
   $about = $menu->add('About',    ['route'  => 'page.about', 'class' => 'navbar navbar-about dropdown']);
   
   $about->link->attr(['class' => 'dropdown-toggle', 'data-toggle' => 'dropdown']);
-  
- // ...
   
 });
 ```
@@ -762,9 +719,7 @@ Menu::make('MyNavBar', function($menu){
 If you don't want to use the routing feature of `laravel-menu` or you don't want the builder to prefix your URL with anything (your host address for example), you can explicitly set your link's href property:
 
 ```
-// ...
 $menu->add('About')->link->href('#');
-// ...
 ```
 
 ## Active Item
@@ -772,9 +727,7 @@ $menu->add('About')->link->href('#');
 You can mark an item as activated using `active()` on that item:
 
 ```php
-// ...
 $menu->add('Home', '#')->active();
-// ...
 
 /* Output
  *
@@ -786,9 +739,7 @@ $menu->add('Home', '#')->active();
 You can also add class `active` to the anchor element instead of the wrapping element (`div` or `li`):
 
 ```php
-// ...
 $menu->add('Home', '#')->link->active();
-// ...
 
 /* Output
  *
@@ -802,9 +753,7 @@ Laravel Menu does this for you automatically according to the current **URI** th
 You can also choose the element to be activated (item or the link) in `settings.php` which resides in package's config directory:
 
 ```php
-// ...
 'active_element' => 'item',    // item|link
-// ...
 ```
 
 #### RESTful URLs
@@ -818,9 +767,7 @@ You might encounter situations where your app is in a sub directory instead of t
 `laravel-menu` makes you able to define a pattern for a certain item, if the automatic activation can't help:
 
 ```php
-// ...
 $menu->add('Articles', 'articles')->active('this-is-another-url/*');
-// ...
 ```
 
 So `this-is-another-url`, `this-is-another-url/and-another` will both activate `Articles` item.
@@ -888,8 +835,7 @@ You can `append` or `prepend` HTML or plain-text to each item's title after it i
 ```php
 Menu::make('MyNavBar', function($menu){
 
-  // ...
-  
+    
   $about = $menu->add('About',    ['route'  => 'page.about', 'class' => 'navbar navbar-about dropdown']);
   
   $menu->about->attr(['class' => 'dropdown-toggle', 'data-toggle' => 'dropdown'])
@@ -927,8 +873,7 @@ Unlike `append` and `prepend`, `before` and `after` adds an arbitrary html to th
 ```php
 Menu::make('MyNavBar', function($menu){
 
-  // ...
-  
+    
   $menu->add('User', ['title' => Auth::user()->name, 'class' => 'nav-item'])
       ->after(view('layouts.pattern.menu.user_info'))
       ->link()->attr([
@@ -995,12 +940,10 @@ The above code will result:
 To insert items as plain text instead of hyper-links you can use `raw()`:
 
 ```php
-// ...
 $menu->raw('Item Title', ['class' => 'some-class']);  
 
 $menu->add('About', 'about');
 $menu->About->raw('Another Plain Text Item')
-// ...
 
 /* Output as an unordered list:
  * <ul>
@@ -1102,8 +1045,7 @@ Laravel Menu supports nested grouping feature as well. A menu group merges its o
 ```php
 Menu::make('MyNavBar', function($menu){
 
-    // ...
-    
+        
     $menu->group(['prefix' => 'pages', 'data-info' => 'test'], function($m){
         
         $m->add('About', 'about');
@@ -1149,7 +1091,6 @@ You can also pass an associative array of data if you need to add a group of key
 ```php
 Menu::make('MyNavBar', function($menu){
 
-// ...
 
 $menu->add('Users', ['route'  => 'admin.users'])
       ->data('permission', 'manage_users');
@@ -1176,7 +1117,6 @@ Meta data don't do anything to the item and won't be rendered in HTML either. It
 You can use `data` on a collection, if you need to target a group of items:
 
 ```php
-// ...
 $menu->add('Users', 'users');
 
 $menu->users->add('New User', 'users/new');
@@ -1185,7 +1125,6 @@ $menu->users->add('Uses', 'users');
 // add a meta data to children of Users
 $menu->users->children()->data('anything', 'value');
 
-// ...
 ```
 
 ## Filtering the Items
@@ -1203,8 +1142,7 @@ I suppose your `User` model can check whether the user has an specific permissio
 ```php
 Menu::make('MyNavBar', function($menu){
 
-  // ...
-  
+    
   $menu->add('Users', ['route'  => 'admin.users'])
        ->data('permission', 'manage_users');
 
@@ -1308,7 +1246,7 @@ Result:
 
 
 ```php
-  {!! $MenuName->asOl() !!}
+{!! $MenuName->asOl() !!}
 ```
 
 `asOl()` method will render your menu in an ordered list. it also takes an optional parameter to define attributes for the `<ol>` tag itself:
@@ -1332,7 +1270,7 @@ Result:
 
 
 ```php
-  {!! $MenuName->asDiv() !!}
+{!! $MenuName->asDiv() !!}
 ```
 
 `asDiv()` method will render your menu as nested HTML divs. it also takes an optional parameter to define attributes for the parent `<div>` tag itself:
@@ -1460,19 +1398,17 @@ The reason we use two view files here is that `View-2` calls itself recursively 
 
 Let's make this easier with an example:
 
-In our `app/Http/routes.php`:
-
 ```php
 Menu::make('MyNavBar', function($menu){
   
   $menu->add('Home');
   
-   $menu->add('About',    ['route'  => 'page.about']);
-   
-   $menu->about->add('Who are we?', 'who-we-are');
-   $menu->about->add('What we do?', 'what-we-do');
-
-  $menu->add('services', 'services');
+  $menu->add('About',    ['route'  => 'page.about']);
+  
+  $menu->about->add('Who are we?', 'who-we-are');
+  $menu->about->add('What we do?', 'what-we-do');
+  
+  $menu->add('Services', 'services');
   $menu->add('Contact',  'contact');
   
 });
@@ -1541,9 +1477,7 @@ In the above snippet the `li` tag has class `dropdown` and `data-test` property 
 Suppose the item has also several attributes dynamically defined when being added:
 
 ```php
-// ...
 $menu->add('Dropdown', ['class' => 'item item-1', 'id' => 'my-item']);
-// ...
 ```
 
 The view:
