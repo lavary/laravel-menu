@@ -2,6 +2,8 @@
 
 namespace Lavary\Menu;
 
+use Illuminate\Support\FacadesURL;
+
 class Builder
 {
     /**
@@ -373,14 +375,14 @@ class Builder
                 return $url[0];
             }
 
-            return \URL::to($prefix.'/'.$url[0], array_slice($url, 1), $secure);
+            return URL::to($prefix.'/'.$url[0], array_slice($url, 1), $secure);
         }
 
         if (self::isAbs($url)) {
             return $url;
         }
-
-        return \URL::to($prefix.'/'.$url, [], $secure);
+        
+        return URL::to($prefix.'/'.$url, [], $secure);
     }
 
     /**
@@ -405,10 +407,10 @@ class Builder
     protected function getRoute($options)
     {
         if (is_array($options)) {
-            return \URL::route($options[0], array_slice($options, 1));
+            return URL::route($options[0], array_slice($options, 1));
         }
 
-        return \URL::route($options);
+        return URL::route($options);
     }
 
     /**
@@ -421,10 +423,10 @@ class Builder
     protected function getControllerAction($options)
     {
         if (is_array($options)) {
-            return \URL::action($options[0], array_slice($options, 1));
+            return URL::action($options[0], array_slice($options, 1));
         }
 
-        return \URL::action($options);
+        return URL::action($options);
     }
 
     /**
