@@ -2,7 +2,7 @@
 
 namespace Lavary\Menu;
 
-use Illuminate\Support\FacadesURL;
+use Illuminate\Support\Facades\URL;
 
 class Builder
 {
