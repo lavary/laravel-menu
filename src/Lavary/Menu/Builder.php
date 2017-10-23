@@ -79,7 +79,8 @@ class Builder
     protected function id()
     {
         // Issue #170: Use more_entropy otherwise usleep(1) is called.
-        return uniqid('id-', true);
+        // Issue #197: The ID was not a viable document element ID value due to the period.
+        return str_replace('.', '', uniqid('id-', true));
     }
 
     /**
