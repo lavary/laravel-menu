@@ -878,7 +878,7 @@ Menu::make('MyNavBar', function($menu){
 
   $menu->add('User', ['title' => Auth::user()->name, 'class' => 'nav-item'])
       ->after(view('layouts.pattern.menu.user_info'))
-      ->link()->attr([
+      ->link->attr([
           'class'         => 'nav-link dropdown-toggle',
           'data-toggle'   => 'dropdown',
           'role'          => 'button',
