@@ -12,9 +12,9 @@ class Menu
     protected $collection;
 
     /**
-     * List of menu items.
+     * List of menu builders.
      *
-     * @var []Menu
+     * @var []Builder
      */
     protected $menu = [];
 
@@ -40,7 +40,7 @@ class Menu
     }
 
     /**
-     * Create a new menu instance.
+     * Create a new menu builder instance.
      *
      * @param string   $name
      * @param callable $callback
@@ -57,12 +57,12 @@ class Menu
     }
 
     /**
-     * Create a new menu instance.
+     * Create a new menu builder instance.
      *
      * @param string   $name
      * @param callable $callback
      *
-     * @return Menu
+     * @return Builder
      */
     public function make($name, $callback)
     {
@@ -110,7 +110,7 @@ class Menu
      *
      * @param string $key
      *
-     * @return Menu
+     * @return Builder
      */
     public function get($key)
     {
