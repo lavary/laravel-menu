@@ -19,16 +19,16 @@ class Menu
     protected $menu = [];
 
     /**
-     * Initializing the menu builder.
+     * Initializing the Menu manager
      */
     public function __construct()
     {
-        // creating a collection for storing menus
+        // creating a collection for storing menu builders
         $this->collection = new Collection();
     }
 
     /**
-     * Check if a menu exists.
+     * Check if a menu builder exists.
      *
      * @param string $name
      *
@@ -45,7 +45,7 @@ class Menu
      * @param string   $name
      * @param callable $callback
      *
-     * @return Menu
+     * @return Builder
      */
     public function makeOnce($name, $callback)
     {
@@ -106,7 +106,7 @@ class Menu
     }
 
     /**
-     * Return Menu instance from the collection by key.
+     * Return Menu builder instance from the collection by key.
      *
      * @param string $key
      *
@@ -118,7 +118,7 @@ class Menu
     }
 
     /**
-     * Return Menu collection.
+     * Return Menu builder collection.
      *
      * @return \Illuminate\Support\Collection
      */
