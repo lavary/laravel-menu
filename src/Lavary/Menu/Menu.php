@@ -110,7 +110,7 @@ class Menu
      *
      * @param string $key
      *
-     * @return Item
+     * @return Menu
      */
     public function get($key)
     {
