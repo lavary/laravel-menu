@@ -351,7 +351,8 @@ class Item
                 $this->activate();
             }
         } else {
-            if ($this->url() == \Request::url()) {
+            // We should consider a $strict config. If $strict then only match against fullURL.
+            if ($this->url() == \Request::url() || $this->url() == \Request::fullUrl()) {
                 $this->activate();
             }
         }
