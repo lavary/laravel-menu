@@ -1646,6 +1646,12 @@ $ php-cs-fixer fix . --rules=@Symfony
 
 While everyone has different opinions on formatting, this tool will help provide convenient consistency.
 
+## Credits
+
+[Dustin Graham](https://github.com/dustingraham)
+[Reza Lavarian](https://github.com/lavary)
+[All Contributors](https://github.com/lavary/laravel-menu/graphs/contributors)
+
 ## License
 
 *Laravel-Menu* is free software distributed under the terms of the MIT license.
