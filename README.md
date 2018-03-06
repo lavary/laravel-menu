@@ -1648,9 +1648,9 @@ While everyone has different opinions on formatting, this tool will help provide
 
 ## Credits
 
-[Dustin Graham](https://github.com/dustingraham)
-[Reza Lavarian](https://github.com/lavary)
-[All Contributors](https://github.com/lavary/laravel-menu/graphs/contributors)
+* [Dustin Graham](https://github.com/dustingraham)
+* [Reza Lavarian](https://github.com/lavary)
+* [All Contributors](https://github.com/lavary/laravel-menu/graphs/contributors)
 
 ## License
 
