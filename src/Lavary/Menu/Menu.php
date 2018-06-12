@@ -2,6 +2,8 @@
 
 namespace Lavary\Menu;
 
+use Illuminate\Support\Facades\View;
+
 class Menu
 {
     /**
@@ -81,7 +83,7 @@ class Menu
         $this->collection->put($name, $this->menu[$name]);
 
         // Make the instance available in all views
-        \View::share($name, $this->menu[$name]);
+        View::share($name, $this->menu[$name]);
 
         return $this->menu[$name];
     }
