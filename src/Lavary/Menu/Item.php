@@ -3,6 +3,7 @@
 namespace Lavary\Menu;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Request;
 
 class Item
 {
@@ -339,7 +340,7 @@ class Item
     {
         if (true == $this->builder->conf['restful']) {
             $path = ltrim(parse_url($this->url(), PHP_URL_PATH), '/');
-            $rpath = ltrim(parse_url(\Request::path(), PHP_URL_PATH), '/');
+            $rpath = ltrim(parse_url(Request::path(), PHP_URL_PATH), '/');
 
             if ($this->builder->conf['rest_base']) {
                 $base = (is_array($this->builder->conf['rest_base'])) ? implode('|', $this->builder->conf['rest_base']) : $this->builder->conf['rest_base'];
@@ -352,7 +353,7 @@ class Item
             }
         } else {
             // We should consider a $strict config. If $strict then only match against fullURL.
-            if ($this->url() == \Request::url() || $this->url() == \Request::fullUrl()) {
+            if ($this->url() == Request::url() || $this->url() == Request::fullUrl()) {
                 $this->activate();
             }
         }
@@ -432,7 +433,7 @@ class Item
     {
         if (!is_null($pattern)) {
             $pattern = ltrim(preg_replace('/\/\*/', '(/.*)?', $pattern), '/');
-            if (preg_match("@^{$pattern}\z@", \Request::path())) {
+            if (preg_match("@^{$pattern}\z@", Request::path())) {
                 $this->activate();
             }
 
