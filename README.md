@@ -354,6 +354,16 @@ $menu->add('About',    ['route'  => 'page.about']);
 $menu->add('Level2', ['url' => 'Link address', 'parent' => $menu->about->id]);
 ```  
 
+### Add class attribute to Sub-items
+
+Like adding a class to the menu `ul` and `ol`, classes could be added the sub menu too. You need to write as the following, 
+
+
+```php
+{!! $MenuName->asUl( ['class' => 'first-level-ul'], ['class' => 'second-level-ul'] ) !!}
+```
+
+
 ## Set Item's ID Manually
 
 When you add a new item, a unique ID is automatically assigned to the item. However, there are time when you're loading the menu items from the database and you have to set the ID manually. To handle this, you can call the `id()` method against the item's object and pass your desired ID:
