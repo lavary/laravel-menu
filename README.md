@@ -354,16 +354,6 @@ $menu->add('About',    ['route'  => 'page.about']);
 $menu->add('Level2', ['url' => 'Link address', 'parent' => $menu->about->id]);
 ```  
 
-### Add class attribute to Sub-items
-
-Like adding a class to the menu `ul` and `ol`, classes could be added the sub menu too. You need to write as the following, 
-
-
-```php
-{!! $MenuName->asUl( ['class' => 'first-level-ul'], ['class' => 'second-level-ul'] ) !!}
-```
-
-
 ## Set Item's ID Manually
 
 When you add a new item, a unique ID is automatically assigned to the item. However, there are time when you're loading the menu items from the database and you have to set the ID manually. To handle this, you can call the `id()` method against the item's object and pass your desired ID:
@@ -1356,6 +1346,20 @@ This is how your Bootstrap code is going to look like:
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+```
+
+#### Adding class attributes to child items
+
+Like adding a class to the menu `ul` and `ol`, classes can be added the submenu too. The three parameters to `asUl` are arrays as follows:
+
+- The first array is the attributes for the list: for example, `ul`
+- The second is the attributes for the child lists, for example, `ul>li>ul`
+- The third array is attributes that are added to the attributes of the `li` element
+
+With this you can add a class to the child menu (submenu) like this:
+
+```php
+{!! $menu->asUl( ['class' => 'first-level-ul'], ['class' => 'second-level-ul'] ) !!}
 ```
 
 ## Subset Menus
