@@ -466,7 +466,7 @@ class Builder
     public function sortBy($sort_by, $sort_type = 'asc')
     {
         if (is_callable($sort_by)) {
-            $rslt = call_user_func($sort_by, $this->items->to[]);
+            $rslt = call_user_func($sort_by, $this->items->toArray());
 
             if (!is_array($rslt)) {
                 $rslt = array($rslt);
