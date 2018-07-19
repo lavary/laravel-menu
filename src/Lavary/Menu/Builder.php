@@ -473,6 +473,7 @@ class Builder
             }
 
             $this->items = new Collection($rslt);
+            return $this;
         }
 
         // running the sort proccess on the sortable items
