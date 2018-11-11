@@ -584,6 +584,11 @@ class Builder
 
         $item = $this->active();
         $items = [$item];
+        
+        if ($item === null) {
+            return $nb;
+        }
+
         while ($item->hasParent()) {
             $item = $item->parent();
             array_unshift($items, $item);
