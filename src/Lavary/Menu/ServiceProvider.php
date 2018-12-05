@@ -3,6 +3,7 @@
 namespace Lavary\Menu;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Illuminate\Support\Facades\Blade;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -26,13 +27,65 @@ class ServiceProvider extends BaseServiceProvider
         });
     }
 
+    // Patterns and Replace string for lm-attr
+    // Remove with next major version
+    private $lm_attrs_pattern = '/(\s*)@lm-attrs\s*\((\$[^)]+)\)/';
+    private $lm_attrs_replace = '$1<?php $lm_attrs = $2->attr(); ob_start(); ?>';
+
+    // Patterns and Replace string for lm-endattr
+    // Remove with next major version
+    private $lm_endattrs_pattern = '/(?<!\w)(\s*)@lm-endattrs(\s*)/';
+    private $lm_endattrs_replace = '$1<?php echo \Lavary\Menu\Builder::mergeStatic(ob_get_clean(), $lm_attrs); ?>$2';
+
+    /*
+     * Extending Blade engine. Remove with next major version
+     *
+     * @deprecated
+     * @return void
+     */
+    protected function bladeExtensions()
+    {
+        Blade::extend(function ($view, $compiler) {
+            return preg_replace($lm_attrs_pattern, $lm_attrs_replace, $view);
+        });
+
+        Blade::extend(function ($view, $compiler) {
+            return preg_replace($lm_endattrs_pattern, $lm_endattrs_replace, $view);
+        });
+    }
+
+    /*
+     * Adding custom Blade directives.
+     */
+    protected function bladeDirectives()
+    {
+        /*
+         * Buffers the output if there's any.
+         * The output will be passed to mergeStatic()
+         * where it is merged with item's attributes
+         */
+        Blade::directive('lm_attrs', function ($expression) {
+            return '<?php $lm_attrs = ' . $expression . '->attr(); ob_start(); ?>';
+        });
+
+        /*
+         * Reads the buffer data using ob_get_clean()
+         * and passes it to MergeStatic().
+         * mergeStatic() takes the static string,
+         * converts it into a normal array and merges it with others.
+         */
+        Blade::directive('lm_endattrs', function ($expression) {
+            return '<?php echo \Lavary\Menu\Builder::mergeStatic(ob_get_clean(), $lm_attrs); ?>';
+        });
+    }
+
     /**
      * Bootstrap the application events.
      */
     public function boot()
     {
-        // Extending Blade engine
-        require_once 'blade/lm-attrs.php';
+        $this->bladeDirectives();
+        $this->bladeExtensions();
 
         $this->loadViewsFrom(__DIR__.'/resources/views', 'laravel-menu');
 
