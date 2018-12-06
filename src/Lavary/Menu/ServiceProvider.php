@@ -29,13 +29,13 @@ class ServiceProvider extends BaseServiceProvider
 
     // Patterns and Replace string for lm-attr
     // Remove with next major version
-    private $lm_attrs_pattern = '/(\s*)@lm-attrs\s*\((\$[^)]+)\)/';
-    private $lm_attrs_replace = '$1<?php $lm_attrs = $2->attr(); ob_start(); ?>';
+    const LM_ATTRS_PATTERN = '/(\s*)@lm-attrs\s*\((\$[^)]+)\)/';
+    const LM_ATTRS_REPLACE = '$1<?php $lm_attrs = $2->attr(); ob_start(); ?>';
 
     // Patterns and Replace string for lm-endattr
     // Remove with next major version
-    private $lm_endattrs_pattern = '/(?<!\w)(\s*)@lm-endattrs(\s*)/';
-    private $lm_endattrs_replace = '$1<?php echo \Lavary\Menu\Builder::mergeStatic(ob_get_clean(), $lm_attrs); ?>$2';
+    const LM_ENDATTRS_PATTERN = '/(?<!\w)(\s*)@lm-endattrs(\s*)/';
+    const LM_ENDATTRS_REPLACE = '$1<?php echo \Lavary\Menu\Builder::mergeStatic(ob_get_clean(), $lm_attrs); ?>$2';
 
     /*
      * Extending Blade engine. Remove with next major version
@@ -46,11 +46,11 @@ class ServiceProvider extends BaseServiceProvider
     protected function bladeExtensions()
     {
         Blade::extend(function ($view, $compiler) {
-            return preg_replace($lm_attrs_pattern, $lm_attrs_replace, $view);
+            return preg_replace(self::LM_ATTRS_PATTERN, self::LM_ATTRS_REPLACE, $view);
         });
 
         Blade::extend(function ($view, $compiler) {
-            return preg_replace($lm_endattrs_pattern, $lm_endattrs_replace, $view);
+            return preg_replace(self::LM_ENDATTRS_PATTERN, self::LM_ENDATTRS_REPLACE, $view);
         });
     }
 
