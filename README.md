@@ -62,7 +62,7 @@ __For Laravel 4.x, check [version 1.5.0](https://github.com/lavary/laravel-menu/
 * [Advanced Usage](#advanced-usage)
     + [A Basic Example](#a-basic-example)
     + [Control Structure for Blade](#control-structure-for-blade)
-        - [@lm-attrs](#lm-attrs)
+        - [@lm_attrs](#lm_attrs)
     + [Attributes and Callback function of item](#attributes-and-callback-function-of-item)
 * [Configuration](#configuration)
 * [If You Need Help](#if-you-need-help)
@@ -1472,7 +1472,7 @@ To put the rendered menu in your application template, you can simply include `c
 
 Laravel menu extends Blade to handle special layouts.
 
-##### @lm-attrs
+##### @lm_attrs
 
 You might encounter situations when some of your HTML properties are explicitly written inside your view instead of dynamically being defined when adding the item; However you will need to merge these static attributes with your Item's attributes.
 
@@ -1501,7 +1501,7 @@ The view:
 
 ```php
 @foreach($items as $item)
-  <li@lm-attrs($item) @if($item->hasChildren()) class="dropdown" @endif data-test="test" @lm-endattrs>
+  <li@lm_attrs($item) @if($item->hasChildren()) class="dropdown" @endif data-test="test" @lm_endattrs>
       <a href="{!! $item->url !!}">{!! $item->title !!} </a>
       @if($item->hasChildren())
         <ul class="dropdown-menu">
