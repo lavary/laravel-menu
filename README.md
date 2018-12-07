@@ -1501,7 +1501,7 @@ The view:
 
 ```php
 @foreach($items as $item)
-  <li@lm_attrs($item) @if($item->hasChildren()) class="dropdown" @endif data-test="test" @lm_endattrs>
+  <li @lm_attrs($item) @if($item->hasChildren()) class="dropdown" @endif data-test="test" @lm_endattrs>
       <a href="{!! $item->url !!}">{!! $item->title !!} </a>
       @if($item->hasChildren())
         <ul class="dropdown-menu">
