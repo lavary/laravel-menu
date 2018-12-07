@@ -46,6 +46,9 @@ class ServiceProvider extends BaseServiceProvider
     protected function bladeExtensions()
     {
         Blade::extend(function ($view, $compiler) {
+            if (preg_match(self::LM_ATTRS_PATTERN, $view)) {
+              \Log::debug("laravel-menu: @lm-attrs/@lm-endattrs is deprecated. Please switch to @lm_attrs and @lm_endattrs");
+            }
             return preg_replace(self::LM_ATTRS_PATTERN, self::LM_ATTRS_REPLACE, $view);
         });
 
