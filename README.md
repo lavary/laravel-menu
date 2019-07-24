@@ -775,6 +775,15 @@ $menu->add('Articles', 'articles')->active('this-is-another-url/*');
 
 So `this-is-another-url`, `this-is-another-url/and-another` will both activate `Articles` item.
 
+#### Disable activation
+Sometimes you may need to disable auto activation for single items.
+You can pass **disableActivationByURL** in options like this:
+```php
+$menu->add('Anchor', ['disableActivationByURL' => true, 'url' => '#']);
+```
+This prevents auto activation by matching URL.
+But activation for items with active children keeps working.
+
 ## Inserting a Separator
 
 You can insert a separator after each item using `divide()` method:
