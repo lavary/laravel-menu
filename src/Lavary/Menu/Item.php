@@ -100,6 +100,13 @@ class Item
     public $isActive = false;
 
     /**
+     * Flag for item wih type 'caption'.
+     *
+     * @var bool
+     */
+    private $isCaption;
+
+    /**
      * Creates a new Item instance.
      *
      * @param Builder $builder
@@ -122,6 +129,9 @@ class Item
             $path = array('url' => $options);
         } elseif (isset($options['raw']) && true == $options['raw']) {
             $path = null;
+        } elseif (isset($options['caption']) && true == $options['caption']) {
+            $path = null;
+            $this->isCaption = true;
         } else {
             $path = Arr::only($options, array('url', 'route', 'action', 'secure'));
         }
@@ -352,6 +362,9 @@ class Item
      */
     public function checkActivationStatus()
     {
+        if (true === $this->isCaption) {
+            return;
+        }
         if (true == $this->builder->conf['restful']) {
             $path = ltrim(parse_url($this->url(), PHP_URL_PATH), '/');
             $rpath = ltrim(parse_url(Request::path(), PHP_URL_PATH), '/');

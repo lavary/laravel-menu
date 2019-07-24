@@ -102,6 +102,20 @@ class Builder
     }
 
     /**
+     * Add caption item. It hasn't link. Can be activated by children.
+     *
+     * @param $title
+     * @param array $options
+     * @return Item
+     */
+    public function caption($title, array $options = [])
+    {
+        $options['caption'] = true;
+
+        return $this->add($title, $options);
+    }
+
+    /**
      * Returns menu item by name.
      *
      * @return Item
