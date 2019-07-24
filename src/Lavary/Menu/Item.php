@@ -100,11 +100,12 @@ class Item
     public $isActive = false;
 
     /**
-     * Flag for item wih type 'caption'.
+     * If true this prevents auto activation by matching URL
+     * Activation by active children keeps working.
      *
      * @var bool
      */
-    private $isCaption;
+    private $disableActivationByURL = false;
 
     /**
      * Creates a new Item instance.
@@ -129,11 +130,11 @@ class Item
             $path = array('url' => $options);
         } elseif (isset($options['raw']) && true == $options['raw']) {
             $path = null;
-        } elseif (isset($options['caption']) && true == $options['caption']) {
-            $path = null;
-            $this->isCaption = true;
         } else {
             $path = Arr::only($options, array('url', 'route', 'action', 'secure'));
+        }
+        if (isset($options['disableActivationByURL']) && true == $options['disableActivationByURL']) {
+            $this->disableActivationByURL = true;
         }
 
         if (!is_null($path)) {
@@ -151,7 +152,7 @@ class Item
     /**
      * Creates a sub Item.
      *
-     * @param string $title
+     * @param string       $title
      * @param string|array $options
      * @return Item
      */
@@ -362,7 +363,7 @@ class Item
      */
     public function checkActivationStatus()
     {
-        if (true === $this->isCaption) {
+        if (true === $this->disableActivationByURL) {
             return;
         }
         if (true == $this->builder->conf['restful']) {
