@@ -38,6 +38,7 @@ __For Laravel 4.x, check [version 1.5.0](https://github.com/lavary/laravel-menu/
 * [Active Item](#active-item)
     - [RESTful URLs](#restful-urls)
     - [URL Wildcards](#url-wildcards)
+    - [Disable activation](#disable-activation)
 * [Inserting a Separator](#inserting-a-separator)
 * [Append and Prepend](#append-and-prepend)
 * [Before and After](#before-and-after)
