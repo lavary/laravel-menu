@@ -100,6 +100,14 @@ class Item
     public $isActive = false;
 
     /**
+     * If true this prevents auto activation by matching URL
+     * Activation by active children keeps working.
+     *
+     * @var bool
+     */
+    private $disableActivationByURL = false;
+
+    /**
      * Creates a new Item instance.
      *
      * @param Builder $builder
@@ -125,6 +133,9 @@ class Item
         } else {
             $path = Arr::only($options, array('url', 'route', 'action', 'secure'));
         }
+        if (isset($options['disableActivationByURL']) && true == $options['disableActivationByURL']) {
+            $this->disableActivationByURL = true;
+        }
 
         if (!is_null($path)) {
             $path['prefix'] = $this->builder->getLastGroupPrefix();
@@ -141,7 +152,7 @@ class Item
     /**
      * Creates a sub Item.
      *
-     * @param string $title
+     * @param string       $title
      * @param string|array $options
      * @return Item
      */
@@ -352,6 +363,9 @@ class Item
      */
     public function checkActivationStatus()
     {
+        if (true === $this->disableActivationByURL) {
+            return;
+        }
         if (true == $this->builder->conf['restful']) {
             $path = ltrim(parse_url($this->url(), PHP_URL_PATH), '/');
             $rpath = ltrim(parse_url(Request::path(), PHP_URL_PATH), '/');

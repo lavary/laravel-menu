@@ -38,6 +38,7 @@ __For Laravel 4.x, check [version 1.5.0](https://github.com/lavary/laravel-menu/
 * [Active Item](#active-item)
     - [RESTful URLs](#restful-urls)
     - [URL Wildcards](#url-wildcards)
+    - [Disable activation](#disable-activation)
 * [Inserting a Separator](#inserting-a-separator)
 * [Append and Prepend](#append-and-prepend)
 * [Before and After](#before-and-after)
@@ -774,6 +775,15 @@ $menu->add('Articles', 'articles')->active('this-is-another-url/*');
 ```
 
 So `this-is-another-url`, `this-is-another-url/and-another` will both activate `Articles` item.
+
+#### Disable activation
+Sometimes you may need to disable auto activation for single items.
+You can pass **disableActivationByURL** in options like this:
+```php
+$menu->add('Anchor', ['disableActivationByURL' => true, 'url' => '#']);
+```
+This prevents auto activation by matching URL.
+But activation for items with active children keeps working.
 
 ## Inserting a Separator
 
