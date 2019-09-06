@@ -5,7 +5,7 @@
 [![License](https://poser.pugx.org/lavary/laravel-menu/license.svg)](https://packagist.org/packages/lavary/laravel-menu)
 
 
-A quick and easy way to create menus in [Laravel 5](http://laravel.com/)
+A quick and easy way to create menus in [Laravel 6](http://laravel.com/)
 
 __For Laravel 4.x, check [version 1.5.0](https://github.com/lavary/laravel-menu/tree/v1.5.0)__
 
