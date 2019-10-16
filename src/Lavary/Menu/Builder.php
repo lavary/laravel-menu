@@ -10,7 +10,7 @@ class Builder
     /**
      * The items container.
      *
-     * @var array
+     * @var Collection
      */
     protected $items;
 
