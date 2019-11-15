@@ -1390,7 +1390,7 @@ This generates a `Builder` of the top level items, items without a parent.
 This generates a `Builder` of the immediate children of the active item.
 
 ```php
-{!! Menu::get('primary')->topMenu()->asUl() !!}
+{!! Menu::get('primary')->subMenu()->asUl() !!}
 ```
 
 #### Sibling Menu
