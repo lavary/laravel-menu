@@ -628,7 +628,11 @@ class Builder
                     ]);
                 }
             }
-            $items .= '<'.$item_tag.self::attributes($item->attr() + $item_attributes).'>';
+            $all_attributes = array_merge($item_attributes, $item->attr()) ;
+            if (isset($item_attributes['class'])) {
+                $all_attributes['class'] = $all_attributes['class'].' '.$item_attributes['class'] ;
+            }
+            $items .= '<'.$item_tag.self::attributes($all_attributes).'>';
 
             if ($item->link) {
                 $items .= $item->beforeHTML.'<a'.self::attributes($link_attr).(!empty($item->url()) ? ' href="'.$item->url().'"' : '').'>'.$item->title.'</a>'.$item->afterHTML;
