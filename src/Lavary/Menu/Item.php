@@ -341,7 +341,7 @@ class Item
     /**
      * Returns the parent item.
      *
-     * @return Item
+     * @return Item|null
      */
     public function parent()
     {

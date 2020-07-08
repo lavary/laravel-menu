@@ -104,7 +104,7 @@ class Builder
     /**
      * Returns menu item by name.
      *
-     * @return Item
+     * @return Item|null
      */
     public function get($title)
     {
@@ -114,7 +114,7 @@ class Builder
     /**
      * Returns menu item by Id.
      *
-     * @return Item
+     * @return Item|null
      */
     public function find($id)
     {
@@ -134,7 +134,7 @@ class Builder
     /**
      * Return the first item in the collection.
      *
-     * @return Item
+     * @return Item|null
      */
     public function first()
     {
@@ -144,7 +144,7 @@ class Builder
     /**
      * Return the last item in the collection.
      *
-     * @return Item
+     * @return Item|null
      */
     public function last()
     {
@@ -156,7 +156,7 @@ class Builder
      *
      * @param string $title
      *
-     * @return Item
+     * @return Item|null
      */
     public function item($title)
     {
@@ -166,7 +166,7 @@ class Builder
     /**
      * Returns the first item marked as active.
      *
-     * @return Item
+     * @return Item|null
      */
     public function active()
     {
