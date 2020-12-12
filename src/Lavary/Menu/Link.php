@@ -7,7 +7,7 @@ class Link
     /**
      * Reference to the menu builder.
      *
-     * @var Builder
+     * @var Builder | null
      */
     protected $builder;
 
@@ -42,13 +42,13 @@ class Link
     /**
      * Creates a hyper link instance.
      *
-     * @param Builder $builder
      * @param array   $path
+     * @param Builder $builder
      */
-    public function __construct($builder, $path = array())
+    public function __construct($path = array(), $builder = null)
     {
-        $this->builder = $builder;
         $this->path = $path;
+        $this->builder = $builder;
     }
 
     /**
@@ -58,7 +58,7 @@ class Link
      */
     public function active()
     {
-        $this->attributes['class'] = Builder::formatGroupClass(array('class' => $this->builder->conf('active_class')), $this->attributes);
+        $this->attributes['class'] = Builder::formatGroupClass(array('class' => $this->builder ? $this->builder->conf('active_class') : null), $this->attributes);
         $this->isActive = true;
 
         return $this;
