@@ -42,13 +42,13 @@ class Link
     /**
      * Creates a hyper link instance.
      *
-     * @param array   $path
      * @param Builder $builder
+     * @param array   $path
      */
-    public function __construct($path = array(), $builder)
+    public function __construct($builder, $path = array())
     {
-        $this->path = $path;
         $this->builder = $builder;
+        $this->path = $path;
     }
 
     /**

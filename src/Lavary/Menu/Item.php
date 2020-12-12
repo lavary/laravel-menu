@@ -141,7 +141,7 @@ class Item
             $path['prefix'] = $this->builder->getLastGroupPrefix();
         }
 
-        $this->link = $path ? new Link($path, $this->builder) : null;
+        $this->link = $path ? new Link($this->builder, $path) : null;
 
         // Activate the item if items's url matches the request uri
         if (true === $this->builder->conf('auto_activate')) {
