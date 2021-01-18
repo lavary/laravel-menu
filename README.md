@@ -5,7 +5,7 @@
 [![License](https://poser.pugx.org/lavary/laravel-menu/license.svg)](https://packagist.org/packages/lavary/laravel-menu)
 
 
-A quick and easy way to create menus in [Laravel 6](http://laravel.com/)
+A quick and easy way to create menus in [Laravel 6, 7 and 8](http://laravel.com/)
 
 __For Laravel 4.x, check [version 1.5.0](https://github.com/lavary/laravel-menu/tree/v1.5.0)__
 
@@ -1358,6 +1358,8 @@ This is how your Bootstrap code is going to look like:
   </div><!-- /.container-fluid -->
 </nav>
 ```
+
+In case you are using bootstrap 5 (currently in beta) you need to set the `data-toggle-attribute` option from `data-toggle` to `data-bs-toggle` in your `config/laravel-menu/settings.php`.
 
 #### Adding class attributes to child items
 

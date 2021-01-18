@@ -80,6 +80,10 @@ class ServiceProvider extends BaseServiceProvider
         Blade::directive('lm_endattrs', function ($expression) {
             return '<?php echo \Lavary\Menu\Builder::mergeStatic(ob_get_clean(), $lm_attrs); ?>';
         });
+
+        Blade::directive('data_toggle_attribute', function ($expression) {
+            return config('laravel-menu.settings.default.data_toggle_attribute');
+        });
     }
 
     /**
