@@ -9,5 +9,6 @@ return array(
         'cascade_data' => true,
         'rest_base' => '',      // string|array
         'active_element' => 'item',  // item|link
+        'data-toggle-attribute' => 'data-toggle',
     ),
 );
