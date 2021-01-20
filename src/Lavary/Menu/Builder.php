@@ -758,6 +758,24 @@ class Builder
         return $this->conf[$key];
     }
 
+     /**
+     * Set/merge custom configuration data
+     *
+     * @param array $config
+     * @param bool $merge
+     * @param string $configGroup
+     *
+     * @return string
+     */
+    public function config(array $config, bool $merge = true, string $configGroup = 'default')
+    {
+        if($merge){
+            $this->conf = array_replace_recursive(config('laravel-menu.settings.'.$configGroup, []), $config);
+        } else {
+            $this->conf = $config;
+        }
+    }
+    
     /**
      * Merge item's attributes with a static string of attributes.
      *
