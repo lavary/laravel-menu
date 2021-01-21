@@ -1769,7 +1769,7 @@ Menu::make('MyNavbar', function ($menu) {
 
     $menu->options([
         'active_class' => 'active',
-    ]); 
+    ], null); 
 
     $menu->add('Home');
     $menu->add('About', 'about');
