@@ -1705,7 +1705,6 @@ project
 ```php
 $menu->add('Home')->svg('home'); // resources/svg/home.svg
 
-// Subdirectories must be separated by hyphens (-)
 $menu->add('Users')->svg('sub.user'); // resources/svg/sub/user.svg
 
 // $menu->add('Users')->svg('first.second.file'); // resources/svg/first/second/file.svg
