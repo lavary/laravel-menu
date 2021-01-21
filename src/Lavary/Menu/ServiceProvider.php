@@ -21,6 +21,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../../config/settings.php', 'laravel-menu.settings');
         $this->mergeConfigFrom(__DIR__.'/../../config/views.php', 'laravel-menu.views');
+        $this->registerSvgIcons();
 
         $this->app->singleton(Menu::class, function ($app) {
             return new Menu();
@@ -84,6 +85,25 @@ class ServiceProvider extends BaseServiceProvider
         Blade::directive('data_toggle_attribute', function ($expression) {
             return config('laravel-menu.settings.default.data_toggle_attribute');
         });
+    }
+
+    /**
+     * Blade icons ui kit
+     *
+     * @see https://github.com/blade-ui-kit/blade-icons
+     */
+    private function registerSvgIcons ()
+    {
+        $svgPath = config("laravel-menu.settings.svg_settings.path");
+
+        if (!is_null($svgPath)) {
+            $this->callAfterResolving(\BladeUI\Icons\Factory::class, function (\BladeUI\Icons\Factory $factory) use($svgPath) {
+                $factory->add('laravelMenuIcons', [
+                    'path'   => $this->app->resourcePath($svgPath),
+                    'prefix' => 'laravelmenu',
+                ]);
+            });
+        }
     }
 
     /**

@@ -15,7 +15,8 @@
     "require": {
         "php": ">=5.4.0",
         "illuminate/support": ">=5.0",
-        "illuminate/view": ">=5.0"
+        "illuminate/view": ">=5.0",
+        "blade-ui-kit/blade-icons": "^0.5.1"
     },
     "autoload": {
         "psr-0": {

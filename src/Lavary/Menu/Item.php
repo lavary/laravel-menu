@@ -283,6 +283,152 @@ class Item
     }
 
     /**
+     * @param             $path
+     * @param string|null $class
+     * @param array|null  $attributes
+     * @param bool        $mergeAttributes
+     * @param bool        $isAppend
+     * @return string
+     */
+    private function addSvg ($path, $class, $attributes, $mergeAttributes, $isAppend = false)
+    {
+
+        if (isset($attributes['class'])) {
+            $class = $attributes['class'];
+            Arr::forget($attributes, ['class']);
+        }
+
+        if ($mergeAttributes) {
+            $defaultAttributes = config("laravel-menu.settings.svg_settings.default_attributes", []);
+
+            if (isset($defaultAttributes['class'])) {
+                if ($class === null) {
+                    $class = $defaultAttributes['class'];
+                }
+                Arr::forget($defaultAttributes, ['class']);
+            }
+
+            $attributes = array_merge($defaultAttributes, $attributes);
+        } else {
+            $attributes = $attributes ?: [];
+        }
+
+        $path = str_replace('/', '-', $path);
+        $path = "laravelmenu-" . $path;
+
+        try {
+            $svg = app(\BladeUI\Icons\Factory::class)->svg($path, $class, $attributes)->toHtml();
+        } catch (\BladeUI\Icons\Exceptions\SvgNotFound $e) {
+            $svg = null;
+        }
+
+        if (!is_null($svg)) {
+            if ($isAppend) {
+                $this->append($svg);
+            } else {
+                $this->prepend($svg);
+            }
+        }
+    }
+
+    /**
+     * Add svg icon to the item.
+     *
+     * @param string            $path
+     * @param string|array|null $class
+     * @param bool|array        $attributes
+     * @param bool|array        $mergeAttributes
+     * @return Item
+     */
+    public function svg($path, $class = null, $attributes = [], $mergeAttributes = true)
+    {
+        if (is_array($class)) {
+            $mergeAttributes = is_array($attributes) ? true : $attributes;
+            $attributes = $class;
+            $class = null;
+        }
+
+        $this->addSvg($path, $class, $attributes, $mergeAttributes);
+
+        return $this;
+    }
+
+    /**
+     * Add svg icon to the item. (append)
+     *
+     * @param string            $path
+     * @param string|array|null $class
+     * @param bool|array        $attributes
+     * @param bool|array        $mergeAttributes
+     * @return Item
+     */
+    public function appendSvg($path, $class = null, $attributes = [], $mergeAttributes = true)
+    {
+        if (is_array($class)) {
+            $mergeAttributes = is_array($attributes) ? true : $attributes;
+            $attributes = $class;
+            $class = null;
+        }
+
+        $this->addSvg($path, $class, $attributes, $mergeAttributes, true);
+
+        return $this;
+    }
+
+    /**
+     * @param       $name // icon classes
+     * @param       $attributes
+     * @param false $isAppend
+     */
+    private function addIcon($name, $attributes, $isAppend = false)
+    {
+        $class = config('laravel-menu.settings.icon_family').' '.$name;
+
+        if (isset($attributes['class'])) {
+            $class .= ' '.$attributes['class'];
+            Arr::forget($attributes, ['class']);
+        }
+
+        $iconHtml = '<i class="'.trim($class).'" '.$this->builder::attributes($attributes).'></i>';
+
+        if ($isAppend) {
+            $this->append($iconHtml);
+        } else {
+            $this->prepend($iconHtml);
+        }
+    }
+
+    /**
+     * @param            $name
+     * @param array|bool $attributes
+     * @param bool       $isAppend
+     * @return Item
+     */
+    public function icon($name, $attributes = [], $isAppend = false)
+    {
+        if (is_bool($attributes)) {
+            $isAppend = $attributes;
+            $attributes = [];
+        }
+
+        $this->addIcon($name, $attributes, $isAppend);
+
+        return $this;
+    }
+
+    /**
+     * @param       $name
+     * @param array $attributes
+     * @return Item
+     */
+    public function appendIcon($name, $attributes = [])
+    {
+        $this->addIcon($name, $attributes, true);
+
+        return $this;
+    }
+
+    /**
      * Before text or html to the item.
      *
      * @param $html

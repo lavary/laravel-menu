@@ -1624,6 +1624,138 @@ echo (isset($controlItem)) ? $controlItem->asUl(
     $id):'';
 ```
 
+## Icons
+
+**settings.php:**
+
+```php
+return [
+'
+    ...
+    'icon_family' => 'fa', // class="fa [other classes]" [ or null ]
+    ...
+];
+```
+
+```php
+
+$menu->add('Home')->icon('fa-home');
+$menu->add('Users')->icon('fa-user', true); // isAppend = true
+
+// or attributes: $menu->add('Users')->icon('fa-user', ['data-icon' => 'hello']);
+
+$menu->add('Settings')->appendIcon('fa-cog'); // or appendIcon()
+
+$menu->add('Products')->icon('fa-arrow-right', ['data-icon' => 'value', 'class' => 'icon-red']);
+$menu->add('Categories')->icon('fa-arrow-right', ['data-icon' => 'value', 'class' => 'icon-red'], true);
+
+
+$menu->add('Others')->icon('fa-archive')->appendIcon('fa-caret-right');
+
+```
+
+**Output:**
+
+```html
+<ul>
+    ...
+    <li><a href="..."><i class="fa fa-home"></i> Home</a></li>
+    <li><a href="...">Users <i class="fa fa-user"></i></a></li>
+    <li><a href="...">Settings <i class="fa fa-cog"></i></a></li>
+
+    <li><a href="..."><i class="fa fa-arrow-right icon-red" data-icon="value"></i> Products</a></li>
+    <li><a href="...">Categories <i class="fa fa-arrow-right icon-red" data-icon="value"></i></a></li>
+
+    <li><a href="..."><i class="fa fa-archive"></i> Others <i class="fa fa-caret-right"></i></a></li>
+    ...
+</ul>
+```
+
+## Svg Icons
+
+**settings.php:**
+
+```php
+return [
+'
+    ...
+    'svg_settings' => array(
+        'path' => 'svg', // project/resources/svg
+        'default_attributes' => array(
+            'class' => 'svg',
+            'fill' => 'none'
+        )
+    ),
+    ...
+];
+```
+
+**files:**
+
+```
+project
+├──app
+└──resources
+    └── svg
+        ├─home.svg
+        └──sub
+            └──user.svg
+```
+
+```php
+$menu->add('Home')->svg('home'); // resources/svg/home.svg
+
+// Subdirectories must be separated by hyphens (-)
+$menu->add('Users')->svg('sub.user'); // resources/svg/sub/user.svg
+
+// $menu->add('Users')->svg('first.second.file'); // resources/svg/first/second/file.svg
+
+// custom classes
+$menu->add('Settings')->svg('icon_name', 'custom svg-xl');
+
+// merge custom attributes
+$menu->add('Settings')->svg('icon_name', ['width' => '10']);
+
+// new attributes
+$menu->add('Settings')->svg('icon_name', ['width' => '10'], false);
+
+// or new attributes with class: 
+// $menu->add('Settings')->svg('icon_name', 'custom-class', ['width' => '10'], false);
+
+// prepend and append icons
+$menu->add('Home')->svg('home')->appendSvg('caret');
+```
+
+**Note:** The above examples can also be used with the `$menu->appendSvg(...)` method.
+
+**Output:**
+
+```html
+<ul>
+    ...
+    <li><a href="..."><svg class="svg" fill="none">......</svg> Home</a></li>
+    <li><a href="..."><svg class="svg" fill="none">......</svg> Users</a></li>
+
+    <-- custom classes -->
+    <li><a href="..."><svg class="custom svg-xl" fill="none">......</svg> Settings</a></li>
+
+    <-- merge custom attributes -->
+    <li><a href="..."><svg class="svg" fill="none" width="10">......</svg> Settings</a></li>
+
+    <-- new attributes -->
+    <li><a href="..."><svg width="10">......</svg> Settings</a></li>
+
+    <-- prepend and append icons-->
+    <li>
+        <a href="...">
+            <svg class="svg" fill="none">...home icon...</svg> 
+            Home
+            <svg class="svg" fill="none">...caret icon...</svg>
+        </a>
+    </li>
+    ...
+</ul>
+```
 
 ## Configuration
 
