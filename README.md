@@ -1654,6 +1654,163 @@ return [
 ];
 ```
 
+**Alternatively**, you can override the default settings with the following methods. Or you can add new custom settings to the menu.
+
+```php
+return [
+    'default' => [
+        'auto_activate'    => true,
+        'activate_parents' => true,
+        'active_class'     => 'active',
+        'active_element'   => 'item',    // item|link
+        'restful'          => true,
+    ],
+    'mysidebar' => [
+        'active_class'     => 'active-class-mysidebar',
+    ],
+    'mynavbar' => [
+        'active_class'     => 'active-class-mynavbar',
+    ],
+];
+```
+
+**Example 1:**
+
+Override default settings
+
+```php
+Menu::make('MySidebar', function ($menu) {
+
+    $menu->options([
+        'active_class' => 'new-active-class',
+    ]);
+
+    $menu->add('Home');
+    $menu->add('About', 'about');
+    
+});
+
+/**
+ * Results:
+[
+    'auto_activate'    => true,
+    'activate_parents' => true,
+    'active_class'     => 'new-active-class'
+    'active_element'   => 'item',
+    'restful'          => true,
+]
+*/
+```
+
+**Example 2:**
+
+Add new settings specific to the menu.
+
+```php
+Menu::make('MySidebar', function ($menu) {
+
+    $menu->options([
+        'inactive_class' => 'custom-inactive-class-mysidebar',
+    ]);
+
+    $menu->add('Home');
+    $menu->add('About', 'about');
+    
+});
+
+/**
+ * Results:
+[
+    'auto_activate'    => true,
+    'activate_parents' => true,
+    'active_class'     => 'active-class-mysidebar'
+    'active_element'   => 'item',
+    'restful'          => true,
+    'inactive_class'   => 'custom-inactive-class-mysidebar',
+]
+*/
+```
+
+**Example 3:**
+
+Add custom settings and get the rest of the settings from `MySidebar`.
+
+```php
+Menu::make('MyNavbar', function ($menu) {
+
+    $menu->options([
+        'inactive_class' => 'custom-inactive-class-mynavbar',
+    ], 'MySidebar'); // or mysidebar
+
+    $menu->add('Home');
+    $menu->add('About', 'about');
+    
+});
+
+/**
+ * Results:
+[
+    'auto_activate'    => true,
+    'activate_parents' => true,
+    'active_class'     => 'active-class-mysidebar'
+    'active_element'   => 'item',
+    'restful'          => true,
+    'inactive_class'   => 'custom-inactive-class-mynavbar',
+]
+*/
+```
+
+**Example 4:**
+
+Override all settings (including default settings) and add new ones.
+
+```php
+Menu::make('MyNavbar', function ($menu) {
+
+    $menu->options([
+        'active_class' => 'active',
+    ]); 
+
+    $menu->add('Home');
+    $menu->add('About', 'about');
+    
+});
+
+/**
+ * Results:
+[
+    'active_class'     => 'active'
+]
+*/
+```
+
+**Example 5:**
+
+Or you can use it like this
+
+```php
+Menu::make('MyNavbar', function ($menu) {
+
+    $menu->add('Home');
+    $menu->add('About', 'about');
+    
+}, [
+    'inactive_class' => 'custom-inactive-class-mynavbar',
+]);
+
+/**
+ * Results:
+[
+    'auto_activate'    => true,
+    'activate_parents' => true,
+    'active_class'     => 'active-class-mynavbar'
+    'active_element'   => 'item',
+    'restful'          => true,
+    'inactive_class'   => 'custom-inactive-class-mynavbar',
+]
+*/
+```
+
 ## If You Need Help
 
 Please submit all issues and questions using GitHub issues and I will try to help you.
