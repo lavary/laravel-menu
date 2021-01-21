@@ -63,18 +63,18 @@ class Menu
      *
      * @param string   $name
      * @param callable $callback
-     * @param array $customConfig (optional, it will be combined with the settings to be applied)
+     * @param array $options (optional, it will be combined with the options to be applied)
      *
      * @return Builder
      */
-    public function make($name, $callback, array $customConfig = [])
+    public function make($name, $callback, array $options = [])
     {
         if (!is_callable($callback)) {
             return null;
         }
 
         if (!array_key_exists($name, $this->menu)) {
-            $this->menu[$name] = new Builder($name, array_merge($this->loadConf($name), $customConfig));
+            $this->menu[$name] = new Builder($name, array_merge($this->loadConf($name), $options));
         }
 
         // Registering the items
