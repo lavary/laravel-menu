@@ -759,23 +759,26 @@ class Builder
     }
 
      /**
-     * Set/merge custom configuration data
+     * Add custom options
+     * One-time special additions can be made to the options to be applied to the menu.
      *
-     * @param array $config
-     * @param bool $merge
-     * @param string $configGroup
-     *
+     * @param array $options
+     * @param string $optionsFrom (optional, if you want to use the options of another
+     *                            menu instead of "default" options, enter another menu name.)
      * @return string
      */
-    public function config(array $config, bool $merge = true, string $configGroup = 'default')
+    public function options(array $options, string $optionsFrom = 'default')
     {
-        if($merge){
-            $this->conf = array_replace_recursive(config('laravel-menu.settings.'.$configGroup, []), $config);
+        $defaultOptions = config('laravel-menu.settings');
+        $name = strtolower($optionsFrom);
+
+        if (isset($defaultOptions[$name]) && is_array($defaultOptions[$name])) {
+            $this->conf = array_merge($defaultOptions["default"], $defaultOptions[$name], $options);
         } else {
-            $this->conf = $config;
+            $this->conf = $options;
         }
     }
-    
+
     /**
      * Merge item's attributes with a static string of attributes.
      *
