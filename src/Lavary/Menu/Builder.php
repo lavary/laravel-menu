@@ -750,12 +750,42 @@ class Builder
      * Return configuration value by key.
      *
      * @param string $key
+     * @param null   $default
      *
      * @return string
      */
-    public function conf($key)
+    public function conf($key, $default = null)
     {
-        return $this->conf[$key];
+        return $this->conf[$key] ?? $default;
+    }
+
+     /**
+     * Add custom options
+     * One-time special additions can be made to the options to be applied to the menu.
+     *
+      * @param array       $options
+      * @param string|null $optionsFrom (optional, if you want to use the options of another
+      *                                 menu instead of "default" options, enter another menu name.)
+      * @return void
+     */
+    public function options(array $options, ?string $optionsFrom = 'default')
+    {
+        if ($optionsFrom === null) {
+            $this->conf = $options;
+        } else {
+            $defaultOptions = config('laravel-menu.settings');
+            $name = strtolower($optionsFrom);
+            $currentName = strtolower($this->name);
+            $menuOptions = false;
+
+            if ($name !== 'default' && isset($defaultOptions[$name]) && is_array($defaultOptions[$name])) {
+                $menuOptions = $defaultOptions[$name];
+            } else if (isset($defaultOptions[$currentName]) && is_array($defaultOptions[$currentName])) {
+                $menuOptions = $defaultOptions[$currentName];
+            }
+
+            $this->conf = array_merge($defaultOptions["default"], ($menuOptions ?: []), $options);
+        }
     }
 
     /**
