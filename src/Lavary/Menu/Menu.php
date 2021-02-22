@@ -99,13 +99,14 @@ class Menu
     public function loadConf($name)
     {
         $options = config('laravel-menu.settings');
+        $defaultOptions = isset($options['default']) ? $options['default'] : [];
         $name = strtolower($name);
 
         if (isset($options[$name]) && is_array($options[$name])) {
-            return array_merge($options['default'], $options[$name]);
+            return array_merge($defaultOptions, $options[$name]);
         }
 
-        return $options['default'];
+        return $defaultOptions;
     }
 
     /**
