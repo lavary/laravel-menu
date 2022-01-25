@@ -300,7 +300,13 @@ class Builder
     public static function formatGroupClass($new, $old)
     {
         if (isset($new['class']) and $new['class'] !== null) {
-            $classes = trim(trim(Arr::get($old, 'class')).' '.trim(Arr::get($new, 'class')));
+            $oldClass = Arr::get($old, 'class');
+
+            if ($oldClass !== null) {
+                $oldClass = trim($oldClass);
+            }
+
+            $classes = trim($oldClass.' '.trim(Arr::get($new, 'class')));
 
             return implode(' ', array_unique(explode(' ', $classes)));
         }
